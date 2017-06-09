@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:id="addWindowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="640.0" prefWidth="450.0" styleClass="card-parent-pane"
+            stylesheets="@../theme/addDownloadWindow.css" xmlns="http://javafx.com/javafx/8.0.111"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="AddDownloadController">
+    <Pane layoutY="7.0" prefHeight="149.0" prefWidth="450.0" styleClass="card-parent-pane"
+          stylesheets="@../theme/addDownloadWindow.css">
+        <Pane layoutX="10.0" layoutY="14.0" prefHeight="128.0" prefWidth="430.0" styleClass="card-pane"
+              stylesheets="@../theme/addDownloadWindow.css">
+            <Label layoutX="16.0" layoutY="24.0" text="URL Link"/>
+            <Label layoutX="16.0" layoutY="59.0" text="Location"/>
+            <TextField fx:id="urlTextField" layoutX="81.0" layoutY="19.0" prefHeight="26.0" prefWidth="334.0"
+                       promptText="Video URL link"/>
+            <TextField fx:id="locationTextField" layoutX="81.0" layoutY="54.0" prefHeight="30.0"
+                       prefWidth="250.0" promptText="Download location"/>
+            <Button layoutX="336.0" layoutY="54.0" mnemonicParsing="false" onAction="#browseBtnAction"
+                    prefHeight="30.0" prefWidth="79.0" styleClass="button"
+                    stylesheets="@../theme/addDownloadWindow.css" text="Browse"/>
+            <CheckBox fx:id="customNameChkBox" layoutX="16.0" layoutY="93.0" mnemonicParsing="false"
+                      onAction="#customNameChkBoxAction" text="Custom File Name"/>
+            <TextField fx:id="customNameTextField" disable="true" layoutX="164.0" layoutY="89.0"
+                       prefHeight="26.0" prefWidth="250.0" promptText="Enter a custom file Name"/>
+        </Pane>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="6.0" prefHeight="18.0"
+               prefWidth="56.0" styleClass="card-label" stylesheets="@../theme/addDownloadWindow.css" text="info"/>
+    </Pane>
+    <Pane layoutY="156.0" prefHeight="145.0" prefWidth="450.0" styleClass="card-parent-pane"
+          stylesheets="@../theme/addDownloadWindow.css">
+        <Pane fx:id="playlistPane" disable="true" layoutX="10.0" layoutY="14.0" prefHeight="125.0"
+              prefWidth="430.0" styleClass="card-pane" stylesheets="@../theme/addDownloadWindow.css">
+            <RadioButton fx:id="allItemsRadioBtn" layoutX="16.0" layoutY="23.0" mnemonicParsing="false"
+                         selected="true" text="All playlist items">
+                <toggleGroup>
+                    <ToggleGroup fx:id="playlistToggleGroup"/>
+                </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="indexRangeRadioBtn" layoutX="16.0" layoutY="56.0" mnemonicParsing="false"
+                         text="Index range" toggleGroup="$playlistToggleGroup"/>
+            <Pane fx:id="indexRangePane" disable="true" layoutX="190.0" layoutY="52.0">
+                <Label layoutY="5.0" text="from"/>
+                <TextField fx:id="startIndexTextField" layoutX="39.0" prefHeight="26.0" prefWidth="67.0"
+                           promptText="start"/>
+                <Label layoutX="136.0" layoutY="7.0" text="to"/>
+                <TextField fx:id="endIndexTextField" layoutX="156.0" layoutY="1.0" prefHeight="26.0"
+                           prefWidth="67.0" promptText="end"/>
+            </Pane>
+            <RadioButton fx:id="specificItemsRadioBtn" layoutX="16.0" layoutY="90.0" mnemonicParsing="false"
+                         text="Specific playlist items" toggleGroup="$playlistToggleGroup"/>
+            <TextField fx:id="playlistItemsTextField" disable="true" layoutX="189.0" layoutY="86.0"
+                       prefHeight="26.0" prefWidth="224.0" promptText="comma seperated indexes"/>
+        </Pane>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="6.0" prefHeight="18.0"
+               prefWidth="79.0" styleClass="card-label" stylesheets="@../theme/addDownloadWindow.css"
+               text="Playlist"/>
+    </Pane>
+    <Pane layoutY="302.0" prefHeight="145.0" prefWidth="450.0" styleClass="card-parent-pane"
+          stylesheets="@../theme/addDownloadWindow.css">
+        <Pane layoutX="10.0" layoutY="14.0" prefHeight="125.0" prefWidth="430.0" styleClass="card-pane"
+              stylesheets="@../theme/addDownloadWindow.css">
+            <Label layoutX="16.0" layoutY="23.0" text="Quality &amp; Format"/>
+            <ComboBox fx:id="qualityComboBox" editable="true" layoutX="134.0" layoutY="18.0" prefHeight="26.0"
+                      prefWidth="200.0"/>
+            <CheckBox fx:id="embeddedSubtitleChkBox" layoutX="14.0" layoutY="57.0" mnemonicParsing="false"
+                      onAction="#embeddedSubtitleChkBoxAction" text="Get embedded subtitles"/>
+            <CheckBox fx:id="autoGenSubtitleChkBox" layoutX="14.0" layoutY="91.0" mnemonicParsing="false"
+                      text="Auto-generated subtitles"/>
+            <ChoiceBox fx:id="subtitleLanguageChoiceBox" disable="true" layoutX="203.0" layoutY="53.0"
+                       prefHeight="26.0" prefWidth="131.0"/>
+        </Pane>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="6.0" prefHeight="18.0"
+               prefWidth="85.0" styleClass="card-label" stylesheets="@../theme/addDownloadWindow.css"
+               text="Artifacts"/>
+    </Pane>
+    <Pane layoutY="448.0" prefHeight="145.0" prefWidth="450.0" styleClass="card-parent-pane"
+          stylesheets="@../theme/addDownloadWindow.css">
+        <Pane layoutX="10.0" layoutY="14.0" prefHeight="125.0" prefWidth="430.0" styleClass="card-pane"
+              stylesheets="@../theme/addDownloadWindow.css">
+            <Label layoutX="16.0" layoutY="23.0" text="Speed Limit"/>
+            <CheckBox fx:id="addToQueueChkBox" layoutX="14.0" layoutY="91.0" mnemonicParsing="false"
+                      text="Add to the download queue"/>
+            <ChoiceBox fx:id="afterFinishChoiceBox" layoutX="162.0" layoutY="53.0" prefHeight="26.0"
+                       prefWidth="131.0"/>
+            <Spinner fx:id="limitSpinner" amountToStepBy="5" editable="true" initialValue="0" layoutX="100.0"
+                     layoutY="18.0" max="1048576" min="0" prefHeight="26.0" prefWidth="94.0"/>
+            <Label layoutX="15.0" layoutY="58.0" text="Action after finishing"/>
+        </Pane>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="6.0" prefHeight="18.0"
+               prefWidth="94.0" styleClass="card-label" stylesheets="@../theme/addDownloadWindow.css"
+               text="Download"/>
+    </Pane>
+    <Button layoutX="229.0" layoutY="601.0" mnemonicParsing="false" onAction="#startBtnAction" prefHeight="26.0"
+            prefWidth="122.0" styleClass="button" stylesheets="@../theme/addDownloadWindow.css" text="Start"/>
+    <Button layoutX="97.0" layoutY="601.0" mnemonicParsing="false" onAction="#cancelBtnAction" prefHeight="26.0"
+            prefWidth="122.0" styleClass="button" stylesheets="@../theme/addDownloadWindow.css" text="Cancel"/>
+</AnchorPane>

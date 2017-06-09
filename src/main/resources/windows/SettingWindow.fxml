@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.65">
+    <left>
+        <ToolBar orientation="VERTICAL" prefHeight="400.0" prefWidth="67.0" style="-fx-background-color: ececec;"
+                 BorderPane.alignment="CENTER">
+            <items>
+                <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0"
+                        style="-fx-background-color: transparent; -fx-border-color: #0003;" text="General"/>
+                <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0"
+                        style="-fx-background-color: transparent; -fx-border-color: #0003;" text="Login"/>
+                <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0"
+                        style="-fx-background-color: transparent; -fx-border-color: #0003;" text="Action"/>
+                <Separator prefHeight="8.0" prefWidth="31.0"/>
+                <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0"
+                        style="-fx-background-color: transparent; -fx-border-color: #0003;" text="Playlist"/>
+                <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0"
+                        style="-fx-background-color: transparent; -fx-border-color: #0003;" text="Video"/>
+                <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0"
+                        style="-fx-background-color: transparent; -fx-border-color: #0003;" text="Audio"/>
+            </items>
+        </ToolBar>
+    </left>
+    <center>
+        <Pane prefHeight="400.0" prefWidth="493.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER"/>
+    </center>
+</BorderPane>

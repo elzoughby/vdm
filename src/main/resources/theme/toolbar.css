@@ -1,0 +1,162 @@
+.button-add {
+    -fx-background-image:  url(imgs/add.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 25px,25px ;
+    -fx-background-color: white;
+}
+
+.button-add:hover {
+    -fx-background-color: #ececec;
+}
+
+.button-add:armed {
+    -fx-background-color: #dedede;
+}
+
+.button-start {
+    -fx-background-image:  url(imgs/start.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 25px,25px ;
+    -fx-background-color: white;
+}
+
+.button-start:hover {
+    -fx-background-color: #ececec;
+}
+
+.button-start:armed {
+    -fx-background-color: #dedede;
+}
+
+.button-pause {
+    -fx-background-image:  url(imgs/pause.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 27px,27px ;
+    -fx-background-color: white;
+}
+
+.button-pause:hover {
+    -fx-background-color: #ececec;
+}
+
+.button-pause:armed {
+    -fx-background-color: #dedede;
+}
+
+.button-remove {
+    -fx-background-image:  url(imgs/delete.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 23px,23px ;
+    -fx-background-color: white;
+}
+
+.button-remove:hover {
+    -fx-background-color: #ececec;
+}
+
+.button-remove:armed {
+    -fx-background-color: #dedede;
+}
+
+.button-info {
+    -fx-background-image:  url(imgs/details.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 25px,25px ;
+    -fx-background-color: white;
+}
+
+.button-info:hover {
+    -fx-background-color: #ececec;
+}
+
+.button-info:armed {
+    -fx-background-color: #dedede;
+}
+
+.button-queue {
+    -fx-background-image:  url(imgs/queue.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 23px,23px ;
+    -fx-background-color: white;
+}
+
+.button-queue:hover {
+    -fx-background-color: #ececec;
+}
+
+.button-queue:selected {
+    -fx-background-color: #dedede;
+}
+
+.button-setting {
+    -fx-background-image:  url(imgs/setting.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 22px,22px ;
+    -fx-background-color: white;
+}
+
+.button-setting:hover {
+    -fx-background-color: #ececec;
+}
+
+.button-setting:armed {
+    -fx-background-color: #dedede;
+}
+
+
+.button-help {
+    -fx-background-image:  url(imgs/help.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 22px,22px ;
+    -fx-background-color: white;
+}
+
+.button-help:hover {
+    -fx-background-color: #ececec;
+}
+
+.button-help:armed {
+    -fx-background-color: #dedede;
+}
+
+.button-about {
+    -fx-background-image:  url(imgs/about.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 22px,22px ;
+    -fx-background-color: white;
+}
+
+.button-about:hover {
+    -fx-background-color: #ececec;
+}
+
+.button-about:armed {
+    -fx-background-color: #dedede;
+}
+
+.button-log {
+    -fx-background-image:  url(imgs/log.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 22px,22px ;
+    -fx-background-color: white;
+}
+
+.button-log:hover {
+    -fx-background-color: #ececec;
+}
+
+.button-log:armed {
+    -fx-background-color: #dedede;
+}
+
+

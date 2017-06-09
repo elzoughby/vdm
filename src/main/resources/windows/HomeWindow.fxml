@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane fx:id="homeWindowPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
+    <left>
+        <ToolBar orientation="VERTICAL" prefHeight="492.0" prefWidth="42.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+            <items>
+                <Button mnemonicParsing="false" onAction="#addBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-add" stylesheets="@../theme/toolbar.css">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <tooltip>
+                        <Tooltip text="New Download" />
+                    </tooltip>
+                </Button>
+            <Separator prefHeight="0.0" prefWidth="0.0" />
+                <Button mnemonicParsing="false" onAction="#startBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-start" stylesheets="@../theme/toolbar.css">
+                    <tooltip>
+                        <Tooltip text="Start" />
+                    </tooltip>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#stopBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-pause" stylesheets="@../theme/toolbar.css">
+                    <tooltip>
+                        <Tooltip text="Pause" />
+                    </tooltip>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#removeBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-remove" stylesheets="@../theme/toolbar.css">
+                    <tooltip>
+                        <Tooltip text="Delete" />
+                    </tooltip>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#infoBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-info" stylesheets="@../theme/toolbar.css">
+                    <tooltip>
+                        <Tooltip text="Download Info" />
+                    </tooltip>
+                </Button>
+            <Separator prefHeight="0.0" prefWidth="0.0" />
+                <ToggleButton mnemonicParsing="false" onAction="#queueBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-queue" stylesheets="@../theme/toolbar.css">
+                    <tooltip>
+                        <Tooltip text="Show/Hide Queue" />
+                    </tooltip>
+                </ToggleButton>
+            <Separator prefHeight="0.0" prefWidth="0.0" />
+            <Button mnemonicParsing="false" onAction="#logBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-log" stylesheets="@../theme/toolbar.css">
+               <tooltip>
+                  <Tooltip text="Show/Hide loglist" />
+               </tooltip>
+            </Button>
+                <Button mnemonicParsing="false" onAction="#settingBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-setting" stylesheets="@../theme/toolbar.css">
+                    <tooltip>
+                        <Tooltip text="Settings" />
+                    </tooltip>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#helpBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-help" stylesheets="@../theme/toolbar.css">
+                    <tooltip>
+                        <Tooltip text="Help" />
+                    </tooltip>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#aboutBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-about" stylesheets="@../theme/toolbar.css" visible="false">
+                    <tooltip>
+                        <Tooltip text="About" />
+                    </tooltip>
+                </Button>
+            </items>
+            <BorderPane.margin>
+                <Insets top="-7.0" />
+            </BorderPane.margin>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </ToolBar>
+    </left>
+    <center>
+        <SplitPane fx:id="homeSplitPane" dividerPositions="0.7" orientation="VERTICAL" prefWidth="160.0" style="-fx-padding: 0;" stylesheets="@../theme/home.css" BorderPane.alignment="CENTER">
+            <items>
+                <TableView fx:id="itemsTableView" prefWidth="751.0" style="-fx-border-color: #d7d7d7;">
+                    <placeholder>
+                        <Label text="click + to add new download" />
+                    </placeholder>
+                    <columns>
+                        <TableColumn fx:id="itemsIdColumn" maxWidth="50.0" minWidth="30.0" prefWidth="30.0" text="#" />
+                        <TableColumn fx:id="itemsTitleColumn" maxWidth="2000.0" minWidth="300.0" prefWidth="300.0" text="Title" />
+                        <TableColumn fx:id="itemsStatusColumn" maxWidth="150.0" minWidth="80.0" text="Status" />
+                        <TableColumn fx:id="itemsSizeColumn" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" text="Size" />
+                        <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="85.0" prefWidth="85.0" text="Speed" />
+                        <TableColumn fx:id="itemsDoneColumn" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" text="Done" />
+                        <TableColumn fx:id="itemsEtaColumn" maxWidth="150.0" minWidth="76.0" prefWidth="76.0" text="ETA" />
+                    </columns>
+                </TableView>
+                <ListView fx:id="consoleListView" prefWidth="751.0" style="-fx-border-color: #d7d7d7; -fx-padding: 1px;">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets></ListView>
+            </items>
+        </SplitPane>
+    </center>
+    <bottom>
+        <Pane maxHeight="10.0" minHeight="10.0" prefHeight="10.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
+    </bottom>
+    <right>
+        <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="10.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
+    </right>
+    <top>
+        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
+    </top>
+</BorderPane>
