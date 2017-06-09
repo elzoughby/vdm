@@ -10,15 +10,17 @@ public class DbManager {
 
 
 
-    private static void initialize() {
+    public static void initialize() {
 
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/settings/nvddb.db");
         } catch (ClassNotFoundException notFound) {
-            notFound.printStackTrace();
+            System.err.println("Database driver not found");
         } catch (SQLException sql) {
-            System.out.println("Database connection error");
+            System.err.println("Database connection error");
+        } finally {
+            System.out.println("Database connection success");
         }
 
     }
@@ -26,7 +28,6 @@ public class DbManager {
     public static void load() {
 
         try {
-            initialize();
             ResultSet resultSet = connection.createStatement().executeQuery("select * from items");
 
             while(resultSet.next()) {

@@ -61,6 +61,7 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        DbManager.initialize();
         DbManager.load();
 
         itemsIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
