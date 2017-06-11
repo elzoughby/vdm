@@ -18,7 +18,7 @@ public class Main extends Application {
 
     public void start(Stage primaryStage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("windows/HomeWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("windows/LoadingPage.fxml"));
         primaryStage.setTitle("Nazel Video Downloader");
         primaryStage.getIcons().add(0, new Image(getClass().getResource("icons/icon.png").toString()));
         primaryStage.setScene(new Scene(root));
@@ -42,7 +42,7 @@ public class Main extends Application {
 
     }
 
-    public void goodbye() {
+    private void goodbye() {
 
         for(Item i : HomeController.getItemList()) {
             try {
