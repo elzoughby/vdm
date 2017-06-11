@@ -5,8 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -18,7 +17,7 @@ import java.util.ResourceBundle;
 public class LoadingController implements Initializable {
 
     @FXML
-    private AnchorPane pane;
+    private StackPane pane;
 
 
 
@@ -42,9 +41,10 @@ public class LoadingController implements Initializable {
     private void close() {
 
         try {
-            Parent newRoot = (BorderPane) FXMLLoader.load(getClass().getResource("windows/HomeWindow.fxml"));
+            Parent newRoot = FXMLLoader.load(getClass().getResource("windows/HomeWindow.fxml"));
             Parent oldRoot = pane.getScene().getRoot();
             Stage stage = (Stage) pane.getScene().getWindow();
+            Scene scene = new Scene(newRoot);
 
             FadeTransition fadeOut = new FadeTransition(new Duration(500), oldRoot);
             fadeOut.setFromValue(1);
@@ -52,7 +52,7 @@ public class LoadingController implements Initializable {
             fadeOut.setCycleCount(1);
             fadeOut.play();
 
-            stage.setScene(new Scene(newRoot));
+            stage.setScene(scene);
 
             FadeTransition fadeIn = new FadeTransition(new Duration(500), newRoot);
             fadeIn.setFromValue(0);
