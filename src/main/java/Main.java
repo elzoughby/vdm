@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
 public class Main extends Application {
 
     public static void main(String[] args) {
@@ -44,12 +45,13 @@ public class Main extends Application {
 
     private void goodbye() {
 
-        for(Item i : HomeController.getItemList()) {
-            try {
+        try {
+
+            for(Item i : HomeController.getItemList())
                 i.stopDownload();
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
 
         DbManager.close();

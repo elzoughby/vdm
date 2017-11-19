@@ -91,6 +91,7 @@ public class HomeController implements Initializable {
         addWindowStage.setTitle("Add Download");
         addWindowStage.initOwner(homeWindowPane.getScene().getWindow());
         addWindowStage.initModality(Modality.APPLICATION_MODAL);
+        addWindowStage.setResizable(false);
         addWindowStage.show();
 
     }
@@ -175,7 +176,7 @@ public class HomeController implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Sorry, beta version");
-        alert.setContentText("No help in this version");
+        alert.setContentText("No help in this version. Help yourself!");
         alert.showAndWait();
     }
 
