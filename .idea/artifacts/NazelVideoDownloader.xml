@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" name="NazelVideoDownloader">
+  <artifact type="javafx" build-on-make="true" name="NazelVideoDownloader">
     <output-path>$PROJECT_DIR$/out/artifacts/NazelVideoDownloader</output-path>
     <properties id="javafx-properties">
       <options>
@@ -14,7 +14,6 @@
             <option name="windowsIcon" value="$PROJECT_DIR$/src/main/resources/icons/icon.ico" />
           </JavaFxApplicationIcons>
         </option>
-        <option name="nativeBundle" value="all" />
         <option name="title" value="Nazel Video Downloader" />
         <option name="vendor" value="NVD Team" />
         <option name="version" value="0.6" />
@@ -24,7 +23,10 @@
     <root id="root">
       <element id="archive" name="NazelVideoDownloader.jar">
         <element id="module-output" name="NazelVideoDownloader" />
+        <element id="library" level="project" name="Maven: org.xerial:sqlite-jdbc:3.18.0" />
       </element>
+      <element id="file-copy" path="$PROJECT_DIR$/nvddb.db" />
+      <element id="file-copy" path="$PROJECT_DIR$/youtube-dl" />
     </root>
   </artifact>
 </component>

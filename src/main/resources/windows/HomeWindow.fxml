@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
 <BorderPane fx:id="homeWindowPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
     <left>
         <ToolBar orientation="VERTICAL" prefHeight="492.0" prefWidth="42.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
@@ -84,8 +95,8 @@
                         <TableColumn fx:id="itemsTitleColumn" maxWidth="2000.0" minWidth="300.0" prefWidth="300.0" text="Title" />
                         <TableColumn fx:id="itemsStatusColumn" maxWidth="150.0" minWidth="80.0" text="Status" />
                         <TableColumn fx:id="itemsSizeColumn" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" text="Size" />
-                        <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="85.0" prefWidth="85.0" text="Speed" />
                         <TableColumn fx:id="itemsDoneColumn" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" text="Done" />
+                        <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="85.0" prefWidth="85.0" text="Speed" />
                         <TableColumn fx:id="itemsEtaColumn" maxWidth="150.0" minWidth="76.0" prefWidth="76.0" text="ETA" />
                     </columns>
                 </TableView>

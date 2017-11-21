@@ -14,13 +14,11 @@ public class DbManager {
 
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/settings/nvddb.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:nvddb.db");
         } catch (ClassNotFoundException notFound) {
             System.err.println("Database driver not found");
         } catch (SQLException sql) {
             System.err.println("Database connection error");
-        } finally {
-            System.out.println("Database connection success");
         }
 
     }

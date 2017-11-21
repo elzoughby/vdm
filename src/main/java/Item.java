@@ -412,7 +412,7 @@ public class Item {
 
     private List<String> commandBuilder() {
 
-        List<String> cmdList = new ArrayList<>(Arrays.asList("youtube-dl", "-i", "-c", "--no-part"));
+        List<String> cmdList = new ArrayList<>(Arrays.asList("python", "youtube-dl", "-i", "-c", "--no-part"));
 
         if (speedLimit.getValue() != 0) {
             cmdList.add("-r");
