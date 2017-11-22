@@ -263,19 +263,28 @@ public class HomeController implements Initializable {
     @FXML
     void openFolderMenuAction() {
 
-        try {
+        new Runnable() {
 
-            String location = itemsTableView.getSelectionModel().getSelectedItem().getLocation();
-            Desktop desktop = null;
-            File file = new File(location);
-            if (Desktop.isDesktopSupported())
-                desktop = Desktop.getDesktop();
-            if (desktop != null)
-                desktop.open(file);
+            @Override
+            public void run() {
 
-        } catch (IOException e) {
-            System.err.println("Error Opening Location Folder");
-        }
+                try {
+
+                    String location = itemsTableView.getSelectionModel().getSelectedItem().getLocation();
+                    Desktop desktop = null;
+                    File file = new File(location);
+                    if (Desktop.isDesktopSupported())
+                        desktop = Desktop.getDesktop();
+                    if (desktop != null)
+                        desktop.open(file);
+
+                } catch (IOException e) {
+                    System.err.println("Error Opening Location Folder");
+                }
+
+            }
+
+        };
 
     }
 

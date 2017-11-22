@@ -10,8 +10,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nvddb.db" afterPath="$PROJECT_DIR$/nvddb.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/HomeController.java" afterPath="$PROJECT_DIR$/src/main/java/HomeController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Item.java" afterPath="$PROJECT_DIR$/src/main/java/Item.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Main.java" afterPath="$PROJECT_DIR$/src/main/java/Main.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -54,9 +52,10 @@
       <file leaf-file-name="HomeController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/HomeController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="65" column="0" lean-forward="true" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+            <state relative-caret-position="436">
+              <caret line="288" column="5" lean-forward="true" selection-start-line="288" selection-start-column="5" selection-end-line="288" selection-end-column="5" />
               <folding>
+                <element signature="method#initialize#0;class#HomeController#0" expanded="false" />
                 <element signature="method#addBtnAction#0;class#HomeController#0" expanded="false" />
                 <element signature="method#startBtnAction#0;class#HomeController#0" expanded="false" />
                 <element signature="method#stopBtnAction#0;class#HomeController#0" expanded="false" />
@@ -68,6 +67,7 @@
                 <element signature="method#aboutBtnAction#0;class#HomeController#0" expanded="false" />
                 <element signature="method#logBtnAction#0;class#HomeController#0" expanded="false" />
                 <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#openFolderMenuAction#0;class#HomeController#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -857,7 +857,7 @@
       <workItem from="1511102406461" duration="11342000" />
       <workItem from="1511241186136" duration="33059000" />
       <workItem from="1511346508909" duration="4728000" />
-      <workItem from="1511371519354" duration="5550000" />
+      <workItem from="1511371519354" duration="9492000" />
     </task>
     <task id="LOCAL-00001" summary="Start using Git">
       <created>1497013967452</created>
@@ -919,7 +919,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="347277000" />
+    <option name="totallyTimeSpent" value="351219000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -931,7 +931,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="40" y="-4" width="1327" height="773" extended-state="7" />
+    <frame x="40" y="-4" width="1327" height="773" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1097,6 +1097,7 @@
         <state relative-caret-position="378">
           <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
+            <element signature="method#initialize#0;class#HomeController#0" expanded="false" />
             <element signature="method#addBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#startBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#stopBtnAction#0;class#HomeController#0" expanded="false" />
@@ -1108,6 +1109,7 @@
             <element signature="method#aboutBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#logBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#openFolderMenuAction#0;class#HomeController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1481,9 +1483,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/HomeController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="65" column="0" lean-forward="true" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+        <state relative-caret-position="436">
+          <caret line="288" column="5" lean-forward="true" selection-start-line="288" selection-start-column="5" selection-end-line="288" selection-end-column="5" />
           <folding>
+            <element signature="method#initialize#0;class#HomeController#0" expanded="false" />
             <element signature="method#addBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#startBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#stopBtnAction#0;class#HomeController#0" expanded="false" />
@@ -1495,6 +1498,7 @@
             <element signature="method#aboutBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#logBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#openFolderMenuAction#0;class#HomeController#0" expanded="false" />
           </folding>
         </state>
       </provider>
