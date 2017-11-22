@@ -45,17 +45,11 @@ public class Main extends Application {
 
     private void goodbye() {
 
-        try {
-
-            for(Item i : HomeController.getItemList())
-                i.stopDownload();
-
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
+        for(Item i : HomeController.getItemList())
+            i.stopDownload();
         DbManager.close();
         Platform.exit();
+
     }
 
 }

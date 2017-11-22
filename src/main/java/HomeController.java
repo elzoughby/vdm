@@ -1,3 +1,5 @@
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -6,12 +8,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -30,21 +37,21 @@ public class HomeController implements Initializable {
     @FXML
     private ListView<String> consoleListView;
     @FXML
-    private TableView itemsTableView;
+    private TableView<Item> itemsTableView;
     @FXML
-    private TableColumn itemsIdColumn;
+    private TableColumn<Item, Integer> itemsIdColumn;
     @FXML
-    private TableColumn itemsTitleColumn;
+    private TableColumn<Item, String> itemsTitleColumn;
     @FXML
-    private TableColumn itemsStatusColumn;
+    private TableColumn<Item, String> itemsStatusColumn;
     @FXML
-    private TableColumn itemsSizeColumn;
+    private TableColumn<Item, String> itemsSizeColumn;
     @FXML
-    private TableColumn itemsSpeedColumn;
+    private TableColumn<Item, String> itemsSpeedColumn;
     @FXML
-    private TableColumn itemsDoneColumn;
+    private TableColumn<Item, String> itemsDoneColumn;
     @FXML
-    private TableColumn itemsEtaColumn;
+    private TableColumn<Item, String> itemsEtaColumn;
 
 
 
@@ -72,52 +79,90 @@ public class HomeController implements Initializable {
         itemsTableView.setItems(itemList);
 
         itemsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            Item selectedItem = (Item) newValue;
-            if(selectedItem == null)
+            if(newValue == null)
                 consoleListView.setItems(null);
             else
-                consoleListView.setItems(selectedItem.getLogList());
+                consoleListView.setItems(newValue.getLogList());
+        });
+
+
+        itemsTableView.setRowFactory(param -> {
+
+            TableRow<Item> row = new TableRow<>();
+            ContextMenu rowContextMenu = new ContextMenu();
+
+            MenuItem startMenuItem = new MenuItem("Start");
+            startMenuItem.setOnAction(event -> startBtnAction());
+
+            MenuItem pauseMenuItem = new MenuItem("Pause");
+            pauseMenuItem.setOnAction(event -> stopBtnAction());
+
+            MenuItem deleteMenuItem = new MenuItem("Delete");
+            deleteMenuItem.setOnAction(event -> removeBtnAction());
+
+            MenuItem clearMenuItem = new MenuItem("Clear Logs");
+            clearMenuItem.setOnAction(event -> clearLogsMenuAction());
+
+            MenuItem openFolderMenuItem = new MenuItem("Open Location");
+            openFolderMenuItem.setOnAction(event -> openFolderMenuAction());
+
+            MenuItem infoMenuItem = new MenuItem("Properties");
+            infoMenuItem.setOnAction(event -> infoBtnAction());
+
+            rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, deleteMenuItem,
+                    clearMenuItem, openFolderMenuItem, infoMenuItem);
+
+            row.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(row.itemProperty()))
+                            .then(rowContextMenu)
+                            .otherwise((ContextMenu) null));
+
+            return row;
         });
 
     }
 
     @FXML
-    void addBtnAction() throws IOException {
+    void addBtnAction() {
 
-        Parent root = FXMLLoader.load(getClass().getResource("windows/AddDownloadWindow.fxml"));
+        try {
 
-        Stage addWindowStage = new Stage();
-        addWindowStage.setScene(new Scene(root));
-        addWindowStage.setTitle("Add Download");
-        addWindowStage.initOwner(homeWindowPane.getScene().getWindow());
-        addWindowStage.initModality(Modality.APPLICATION_MODAL);
-        addWindowStage.setResizable(false);
-        addWindowStage.show();
+            Parent root = FXMLLoader.load(getClass().getResource("windows/AddDownloadWindow.fxml"));
+            Stage addWindowStage = new Stage();
+            addWindowStage.setScene(new Scene(root));
+            addWindowStage.setTitle("Add Download");
+            addWindowStage.initOwner(homeWindowPane.getScene().getWindow());
+            addWindowStage.initModality(Modality.APPLICATION_MODAL);
+            addWindowStage.setResizable(false);
+            addWindowStage.show();
+
+        } catch (IOException e) {
+            System.err.println("Error Loading NewDownload Window!");
+        }
 
     }
 
     @FXML
     void startBtnAction() {
 
-        Item selectedItem = (Item) itemsTableView.getSelectionModel().getSelectedItem();
+        Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         if( selectedItem != null && selectedItem.getStatus().equals("Stopped"))
             selectedItem.startDownload();
 
     }
 
     @FXML
-    void stopBtnAction() throws IOException {
+    void stopBtnAction() {
 
-        Item selectedItem = (Item) itemsTableView.getSelectionModel().getSelectedItem();
-        if( selectedItem != null)
+        Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null)
             selectedItem.stopDownload();
 
     }
 
     @FXML
-    void removeBtnAction() throws IOException {
+    void removeBtnAction() {
 
-        Item selectedItem = (Item) itemsTableView.getSelectionModel().getSelectedItem();
+        Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         if( selectedItem != null) {
             selectedItem.stopDownload();
             itemList.remove(selectedItem);
@@ -130,7 +175,7 @@ public class HomeController implements Initializable {
     @FXML
     void infoBtnAction() {
 
-        Item selectedItem = (Item) itemsTableView.getSelectionModel().getSelectedItem();
+        Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         if( selectedItem != null) {
 
             ObservableList<String> infoList = FXCollections.observableArrayList();
@@ -142,8 +187,7 @@ public class HomeController implements Initializable {
             infoList.add("quality : \t" + selectedItem.getVideoQuality());
             infoList.add("limit : \t" + selectedItem.getSpeedLimit());
 
-            ListView infoListView = new ListView();
-            infoListView.setItems(infoList);
+            ListView<String> infoListView = new ListView<>(infoList);
             Stage stage = new Stage();
             stage.setScene(new Scene(infoListView));
             stage.showAndWait();
@@ -161,13 +205,19 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void settingBtnAction() throws IOException {
+    void settingBtnAction() {
 
-        Parent root = FXMLLoader.load(getClass().getResource("windows/SettingWindow.fxml"));
-        Stage settingStage = new Stage();
-        settingStage.setScene(new Scene(root));
-        settingStage.setTitle("Setting");
-        settingStage.show();
+        try {
+
+            Parent root = FXMLLoader.load(getClass().getResource("windows/SettingWindow.fxml"));
+            Stage settingStage = new Stage();
+            settingStage.setScene(new Scene(root));
+            settingStage.setTitle("Setting");
+            settingStage.show();
+
+        } catch (IOException e) {
+            System.err.println("Error Loading Settings Window!");
+        }
 
     }
 
@@ -199,6 +249,32 @@ public class HomeController implements Initializable {
         else {
             homeSplitPane.getItems().add(1, consoleListView);
             homeSplitPane.setDividerPosition(0, 0.7);
+        }
+
+    }
+
+    @FXML
+    void clearLogsMenuAction() {
+
+        itemsTableView.getSelectionModel().getSelectedItem().getLogList().clear();
+
+    }
+
+    @FXML
+    void openFolderMenuAction() {
+
+        try {
+
+            String location = itemsTableView.getSelectionModel().getSelectedItem().getLocation();
+            Desktop desktop = null;
+            File file = new File(location);
+            if (Desktop.isDesktopSupported())
+                desktop = Desktop.getDesktop();
+            if (desktop != null)
+                desktop.open(file);
+
+        } catch (IOException e) {
+            System.err.println("Error Opening Location Folder");
         }
 
     }

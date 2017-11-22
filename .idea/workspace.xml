@@ -7,12 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97609594-be72-4f89-9ab7-d761050bf76d" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/resources/settings/nvddb.db" afterPath="$PROJECT_DIR$/nvddb.db" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/resources/settings/nvddb.sql" afterPath="$PROJECT_DIR$/src/main/sql/nvddb.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/NazelVideoDownloader.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/NazelVideoDownloader.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/DbManager.java" afterPath="$PROJECT_DIR$/src/main/java/DbManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nvddb.db" afterPath="$PROJECT_DIR$/nvddb.db" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/HomeController.java" afterPath="$PROJECT_DIR$/src/main/java/HomeController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Item.java" afterPath="$PROJECT_DIR$/src/main/java/Item.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml" afterPath="$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Main.java" afterPath="$PROJECT_DIR$/src/main/java/Main.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -35,15 +34,40 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="61" column="0" lean-forward="true" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+              <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#411#412#0" expanded="false" />
+                <element signature="e#439#440#0" expanded="false" />
                 <element signature="method#start#0;class#Main#0" expanded="false" />
                 <element signature="e#953#1352#0" expanded="false" />
                 <element signature="method#goodbye#0;class#Main#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HomeController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/HomeController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="163">
+              <caret line="65" column="0" lean-forward="true" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+              <folding>
+                <element signature="method#addBtnAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#startBtnAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#stopBtnAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#removeBtnAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#infoBtnAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#queueBtnAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#settingBtnAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#helpBtnAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#aboutBtnAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#logBtnAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -108,11 +132,11 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/resources/windows/LoadingPage.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/LoadingController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/DbManager.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/Item.java" />
         <option value="$PROJECT_DIR$/src/main/java/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/HomeController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/DbManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Item.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml" />
       </list>
     </option>
   </component>
@@ -179,7 +203,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -245,6 +269,32 @@
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="windows" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NazelVideoDownloader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NazelVideoDownloader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -270,7 +320,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -805,7 +855,9 @@
       <workItem from="1497912522531" duration="188000" />
       <workItem from="1506764755300" duration="869000" />
       <workItem from="1511102406461" duration="11342000" />
-      <workItem from="1511241186136" duration="14908000" />
+      <workItem from="1511241186136" duration="33059000" />
+      <workItem from="1511346508909" duration="4728000" />
+      <workItem from="1511371519354" duration="5550000" />
     </task>
     <task id="LOCAL-00001" summary="Start using Git">
       <created>1497013967452</created>
@@ -867,7 +919,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="318848000" />
+    <option name="totallyTimeSpent" value="347277000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -879,7 +931,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="40" y="-4" width="1327" height="773" extended-state="6" />
+    <frame x="40" y="-4" width="1327" height="773" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -897,7 +949,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22317933" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23101018" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32811275" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1001,7 +1053,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="33" />
+      <option name="time" value="35" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1030,6 +1082,9 @@
         <state relative-caret-position="270">
           <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#411#412#0" expanded="false" />
+            <element signature="e#439#440#0" expanded="false" />
             <element signature="method#start#0;class#Main#0" expanded="false" />
             <element signature="e#953#1352#0" expanded="false" />
             <element signature="method#goodbye#0;class#Main#0" expanded="false" />
@@ -1042,7 +1097,6 @@
         <state relative-caret-position="378">
           <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
-            <element signature="method#initialize#0;class#HomeController#0" expanded="false" />
             <element signature="method#addBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#startBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#stopBtnAction#0;class#HomeController#0" expanded="false" />
@@ -1053,6 +1107,7 @@
             <element signature="method#helpBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#aboutBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#logBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1299,27 +1354,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/AddDownloadController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="104" column="0" lean-forward="true" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-          <folding>
-            <element signature="method#initialize#0;class#AddDownloadController#0" expanded="false" />
-            <element signature="method#browseBtnAction#0;class#AddDownloadController#0" expanded="false" />
-            <element signature="method#customNameChkBoxAction#0;class#AddDownloadController#0" expanded="false" />
-            <element signature="method#embeddedSubtitleChkBoxAction#0;class#AddDownloadController#0" expanded="false" />
-            <element signature="method#cancelBtnAction#0;class#AddDownloadController#0" expanded="false" />
-            <element signature="method#startBtnAction#0;class#AddDownloadController#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="34">
             <caret line="2" column="100" lean-forward="true" selection-start-line="2" selection-start-column="100" selection-end-line="2" selection-end-column="100" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -1329,7 +1368,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1337,7 +1375,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1256">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1345,7 +1382,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1365,7 +1401,7 @@
         <state relative-caret-position="-108">
           <caret line="16" column="66" lean-forward="false" selection-start-line="16" selection-start-column="66" selection-end-line="16" selection-end-column="66" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
             <element signature="method#load#0;class#DbManager#0" expanded="false" />
             <element signature="method#insert#0;class#DbManager#0" expanded="false" />
             <element signature="method#delete#0;class#DbManager#0" expanded="false" />
@@ -1378,30 +1414,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/HomeController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+    <entry file="file://$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="41" lean-forward="true" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
           <folding>
-            <element signature="method#initialize#0;class#HomeController#0" expanded="false" />
-            <element signature="method#addBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#startBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#stopBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#removeBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#infoBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#queueBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#settingBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#helpBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#aboutBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#logBtnAction#0;class#HomeController#0" expanded="false" />
+            <marker date="1511348550185" expanded="true" signature="5850:6008" ph="..." />
+            <marker date="1511348550185" expanded="true" signature="5850:6037" ph="..." />
+            <marker date="1511348550185" expanded="true" signature="6249:6281" ph="..." />
+            <marker date="1511348550185" expanded="true" signature="6249:6302" ph="..." />
+            <marker date="1511348550185" expanded="true" signature="6249:6316" ph="..." />
+            <marker date="1511348550185" expanded="true" signature="6249:6828" ph="..." />
+          </folding>
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#411#412#0" expanded="false" />
+            <element signature="e#439#440#0" expanded="false" />
+            <element signature="method#start#0;class#Main#0" expanded="false" />
+            <element signature="e#953#1352#0" expanded="false" />
+            <element signature="method#goodbye#0;class#Main#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/AddDownloadController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="104" column="0" lean-forward="true" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+          <folding>
+            <element signature="method#initialize#0;class#AddDownloadController#0" expanded="false" />
+            <element signature="method#browseBtnAction#0;class#AddDownloadController#0" expanded="false" />
+            <element signature="method#customNameChkBoxAction#0;class#AddDownloadController#0" expanded="false" />
+            <element signature="method#embeddedSubtitleChkBoxAction#0;class#AddDownloadController#0" expanded="false" />
+            <element signature="method#cancelBtnAction#0;class#AddDownloadController#0" expanded="false" />
+            <element signature="method#startBtnAction#0;class#AddDownloadController#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Item.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="410" column="0" lean-forward="true" selection-start-line="410" selection-start-column="0" selection-end-line="410" selection-end-column="0" />
+        <state relative-caret-position="476">
+          <caret line="42" column="60" lean-forward="true" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="60" />
           <folding>
             <element signature="method#setTitle#0;class#Item#0" expanded="false" />
             <element signature="method#setAutoGeneratedSubtitle#0;class#Item#0" expanded="false" />
@@ -1415,32 +1479,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="41" lean-forward="true" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
-          <folding>
-            <marker date="1511270505596" expanded="true" signature="5850:6008" ph="..." />
-            <marker date="1511270505596" expanded="true" signature="5850:6037" ph="..." />
-            <marker date="1511270505596" expanded="true" signature="5850:6281" ph="..." />
-            <marker date="1511270505596" expanded="true" signature="5850:6302" ph="..." />
-            <marker date="1511270505596" expanded="true" signature="5850:6316" ph="..." />
-            <marker date="1511270505596" expanded="true" signature="5850:6828" ph="..." />
-          </folding>
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/HomeController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="61" column="0" lean-forward="true" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+        <state relative-caret-position="163">
+          <caret line="65" column="0" lean-forward="true" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
           <folding>
-            <element signature="method#start#0;class#Main#0" expanded="false" />
-            <element signature="e#953#1352#0" expanded="false" />
-            <element signature="method#goodbye#0;class#Main#0" expanded="false" />
+            <element signature="method#addBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#startBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#stopBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#removeBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#infoBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#queueBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#settingBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#helpBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#aboutBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#logBtnAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
           </folding>
         </state>
       </provider>

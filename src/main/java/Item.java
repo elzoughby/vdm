@@ -521,7 +521,7 @@ public class Item {
                         //parsing download status info
                         if (matcher.find()) {
                             //combine the download messages in one line
-                            if (logList.get(logList.size() - 1).matches(regex))
+                            if (logList.size() > 0 && logList.get(logList.size() - 1).matches(regex))
                                 logList.set(logList.size() - 1, line);
                             else
                                 logList.add(line);
@@ -559,7 +559,7 @@ public class Item {
 
     }
 
-    public void stopDownload() throws IOException {
+    public void stopDownload() {
 
         if (! getStatus().equals("Stopped")) {
             setStatus("Stopped");
