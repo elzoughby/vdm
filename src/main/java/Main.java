@@ -21,7 +21,7 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("windows/LoadingPage.fxml"));
         primaryStage.setTitle("Nazel Video Downloader");
-        primaryStage.getIcons().add(0, new Image(getClass().getResource("icons/icon.png").toString()));
+        primaryStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinWidth(800);
         primaryStage.setMinHeight(500);

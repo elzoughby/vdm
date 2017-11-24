@@ -26,7 +26,7 @@
                         <Tooltip text="New Download" />
                     </tooltip>
                 </Button>
-            <Separator prefHeight="0.0" prefWidth="0.0" />
+                <Separator prefHeight="0.0" prefWidth="0.0" />
                 <Button mnemonicParsing="false" onAction="#startBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-start" stylesheets="@../theme/toolbar.css">
                     <tooltip>
                         <Tooltip text="Start" />
@@ -47,18 +47,18 @@
                         <Tooltip text="Download Info" />
                     </tooltip>
                 </Button>
-            <Separator prefHeight="0.0" prefWidth="0.0" />
+                <Separator prefHeight="0.0" prefWidth="0.0" />
                 <ToggleButton mnemonicParsing="false" onAction="#queueBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-queue" stylesheets="@../theme/toolbar.css">
                     <tooltip>
                         <Tooltip text="Show/Hide Queue" />
                     </tooltip>
                 </ToggleButton>
-            <Separator prefHeight="0.0" prefWidth="0.0" />
-            <Button mnemonicParsing="false" onAction="#logBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-log" stylesheets="@../theme/toolbar.css">
-               <tooltip>
-                  <Tooltip text="Show/Hide loglist" />
-               </tooltip>
-            </Button>
+                <Separator prefHeight="0.0" prefWidth="0.0" />
+                <Button mnemonicParsing="false" onAction="#logBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-log" stylesheets="@../theme/toolbar.css">
+                    <tooltip>
+                        <Tooltip text="Show/Hide loglist" />
+                    </tooltip>
+                </Button>
                 <Button mnemonicParsing="false" onAction="#settingBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-setting" stylesheets="@../theme/toolbar.css">
                     <tooltip>
                         <Tooltip text="Settings" />
@@ -101,9 +101,10 @@
                     </columns>
                 </TableView>
                 <ListView fx:id="consoleListView" prefWidth="751.0" style="-fx-border-color: #d7d7d7; -fx-padding: 1px;">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets></ListView>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </ListView>
             </items>
         </SplitPane>
     </center>
