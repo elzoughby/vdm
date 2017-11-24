@@ -70,6 +70,7 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // binding table columns data with items attributes
         itemsIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
         itemsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         itemsStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -78,8 +79,10 @@ public class HomeController implements Initializable {
         itemsDoneColumn.setCellValueFactory(new PropertyValueFactory<>("doneString"));
         itemsEtaColumn.setCellValueFactory(new PropertyValueFactory<>("eta"));
 
+        // filling the table with download items
         itemsTableView.setItems(itemList);
 
+        // listening for table row selection, to show the log of the selected item
         itemsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue == null)
                 consoleListView.setItems(null);
@@ -87,47 +90,47 @@ public class HomeController implements Initializable {
                 consoleListView.setItems(newValue.getLogList());
         });
 
+        // context menu construction
+        ContextMenu rowContextMenu = new ContextMenu();
 
+        MenuItem startMenuItem = new MenuItem("Start");
+        startMenuItem.setOnAction(event -> startBtnAction());
+        startMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/start.png").toString())));
+
+        MenuItem pauseMenuItem = new MenuItem("Pause");
+        pauseMenuItem.setOnAction(event -> stopBtnAction());
+        pauseMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/pause.png").toString())));
+
+        MenuItem deleteMenuItem = new MenuItem("Delete");
+        deleteMenuItem.setOnAction(event -> removeBtnAction());
+        deleteMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/delete.png").toString())));
+
+        MenuItem queueMenuItem = new MenuItem("Add to queue");
+        queueMenuItem.setOnAction(event -> addToQueueMenuAction());
+        queueMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/queue.png").toString())));
+
+        MenuItem clearMenuItem = new MenuItem("Clear Logs");
+        clearMenuItem.setOnAction(event -> clearLogsMenuAction());
+        clearMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/clear.png").toString())));
+
+        MenuItem openFolderMenuItem = new MenuItem("Open Location");
+        openFolderMenuItem.setOnAction(event -> openFolderMenuAction());
+        openFolderMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/folder.png").toString())));
+
+        MenuItem infoMenuItem = new MenuItem("Properties");
+        infoMenuItem.setOnAction(event -> infoBtnAction());
+        infoMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/details.png").toString())));
+
+        rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, deleteMenuItem,
+                queueMenuItem, clearMenuItem, openFolderMenuItem, infoMenuItem);
+
+        // show context menu for not null rows only
         itemsTableView.setRowFactory(param -> {
 
             TableRow<Item> row = new TableRow<>();
-            ContextMenu rowContextMenu = new ContextMenu();
-
-            MenuItem startMenuItem = new MenuItem("Start");
-            startMenuItem.setOnAction(event -> startBtnAction());
-            startMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/start.png").toString())));
-
-            MenuItem pauseMenuItem = new MenuItem("Pause");
-            pauseMenuItem.setOnAction(event -> stopBtnAction());
-            pauseMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/pause.png").toString())));
-
-            MenuItem deleteMenuItem = new MenuItem("Delete");
-            deleteMenuItem.setOnAction(event -> removeBtnAction());
-            deleteMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/delete.png").toString())));
-
-            MenuItem queueMenuItem = new MenuItem("Add to queue");
-            queueMenuItem.setOnAction(event -> addToQueueMenuAction());
-            queueMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/queue.png").toString())));
-
-            MenuItem clearMenuItem = new MenuItem("Clear Logs");
-            clearMenuItem.setOnAction(event -> clearLogsMenuAction());
-            clearMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/clear.png").toString())));
-
-            MenuItem openFolderMenuItem = new MenuItem("Open Location");
-            openFolderMenuItem.setOnAction(event -> openFolderMenuAction());
-            openFolderMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/folder.png").toString())));
-
-            MenuItem infoMenuItem = new MenuItem("Properties");
-            infoMenuItem.setOnAction(event -> infoBtnAction());
-            infoMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/details.png").toString())));
-
-            rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, deleteMenuItem,
-                    queueMenuItem, clearMenuItem, openFolderMenuItem, infoMenuItem);
-
             row.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(row.itemProperty()))
                             .then(rowContextMenu)
                             .otherwise((ContextMenu) null));
-
             return row;
         });
 
