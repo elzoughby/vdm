@@ -97,7 +97,7 @@
                                 <PropertyValueFactory property="itemId" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsTitleColumn" maxWidth="2000.0" minWidth="300.0" prefWidth="300.0" text="Title">
+                        <TableColumn fx:id="itemsTitleColumn" maxWidth="1500.0" minWidth="200.0" prefWidth="200.0" text="Title">
                             <cellValueFactory>
                                 <PropertyValueFactory property="title" />
                             </cellValueFactory>
@@ -115,6 +115,11 @@
                         <TableColumn fx:id="itemsDoneColumn" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" text="Done">
                             <cellValueFactory>
                                 <PropertyValueFactory property="doneString" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="itemsProgressColumn" maxWidth="300.0" minWidth="75.0" prefWidth="75.0" text="Progress">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="progress" />
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="85.0" prefWidth="85.0" text="Speed">

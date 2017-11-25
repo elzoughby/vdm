@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.cell.ProgressBarTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -37,12 +39,17 @@ public class HomeController implements Initializable {
     private ListView<String> consoleListView;
     @FXML
     private TableView<Item> itemsTableView;
+    @FXML
+    private TableColumn<Item, Double> itemsProgressColumn;
 
 
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        // draw progress bar in the progress columns
+        itemsProgressColumn.setCellFactory(ProgressBarTableCell.<Item>forTableColumn());
 
         // filling the table with download items
         itemsTableView.setItems(itemList);

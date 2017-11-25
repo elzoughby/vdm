@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -45,6 +44,7 @@ public class Item {
     private StringProperty doneString = new SimpleStringProperty();
     private StringProperty speedString = new SimpleStringProperty();
     private StringProperty sizeString = new SimpleStringProperty();
+    private DoubleProperty progress = new SimpleDoubleProperty();
     private String sizeUnit = "";
     private String speedUnit = "";
     private ObservableList<String> logList = FXCollections.observableArrayList();
@@ -316,6 +316,7 @@ public class Item {
     public void setDone(float done) {
         this.done.set(done);
         this.doneString.set(this.done.get() + " %");
+        this.progress.set(this.done.get() / 100);
     }
 
     public float getSize() {
@@ -381,6 +382,18 @@ public class Item {
 
     public StringProperty sizeStringProperty() {
         return sizeString;
+    }
+
+    public double getProgress() {
+        return progress.get();
+    }
+
+    public DoubleProperty progressProperty() {
+        return progress;
+    }
+
+    public void setProgress(double progress) {
+        this.progress.set(progress);
     }
 
     public String getSizeUnit() {
