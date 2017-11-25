@@ -22,3 +22,14 @@
     -fx-selection-bar-non-focused: #e9e9e9;
     -fx-selection-bar: #0096c8;
 }
+
+.progress-bar > .bar{
+    -fx-background-color: mediumvioletred;
+}
+
+.progress-bar > .track{
+    -fx-background-color: white;
+    -fx-border-color: #e1e1e1;
+    -fx-background-insets: 1 1 2 1;
+    -fx-border-insets: 1 1 2 1;
+}
