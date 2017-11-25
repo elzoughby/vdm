@@ -10,6 +10,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nvddb.db" afterPath="$PROJECT_DIR$/nvddb.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/HomeController.java" afterPath="$PROJECT_DIR$/src/main/java/HomeController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml" afterPath="$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -38,6 +39,9 @@
             <state relative-caret-position="187">
               <caret line="23" column="77" lean-forward="false" selection-start-line="23" selection-start-column="77" selection-end-line="23" selection-end-column="77" />
               <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#411#412#0" expanded="false" />
+                <element signature="e#439#440#0" expanded="false" />
                 <element signature="e#952#1351#0" expanded="false" />
                 <element signature="method#goodbye#0;class#Main#0" expanded="false" />
               </folding>
@@ -48,9 +52,15 @@
       <file leaf-file-name="HomeController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/HomeController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-270">
-              <caret line="92" column="36" lean-forward="false" selection-start-line="92" selection-start-column="36" selection-end-line="92" selection-end-column="36" />
+            <state relative-caret-position="1224">
+              <caret line="318" column="0" lean-forward="true" selection-start-line="318" selection-start-column="0" selection-end-line="318" selection-end-column="0" />
               <folding>
+                <element signature="method#initialize#0;class#HomeController#0" expanded="false" />
+                <element signature="method#drawItemsContextMenu#0;class#HomeController#0" expanded="false" />
+                <element signature="method#addToQueueMenuAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#removeFromQueueMenuAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
+                <element signature="method#openFolderMenuAction#0;class#HomeController#0" expanded="false" />
                 <element signature="method#addBtnAction#0;class#HomeController#0" expanded="false" />
                 <element signature="method#startBtnAction#0;class#HomeController#0" expanded="false" />
                 <element signature="method#stopBtnAction#0;class#HomeController#0" expanded="false" />
@@ -61,8 +71,6 @@
                 <element signature="method#helpBtnAction#0;class#HomeController#0" expanded="false" />
                 <element signature="method#aboutBtnAction#0;class#HomeController#0" expanded="false" />
                 <element signature="method#logBtnAction#0;class#HomeController#0" expanded="false" />
-                <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
-                <element signature="method#openFolderMenuAction#0;class#HomeController#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -130,9 +138,9 @@
         <option value="$PROJECT_DIR$/src/main/java/Item.java" />
         <option value="$PROJECT_DIR$/src/main/resources/theme/addDownloadWindow.css" />
         <option value="$PROJECT_DIR$/src/main/resources/theme/home.css" />
-        <option value="$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml" />
         <option value="$PROJECT_DIR$/src/main/resources/theme/menu.css" />
         <option value="$PROJECT_DIR$/src/main/java/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/HomeController.java" />
       </list>
     </option>
@@ -201,7 +209,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -267,6 +275,32 @@
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="windows" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NazelVideoDownloader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NazelVideoDownloader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -292,7 +326,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -830,7 +864,8 @@
       <workItem from="1511346508909" duration="4728000" />
       <workItem from="1511371519354" duration="10784000" />
       <workItem from="1511467188381" duration="2255000" />
-      <workItem from="1511544271863" duration="13728000" />
+      <workItem from="1511544271863" duration="23316000" />
+      <workItem from="1511610109706" duration="4174000" />
     </task>
     <task id="LOCAL-00001" summary="Start using Git">
       <created>1497013967452</created>
@@ -892,7 +927,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="368494000" />
+    <option name="totallyTimeSpent" value="382256000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -922,7 +957,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3782946" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23884103" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24275646" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32811275" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1040,6 +1075,9 @@
         <state relative-caret-position="270">
           <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#411#412#0" expanded="false" />
+            <element signature="e#439#440#0" expanded="false" />
             <element signature="e#952#1351#0" expanded="false" />
             <element signature="method#goodbye#0;class#Main#0" expanded="false" />
           </folding>
@@ -1051,6 +1089,12 @@
         <state relative-caret-position="378">
           <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
+            <element signature="method#initialize#0;class#HomeController#0" expanded="false" />
+            <element signature="method#drawItemsContextMenu#0;class#HomeController#0" expanded="false" />
+            <element signature="method#addToQueueMenuAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#removeFromQueueMenuAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#openFolderMenuAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#addBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#startBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#stopBtnAction#0;class#HomeController#0" expanded="false" />
@@ -1061,20 +1105,18 @@
             <element signature="method#helpBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#aboutBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#logBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#openFolderMenuAction#0;class#HomeController#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/windows/AddDownloadWindow.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/AddDownloadController.java">
@@ -1167,13 +1209,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/windows/SettingWindow.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
           <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/NazelVideoDownloader.iml">
@@ -1282,19 +1324,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/icons/icon.icns">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/icons/icon.icns" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/windows/LoadingPage.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
         </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
@@ -1315,13 +1353,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/windows/AddDownloadWindow.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/DbManager.java">
@@ -1368,20 +1406,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="23" column="1" lean-forward="false" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="40" lean-forward="false" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
-          <folding>
-            <marker date="1511553167144" expanded="true" signature="6874:6875" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1389,23 +1413,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/theme/menu.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="46" lean-forward="true" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/theme/menu.css" />
     <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="23" column="77" lean-forward="false" selection-start-line="23" selection-start-column="77" selection-end-line="23" selection-end-column="77" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#411#412#0" expanded="false" />
+            <element signature="e#439#440#0" expanded="false" />
             <element signature="e#952#1351#0" expanded="false" />
             <element signature="method#goodbye#0;class#Main#0" expanded="false" />
           </folding>
@@ -1420,11 +1439,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/windows/HomeWindow.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="176" column="13" lean-forward="false" selection-start-line="176" selection-start-column="13" selection-end-line="176" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/HomeController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-270">
-          <caret line="92" column="36" lean-forward="false" selection-start-line="92" selection-start-column="36" selection-end-line="92" selection-end-column="36" />
+        <state relative-caret-position="1224">
+          <caret line="318" column="0" lean-forward="true" selection-start-line="318" selection-start-column="0" selection-end-line="318" selection-end-column="0" />
           <folding>
+            <element signature="method#initialize#0;class#HomeController#0" expanded="false" />
+            <element signature="method#drawItemsContextMenu#0;class#HomeController#0" expanded="false" />
+            <element signature="method#addToQueueMenuAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#removeFromQueueMenuAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
+            <element signature="method#openFolderMenuAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#addBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#startBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#stopBtnAction#0;class#HomeController#0" expanded="false" />
@@ -1435,8 +1471,6 @@
             <element signature="method#helpBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#aboutBtnAction#0;class#HomeController#0" expanded="false" />
             <element signature="method#logBtnAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#clearLogsMenuAction#0;class#HomeController#0" expanded="false" />
-            <element signature="method#openFolderMenuAction#0;class#HomeController#0" expanded="false" />
           </folding>
         </state>
       </provider>
