@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -42,6 +43,31 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<Item, Double> itemsProgressColumn;
 
+    // Table Progress bar cell class
+    private class ProgressBarCell extends ProgressBarTableCell<Item> {
+
+        StackPane stackPane = new StackPane();
+        ProgressBar progressBar = new ProgressBar();
+        Label label = new Label();
+
+        public ProgressBarCell() {
+            progressBar.setMaxWidth(Double.MAX_VALUE);
+            label.getStyleClass().add("progress-label");
+            stackPane.getChildren().addAll(progressBar, label);
+        }
+
+        @Override
+        public void updateItem(Double item, boolean empty) {
+            super.updateItem(item, empty);
+            if (!empty) {
+                progressBar.setProgress(item);
+                label.setText(String.valueOf( (float)(item * 100)) + " %");
+                setGraphic(stackPane);
+            }
+        }
+
+    }
+
 
 
 
@@ -49,7 +75,7 @@ public class HomeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // draw progress bar in the progress columns
-        itemsProgressColumn.setCellFactory(ProgressBarTableCell.<Item>forTableColumn());
+        itemsProgressColumn.setCellFactory(param -> new ProgressBarCell());
 
         // filling the table with download items
         itemsTableView.setItems(itemList);

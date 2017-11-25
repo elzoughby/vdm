@@ -41,7 +41,6 @@ public class Item {
     private FloatProperty size = new SimpleFloatProperty();
     private FloatProperty speed = new SimpleFloatProperty();
     private StringProperty eta = new SimpleStringProperty();
-    private StringProperty doneString = new SimpleStringProperty();
     private StringProperty speedString = new SimpleStringProperty();
     private StringProperty sizeString = new SimpleStringProperty();
     private DoubleProperty progress = new SimpleDoubleProperty();
@@ -315,7 +314,6 @@ public class Item {
 
     public void setDone(float done) {
         this.done.set(done);
-        this.doneString.set(this.done.get() + " %");
         this.progress.set(this.done.get() / 100);
     }
 
@@ -358,14 +356,6 @@ public class Item {
 
     public void setEta(String eta) {
         this.eta.set(eta);
-    }
-
-    public String getDoneString() {
-        return doneString.get();
-    }
-
-    public StringProperty doneStringProperty() {
-        return doneString;
     }
 
     public String getSpeedString() {

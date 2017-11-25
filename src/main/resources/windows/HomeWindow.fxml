@@ -97,7 +97,7 @@
                                 <PropertyValueFactory property="itemId" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsTitleColumn" maxWidth="1500.0" minWidth="200.0" prefWidth="200.0" text="Title">
+                        <TableColumn fx:id="itemsTitleColumn" maxWidth="1500.0" minWidth="260.0" prefWidth="260.0" text="Title">
                             <cellValueFactory>
                                 <PropertyValueFactory property="title" />
                             </cellValueFactory>
@@ -107,22 +107,17 @@
                                 <PropertyValueFactory property="status" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsSizeColumn" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" text="Size">
+                        <TableColumn fx:id="itemsSizeColumn" maxWidth="150.0" minWidth="100.0" prefWidth="100.0" text="Size">
                             <cellValueFactory>
                                 <PropertyValueFactory property="sizeString" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsDoneColumn" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" text="Done">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="doneString" />
-                            </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn fx:id="itemsProgressColumn" maxWidth="300.0" minWidth="75.0" prefWidth="75.0" text="Progress">
+                        <TableColumn fx:id="itemsProgressColumn" maxWidth="500.0" minWidth="100.0" prefWidth="100.0" text="Done">
                             <cellValueFactory>
                                 <PropertyValueFactory property="progress" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="85.0" prefWidth="85.0" text="Speed">
+                        <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="100.0" prefWidth="100.0" text="Speed">
                             <cellValueFactory>
                                 <PropertyValueFactory property="speedString" />
                             </cellValueFactory>

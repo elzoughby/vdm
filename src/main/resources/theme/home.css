@@ -1,9 +1,13 @@
+/* ========== SplitPane style ========== */
 
 .split-pane:vertical > .split-pane-divider {
     -fx-background-color: white;
 }
 
-.list-cell:odd { /* <=== changed to even */
+
+/* ======== Logs ListView style ======== */
+
+.list-cell:odd {
     -fx-background-color: white;
 }
 
@@ -11,6 +15,9 @@
     -fx-background-color: #0096c8;
     -fx-text-fill: white;
 }
+
+
+/* ======= Items TableView style ======= */
 
 .table-view .column-header, .table-view .column-header .filler, .table-view .column-header-background .filler {
     -fx-background-color: #d7d7d7;
@@ -23,13 +30,26 @@
     -fx-selection-bar: #0096c8;
 }
 
+
+/* ======= Progress column style ======= */
+
 .progress-bar > .bar{
-    -fx-background-color: mediumvioletred;
+    -fx-background-color: #edc500;
+    -fx-background-insets: 1 1 2 1;
+    -fx-background-radius: 0px;
+    -fx-border-radius: 0px;
 }
 
 .progress-bar > .track{
     -fx-background-color: white;
     -fx-border-color: #e1e1e1;
-    -fx-background-insets: 1 1 2 1;
-    -fx-border-insets: 1 1 2 1;
+    -fx-background-radius: 0px;
+    -fx-border-radius: 0px;
+    -fx-background-insets: -1 -1 0 -1;
+    -fx-border-insets: -1 -1 0 -1;
+}
+
+.progress-label {
+    -fx-text-fill: black;
+    -fx-font-size: 9pt;
 }
