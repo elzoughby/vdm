@@ -1,2 +1,4 @@
 .idea/kotlinc.xml
 .idea/workspace.xml
+out/
+target/
