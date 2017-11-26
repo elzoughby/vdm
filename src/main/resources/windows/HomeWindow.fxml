@@ -92,9 +92,9 @@
                         <Label text="click + to add new download" />
                     </placeholder>
                     <columns>
-                        <TableColumn fx:id="itemsIdColumn" maxWidth="50.0" minWidth="30.0" prefWidth="30.0" text="#">
+                        <TableColumn fx:id="itemsTypeColumn" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="">
                             <cellValueFactory>
-                                <PropertyValueFactory property="itemId" />
+                                <PropertyValueFactory property="isPlaylist" />
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="itemsTitleColumn" maxWidth="1500.0" minWidth="260.0" prefWidth="260.0" text="Title">

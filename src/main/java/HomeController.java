@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -42,6 +43,8 @@ public class HomeController implements Initializable {
     private TableView<Item> itemsTableView;
     @FXML
     private TableColumn<Item, Double> itemsProgressColumn;
+    @FXML
+    private TableColumn<Item, Boolean> itemsTypeColumn;
 
     // Table Progress bar cell class
     private class ProgressBarCell extends ProgressBarTableCell<Item> {
@@ -76,6 +79,31 @@ public class HomeController implements Initializable {
 
         // draw progress bar in the progress columns
         itemsProgressColumn.setCellFactory(param -> new ProgressBarCell());
+
+        // draw ImageView in the type column
+        itemsTypeColumn.setCellFactory(param -> {
+
+            final Image fileImage = new Image(getClass().getResource("theme/imgs/file.png").toString(), 16, 16, true, true);
+            final Image playlistImage = new Image(getClass().getResource("theme/imgs/playlist.png").toString(), 16, 16, true, true);
+
+            TableCell<Item, Boolean> cell = new TableCell<Item, Boolean>() {
+                ImageView imageView = new ImageView();
+                @Override
+                protected void updateItem(Boolean isPlaylist, boolean empty) {
+                    super.updateItem(isPlaylist, empty);
+                    if(!empty) {
+                        if(isPlaylist)
+                            imageView.setImage(playlistImage);
+                        else
+                            imageView.setImage(fileImage);
+                        setGraphic(imageView);
+                    }
+                }
+            };
+
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        });
 
         // filling the table with download items
         itemsTableView.setItems(itemList);
