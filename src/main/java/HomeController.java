@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.ProgressBarTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -62,11 +61,12 @@ public class HomeController implements Initializable {
         @Override
         public void updateItem(Double item, boolean empty) {
             super.updateItem(item, empty);
-            if (!empty) {
+            if(!empty) {
                 progressBar.setProgress(item);
                 label.setText(String.valueOf( (float)(item * 100)) + " %");
                 setGraphic(stackPane);
-            }
+            } else
+                setGraphic(null);
         }
 
     }
@@ -97,7 +97,8 @@ public class HomeController implements Initializable {
                         else
                             imageView.setImage(fileImage);
                         setGraphic(imageView);
-                    }
+                    } else
+                        setGraphic(null);
                 }
             };
 
