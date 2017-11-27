@@ -119,7 +119,6 @@ public class DbManager {
             connection.createStatement().executeUpdate(sqlCommand);
         } catch (SQLException e) {
             System.out.println("Error updating title");
-            e.printStackTrace();
         }
 
     }

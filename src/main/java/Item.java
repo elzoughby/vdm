@@ -97,7 +97,6 @@ public class Item {
 
     public void setTitle(String title) {
         this.title.set(title);
-        DbManager.updateString(this, "title", title);
     }
 
     public String getCustomName() {
@@ -314,7 +313,7 @@ public class Item {
 
     public void setDone(float done) {
         this.done.set(done);
-        this.progress.set(this.done.get() / 100);
+        this.progress.set((this.done.get() / 100.0f));
     }
 
     public float getSize() {
@@ -327,7 +326,10 @@ public class Item {
 
     public void setSize(float size) {
         this.size.set(size);
-        this.sizeString.set(this.size.get() + " " + this.sizeUnit);
+        if(size == 0)
+            this.sizeString.set("");
+        else
+            this.sizeString.set(this.size.get() + " " + this.sizeUnit);
     }
 
     public float getSpeed() {
@@ -406,7 +408,7 @@ public class Item {
         return logList;
     }
 
-    //the magic method
+    // the magic method
     private Item getThisItem() {
         return this;
     }
@@ -496,57 +498,79 @@ public class Item {
                 InputStream inputStream = ytdlProcess.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
+                String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*~?(\\d+\\.\\d+)([MKG]i?B)\\s*at\\s*(\\d+\\.\\d+)([MKG]i?B/s)\\s*ETA\\s*(.*)";
+                String fileFinishRegex = "\\[download\\]\\s*100%\\s*of\\s*~?(\\d+\\.\\d+)\\s*([MKG]i?B).*";
+
+                Pattern downloadPattern = Pattern.compile(downloadRegex);
+                Pattern fileFinishPattern = Pattern.compile(fileFinishRegex);
                 String buff;
-                String regex = "\\[download\\]\\s*(\\d+.\\d+)%\\s*of\\s*~?(\\d+.\\d+)([MKG]iB)\\s*at\\s*(\\d+.\\d+)([MKG]iB/s)\\s*ETA\\s*(.*)";
-                Pattern pattern = Pattern.compile(regex);
 
 
                 while ((buff = bufferedReader.readLine()) != null && getStatus().equals("Running")) {
 
                     final String line = buff;
-                    final Matcher matcher = pattern.matcher(line);
-
+                    final Matcher downloadMatcher = downloadPattern.matcher(line);
+                    final Matcher fileFinishMatcher = fileFinishPattern.matcher(line);
 
                     Platform.runLater( () -> {
 
-                        //parsing title
-                        //parse the title of download item and add it to the database
-                        if (getIsPlaylist() && line.matches("\\[download\\]\\s*Downloading playlist:\\s*(.+)")) {
-                            String title = line.split(":\\s+")[1];
-                            setTitle(title);
-                            DbManager.updateString(getThisItem(), "title", title);
-                        } else if ((! getIsPlaylist()) && line.matches("\\[download\\]\\s*Destination:\\s+" + getLocation() + "[/\\\\]?(.+)")) {
-                            String title = line.split(getLocation() + "[/\\\\]?")[1];
-                            setTitle(title);
-                            DbManager.updateString(getThisItem(), "title", title);
-                        }
-
                         //parsing download status info
-                        if (matcher.find()) {
+                        if (downloadMatcher.find()) {
                             //combine the download messages in one line
-                            if (logList.size() > 0 && logList.get(logList.size() - 1).matches(regex))
+                            if (logList.size() > 0 && logList.get(logList.size() - 1).matches(downloadRegex))
                                 logList.set(logList.size() - 1, line);
                             else
                                 logList.add(line);
 
-                            String x = matcher.group(1);
+                            String x = downloadMatcher.group(1);
                             setDone(Float.parseFloat(x));
                             DbManager.updateFloat(getThisItem(), "done", getDone());  //update done percent in database
-                            x = matcher.group(2);
-                            setSize(Float.parseFloat(x));
-                            DbManager.updateFloat(getThisItem(), "size", getSize());
-                            x = matcher.group(3);
+                            x = downloadMatcher.group(3);
                             setSizeUnit(x);
                             DbManager.updateString(getThisItem(), "sizeUnit", x);
-                            x = matcher.group(4);
+                            x = downloadMatcher.group(2);
+                            setSize(Float.parseFloat(x));
+                            DbManager.updateFloat(getThisItem(), "size", getSize());
+                            x = downloadMatcher.group(4);
                             setSpeed(Float.parseFloat(x));
-                            x = matcher.group(5);
+                            x = downloadMatcher.group(5);
                             setSpeedUnit(x);
-                            x = matcher.group(6);
+                            x = downloadMatcher.group(6);
                             setEta(x);
 
                         } else if (!line.equals("")) {
+
                             logList.add(line);
+
+                            if (getIsPlaylist()) {
+                                //parse the title of download playlist item and add it to the database
+                                if (line.matches("\\[download\\]\\s*Downloading playlist:\\s*.+")) {
+                                    String title = line.split(":\\s+")[1];
+                                    setTitle(title);
+                                    DbManager.updateString(getThisItem(), "title", title);
+                                //Check If download is completed and set Finished status
+                                } else if (line.matches("\\[download\\]\\s*Finished\\s*downloading\\s*playlist:.*")) {
+                                    setDone(100);
+                                    setSize(0);
+                                    finishDownload();
+                                }
+                            } else {
+                                //parse the title of download playlist item and add it to the database
+                                if (line.matches("\\[download\\]\\s*(Destination:\\s*)?" + getLocation() + "[/\\\\]?.+")) {
+                                    String title = line.split(getLocation() + "[/\\\\]?")[1].split("\\s*has already been downloaded")[0];
+                                    setTitle(title);
+                                    DbManager.updateString(getThisItem(), "title", title);
+                                //Check If download is completed and set Finished status
+                                } else if(!getIsPlaylist() && fileFinishMatcher.find()) {
+                                    setDone(100);
+                                    setSizeUnit(fileFinishMatcher.group(2));
+                                    setSize(Float.parseFloat(fileFinishMatcher.group(1)));
+                                    finishDownload();
+                                }
+                            }
+
+                        } else {
+
                         }
 
                     });
@@ -570,6 +594,14 @@ public class Item {
             setSpeed(0);
             setEta("");
         }
+    }
+
+    public void finishDownload() {
+
+        setStatus("Finished");
+        ytdlProcess.destroy();
+        setSpeed(0);
+        setEta("");
     }
 
 }

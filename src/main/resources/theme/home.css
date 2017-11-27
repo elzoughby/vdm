@@ -42,7 +42,7 @@
 
 .progress-bar > .track{
     -fx-background-color: white;
-    -fx-border-color: #e1e1e1;
+    -fx-border-color: #ebebeb;
     -fx-background-radius: 0px;
     -fx-border-radius: 0px;
     -fx-background-insets: -1 -1 0 -1;
