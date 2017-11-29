@@ -1,162 +1,90 @@
-.button-add {
-    -fx-background-image:  url(imgs/add.png) ;
+.button, .toggle-button {
+    -fx-background-color: white;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-    -fx-background-size: 25px,25px ;
-    -fx-background-color: white;
+    -fx-background-size: 25px,25px;
 }
 
-.button-add:hover {
-    -fx-background-color: #ececec;
+.button:hover, .toggle-button:hover, .toggle-button:selected:hover {
+    -fx-background-color: #ebebeb;
 }
 
-.button-add:armed {
-    -fx-background-color: #dedede;
+.button:armed, .toggle-button:selected {
+    -fx-background-color: #dcdcdc;
+}
+
+.button:focused, .toggle-button:focused {
+    -fx-border-color: #ebebeb;
+    -fx-border-style: dashed;
+    -fx-border-radius: 3px;
+    -fx-border-width: 1px;
+
+}
+
+
+/* ============ Home window style ============ */
+
+.button-add {
+    -fx-background-image:  url(imgs/add.png) ;
 }
 
 .button-start {
     -fx-background-image:  url(imgs/start.png) ;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-size: 25px,25px ;
-    -fx-background-color: white;
-}
-
-.button-start:hover {
-    -fx-background-color: #ececec;
-}
-
-.button-start:armed {
-    -fx-background-color: #dedede;
 }
 
 .button-pause {
     -fx-background-image:  url(imgs/pause.png) ;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
     -fx-background-size: 27px,27px ;
-    -fx-background-color: white;
-}
-
-.button-pause:hover {
-    -fx-background-color: #ececec;
-}
-
-.button-pause:armed {
-    -fx-background-color: #dedede;
 }
 
 .button-remove {
     -fx-background-image:  url(imgs/delete.png) ;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
     -fx-background-size: 23px,23px ;
-    -fx-background-color: white;
-}
-
-.button-remove:hover {
-    -fx-background-color: #ececec;
-}
-
-.button-remove:armed {
-    -fx-background-color: #dedede;
 }
 
 .button-info {
     -fx-background-image:  url(imgs/details.png) ;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-size: 25px,25px ;
-    -fx-background-color: white;
-}
-
-.button-info:hover {
-    -fx-background-color: #ececec;
-}
-
-.button-info:armed {
-    -fx-background-color: #dedede;
 }
 
 .button-queue {
     -fx-background-image:  url(imgs/queue.png) ;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
     -fx-background-size: 23px,23px ;
-    -fx-background-color: white;
-}
-
-.button-queue:hover {
-    -fx-background-color: #ececec;
-}
-
-.button-queue:selected {
-    -fx-background-color: #dedede;
 }
 
 .button-setting {
     -fx-background-image:  url(imgs/setting.png) ;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
     -fx-background-size: 22px,22px ;
-    -fx-background-color: white;
 }
-
-.button-setting:hover {
-    -fx-background-color: #ececec;
-}
-
-.button-setting:armed {
-    -fx-background-color: #dedede;
-}
-
 
 .button-help {
     -fx-background-image:  url(imgs/help.png) ;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
     -fx-background-size: 22px,22px ;
-    -fx-background-color: white;
-}
-
-.button-help:hover {
-    -fx-background-color: #ececec;
-}
-
-.button-help:armed {
-    -fx-background-color: #dedede;
 }
 
 .button-about {
     -fx-background-image:  url(imgs/about.png) ;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
     -fx-background-size: 22px,22px ;
-    -fx-background-color: white;
-}
-
-.button-about:hover {
-    -fx-background-color: #ececec;
-}
-
-.button-about:armed {
-    -fx-background-color: #dedede;
 }
 
 .button-log {
     -fx-background-image:  url(imgs/log.png) ;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
     -fx-background-size: 22px,22px ;
-    -fx-background-color: white;
 }
 
-.button-log:hover {
-    -fx-background-color: #ececec;
+
+/* ========= New download window style ========= */
+
+.new-button-start {
+    -fx-background-image:  url(imgs/start.png) ;
 }
 
-.button-log:armed {
-    -fx-background-color: #dedede;
+.new-button-queue {
+    -fx-background-image:  url(imgs/schedule.png) ;
+    -fx-background-size: 18px,18px ;
 }
 
+.new-button-cancel {
+    -fx-background-image:  url(imgs/cancel.png) ;
+    -fx-background-size: 18px,18px ;
+}
 

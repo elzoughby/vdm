@@ -18,16 +18,15 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane fx:id="newDownloadWindowPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
             prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="NewDownloadController">
     <left>
         <ToolBar orientation="VERTICAL" prefHeight="492.0" prefWidth="42.0" style="-fx-background-color: white;"
-                 BorderPane.alignment="CENTER">
+                 stylesheets="@../theme/toolbar.css" BorderPane.alignment="CENTER">
             <items>
                 <Button mnemonicParsing="false" onAction="#startBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="toolbar-button-start" stylesheets="@../theme/newDownload.css">
+                        styleClass="new-button-start">
                     <opaqueInsets>
                         <Insets/>
                     </opaqueInsets>
@@ -36,7 +35,7 @@
                     </tooltip>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#scheduleBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="toolbar-button-queue" stylesheets="@../theme/newDownload.css">
+                        styleClass="new-button-queue">
                     <opaqueInsets>
                         <Insets/>
                     </opaqueInsets>
@@ -45,7 +44,7 @@
                     </tooltip>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#cancelBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="toolbar-button-cancel" stylesheets="@../theme/newDownload.css">
+                        styleClass="new-button-cancel">
                     <tooltip>
                         <Tooltip text="Cancel"/>
                     </tooltip>
@@ -80,11 +79,11 @@
                         <HBox alignment="CENTER_LEFT" prefHeight="17.0" prefWidth="706.0" spacing="10.0">
                             <children>
                                 <Label text="Download URL"/>
-                                <TextField fx:id="urlTextField" HBox.hgrow="ALWAYS"/>
+                                <TextField fx:id="urlTextField" styleClass="url-text-field" HBox.hgrow="ALWAYS"/>
                             </children>
                         </HBox>
-                        <TitledPane animated="false" collapsible="false" prefHeight="200.0" prefWidth="200.0"
-                                    text="Artifacts">
+                        <TitledPane animated="false" collapsible="false" focusTraversable="false" prefHeight="200.0"
+                                    prefWidth="200.0" styleClass="artifacts-titled-pane" text="Artifacts">
                             <content>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                     <children>
@@ -100,7 +99,7 @@
                                                            HBox.hgrow="ALWAYS"/>
                                                 <Button mnemonicParsing="false" onAction="#browseBtnAction"
                                                         prefHeight="4.0" prefWidth="79.0" styleClass="button"
-                                                        stylesheets="@../theme/addDownloadWindow.css" text="Browse"/>
+                                                        stylesheets="@../theme/newDownload.css" text="Browse"/>
                                             </children>
                                         </HBox>
                                         <CheckBox fx:id="customNameChkBox" mnemonicParsing="false"
@@ -162,7 +161,8 @@
                                 </VBox>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" collapsible="false" prefHeight="164.0" prefWidth="688.0"
+                        <TitledPane fx:id="playlistPane" animated="false" collapsible="false" focusTraversable="false"
+                                    prefHeight="164.0" prefWidth="688.0" styleClass="playlist-titled-pane"
                                     text="Playlist options">
                             <content>
                                 <VBox prefHeight="119.0" prefWidth="688.0" spacing="20.0">
@@ -224,8 +224,8 @@
                                 </VBox>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" collapsible="false" prefHeight="163.0" prefWidth="688.0"
-                                    text="Authentication">
+                        <TitledPane animated="false" collapsible="false" focusTraversable="false" prefHeight="163.0"
+                                    prefWidth="688.0" styleClass="authentication-titled-pane" text="Authentication">
                             <content>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                     <padding>
@@ -263,8 +263,8 @@
                                 </VBox>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" collapsible="false" prefHeight="200.0" prefWidth="200.0"
-                                    text="Other options">
+                        <TitledPane animated="false" collapsible="false" focusTraversable="false" prefHeight="200.0"
+                                    prefWidth="200.0" styleClass="other-titled-pane" text="Other options">
                             <content>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                                     <padding>

@@ -9,15 +9,13 @@ BEGIN TRANSACTION;
 
 -- Table: items
 CREATE TABLE items (
-    id                    INTEGER PRIMARY KEY AUTOINCREMENT
-                                  UNIQUE
+    id                    INTEGER PRIMARY KEY
                                   NOT NULL,
     url                   TEXT    NOT NULL,
     location              TEXT    NOT NULL,
     title                 TEXT    NOT NULL,
     customName            TEXT    NOT NULL,
     speedLimit            INTEGER NOT NULL,
-    actionAfterFinish     TEXT    NOT NULL,
     addToQueue            BOOLEAN NOT NULL,
     isVideo               BOOLEAN NOT NULL,
     format                TEXT    NOT NULL,

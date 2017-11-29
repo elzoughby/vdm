@@ -22,7 +22,7 @@ public class Item {
     private StringProperty title = new SimpleStringProperty("");
     private StringProperty customName = new SimpleStringProperty("");
     private IntegerProperty speedLimit = new SimpleIntegerProperty();
-    private StringProperty actionAfterFinish = new SimpleStringProperty();
+    private BooleanProperty shutdownAfterFinish = new SimpleBooleanProperty();
     private BooleanProperty addToQueue = new SimpleBooleanProperty();
     private BooleanProperty isVideo = new SimpleBooleanProperty();
     private StringProperty format = new SimpleStringProperty();
@@ -123,16 +123,16 @@ public class Item {
         this.speedLimit.set(speedLimit);
     }
 
-    public String getActionAfterFinish() {
-        return actionAfterFinish.get();
+    public boolean getShutdownAfterFinish() {
+        return shutdownAfterFinish.get();
     }
 
-    public StringProperty actionAfterFinishProperty() {
-        return actionAfterFinish;
+    public BooleanProperty shutdownAfterFinishProperty() {
+        return shutdownAfterFinish;
     }
 
-    public void setActionAfterFinish(String actionAfterFinish) {
-        this.actionAfterFinish.set(actionAfterFinish);
+    public void setShutdownAfterFinish(boolean shutdownAfterFinish) {
+        this.shutdownAfterFinish.set(shutdownAfterFinish);
     }
 
     public boolean isAddToQueue() {
@@ -471,11 +471,11 @@ public class Item {
 
         cmdList.add(url.getValue());
 
-        if (actionAfterFinish.getValue().equals("Shutdown")) {
+        if (shutdownAfterFinish.getValue().equals("Shutdown")) {
             cmdList.add("&");
             cmdList.add("shutdown");
             cmdList.add("-H");
-        } else if (actionAfterFinish.getValue().equals("Sleep")) {
+        } else if (shutdownAfterFinish.getValue().equals("Sleep")) {
             cmdList.add("&");
             cmdList.add("shutdown");
             cmdList.add("-s");

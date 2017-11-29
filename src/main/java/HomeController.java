@@ -14,7 +14,6 @@ import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.Desktop;
@@ -197,6 +196,7 @@ public class HomeController implements Initializable {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         selectedItem.setAddToQueue(true);
+        selectedItem.stopDownload();
         queueItemList.add(selectedItem);
         itemList.remove(selectedItem);
 
@@ -251,9 +251,7 @@ public class HomeController implements Initializable {
         try {
 
             Parent root = FXMLLoader.load(getClass().getResource("windows/NewDownloadWindow.fxml"));
-            Stage stage = (Stage) homeWindowPane.getScene().getWindow();
-            Scene newScene = new Scene(root);
-            stage.setScene(newScene);
+            homeWindowPane.getScene().setRoot(root);
 
         } catch (IOException e) {
             System.err.println("Error Loading NewDownload Window!");

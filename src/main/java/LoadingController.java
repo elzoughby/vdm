@@ -4,9 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -41,16 +39,16 @@ public class LoadingController implements Initializable {
     private void close() {
 
         try {
+
             Parent newRoot = FXMLLoader.load(getClass().getResource("windows/HomeWindow.fxml"));
-            Stage stage = (Stage) pane.getScene().getWindow();
-            Scene scene = new Scene(newRoot);
-            stage.setScene(scene);
 
             FadeTransition fadeIn = new FadeTransition(new Duration(500), newRoot);
             fadeIn.setFromValue(0);
             fadeIn.setToValue(1);
             fadeIn.setCycleCount(1);
             fadeIn.play();
+
+            pane.getScene().setRoot(newRoot);
 
         } catch (IOException e) {
             System.out.println("Error Loading the Home Window");

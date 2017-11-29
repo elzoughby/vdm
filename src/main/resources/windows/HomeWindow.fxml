@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane fx:id="homeWindowPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
+<BorderPane fx:id="homeWindowPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@../theme/home.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
     <left>
         <ToolBar orientation="VERTICAL" prefHeight="492.0" prefWidth="42.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
             <items>
@@ -85,7 +85,7 @@
         </ToolBar>
     </left>
     <center>
-        <SplitPane fx:id="homeSplitPane" dividerPositions="0.7" orientation="VERTICAL" prefWidth="160.0" style="-fx-padding: 0;" stylesheets="@../theme/home.css" BorderPane.alignment="CENTER">
+        <SplitPane fx:id="homeSplitPane" dividerPositions="0.7270833333333333" orientation="VERTICAL" prefWidth="160.0" style="-fx-padding: 0;" stylesheets="@../theme/home.css" BorderPane.alignment="CENTER">
             <items>
                 <TableView fx:id="itemsTableView" prefWidth="751.0" style="-fx-border-color: #d7d7d7;">
                     <placeholder>
