@@ -1,0 +1,109 @@
+/* ============ Toolbar style ============ */
+
+.toolbar-button-start {
+    -fx-background-image:  url(imgs/start.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 25px,25px ;
+    -fx-background-color: white;
+}
+
+.toolbar-button-start:hover {
+    -fx-background-color: #ececec;
+}
+
+.toolbar-button-start:armed {
+    -fx-background-color: #dedede;
+}
+
+.toolbar-button-queue {
+    -fx-background-image:  url(imgs/schedule.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 18px,18px ;
+    -fx-background-color: white;
+}
+
+.toolbar-button-queue:hover {
+    -fx-background-color: #ececec;
+}
+
+.toolbar-button-queue:armed {
+    -fx-background-color: #dedede;
+}
+
+.toolbar-button-cancel {
+    -fx-background-image:  url(imgs/cancel.png) ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 18px,18px ;
+    -fx-background-color: white;
+}
+
+.toolbar-button-cancel:hover {
+    -fx-background-color: #ececec;
+}
+
+.toolbar-button-cancel:armed {
+    -fx-background-color: #dedede;
+}
+
+
+/* ========== ScrollPane style ========== */
+
+.scroll-pane {
+    -fx-background-color: white;
+    -fx-border-color: #d7d7d7;
+    -fx-border-width: 1px;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: #f5f5f5;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-background-radius: 2em;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black,120%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+.scroll-bar .increment-button, .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0 0 10 0;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-shape: "";
+    -fx-padding: 0;
+}
+
+
+/* ========== TitledPane style ========== */
+
+.titled-pane {
+    -fx-background-color: white;
+    -fx-border-color: #f0f0f0;
+    -fx-border-width: 1px;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 0px;
+    -fx-padding: 4;
+}
+
+.titled-pane > *.content {
+    -fx-background-color: white;
+    -fx-border-width: 0px;
+}
+

@@ -250,14 +250,10 @@ public class HomeController implements Initializable {
 
         try {
 
-            Parent root = FXMLLoader.load(getClass().getResource("windows/AddDownloadWindow.fxml"));
-            Stage addWindowStage = new Stage();
-            addWindowStage.setScene(new Scene(root));
-            addWindowStage.setTitle("Add Download");
-            addWindowStage.initOwner(homeWindowPane.getScene().getWindow());
-            addWindowStage.initModality(Modality.APPLICATION_MODAL);
-            addWindowStage.setResizable(false);
-            addWindowStage.show();
+            Parent root = FXMLLoader.load(getClass().getResource("windows/NewDownloadWindow.fxml"));
+            Stage stage = (Stage) homeWindowPane.getScene().getWindow();
+            Scene newScene = new Scene(root);
+            stage.setScene(newScene);
 
         } catch (IOException e) {
             System.err.println("Error Loading NewDownload Window!");

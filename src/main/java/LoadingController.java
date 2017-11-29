@@ -42,16 +42,8 @@ public class LoadingController implements Initializable {
 
         try {
             Parent newRoot = FXMLLoader.load(getClass().getResource("windows/HomeWindow.fxml"));
-            Parent oldRoot = pane.getScene().getRoot();
             Stage stage = (Stage) pane.getScene().getWindow();
             Scene scene = new Scene(newRoot);
-
-            FadeTransition fadeOut = new FadeTransition(new Duration(500), oldRoot);
-            fadeOut.setFromValue(1);
-            fadeOut.setToValue(0);
-            fadeOut.setCycleCount(1);
-            fadeOut.play();
-
             stage.setScene(scene);
 
             FadeTransition fadeIn = new FadeTransition(new Duration(500), newRoot);
