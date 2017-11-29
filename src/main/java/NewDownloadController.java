@@ -79,7 +79,7 @@ public class NewDownloadController implements Initializable{
         });
 
         String clipboardText = systemClipboard.getString();
-        if(clipboardText.matches(urlRegex))
+        if(clipboardText != null && clipboardText.matches(urlRegex))
             urlTextField.setText(clipboardText);
 
         locationTextField.setText(System.getProperty("user.home") + "/Downloads");
