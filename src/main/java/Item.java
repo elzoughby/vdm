@@ -498,8 +498,8 @@ public class Item {
                 InputStream inputStream = ytdlProcess.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-                String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*~?(\\d+\\.\\d+)([MKG]i?B)\\s*at\\s*(\\d+\\.\\d+)([MKG]i?B/s)\\s*ETA\\s*(.*)";
-                String fileFinishRegex = "\\[download\\]\\s*100%\\s*of\\s*~?(\\d+\\.\\d+)\\s*([MKG]i?B).*";
+                String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*~?(\\d+\\.\\d+)([MKG]?i?B)\\s*at\\s*(\\d+\\.\\d+)([MKG]?i?B/s)\\s*ETA\\s*(.*)";
+                String fileFinishRegex = "\\[download\\]\\s*100%\\s*of\\s*~?(\\d+\\.\\d+)\\s*([MKG]?i?B).*";
 
                 Pattern downloadPattern = Pattern.compile(downloadRegex);
                 Pattern fileFinishPattern = Pattern.compile(fileFinishRegex);

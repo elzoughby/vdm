@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Spinner?>
@@ -17,279 +18,239 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="newDownloadWindowPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
-            prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="NewDownloadController">
+<BorderPane fx:id="newDownloadWindowPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewDownloadController">
     <left>
-        <ToolBar orientation="VERTICAL" prefHeight="492.0" prefWidth="42.0" style="-fx-background-color: white;"
-                 stylesheets="@../theme/toolbar.css" BorderPane.alignment="CENTER">
+        <ToolBar orientation="VERTICAL" prefHeight="492.0" prefWidth="42.0" style="-fx-background-color: white;" stylesheets="@../theme/toolbar.css" BorderPane.alignment="CENTER">
             <items>
-                <Button mnemonicParsing="false" onAction="#startBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="new-button-start">
+                <Button mnemonicParsing="false" onAction="#startBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="new-button-start">
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets />
                     </opaqueInsets>
                     <tooltip>
-                        <Tooltip text="Start"/>
+                        <Tooltip text="Start" />
                     </tooltip>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#scheduleBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="new-button-queue">
+                <Button mnemonicParsing="false" onAction="#scheduleBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="new-button-queue">
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets />
                     </opaqueInsets>
                     <tooltip>
-                        <Tooltip text="Add to Queue"/>
+                        <Tooltip text="Add to Queue" />
                     </tooltip>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#cancelBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="new-button-cancel">
+                <Button mnemonicParsing="false" onAction="#cancelBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="new-button-cancel">
                     <tooltip>
-                        <Tooltip text="Cancel"/>
+                        <Tooltip text="Cancel" />
                     </tooltip>
                 </Button>
             </items>
             <BorderPane.margin>
-                <Insets top="-7.0"/>
+                <Insets top="-7.0" />
             </BorderPane.margin>
             <opaqueInsets>
-                <Insets/>
+                <Insets />
             </opaqueInsets>
         </ToolBar>
     </left>
     <bottom>
-        <Pane maxHeight="10.0" minHeight="10.0" prefHeight="10.0" style="-fx-background-color: white;"
-              BorderPane.alignment="CENTER"/>
+        <Pane maxHeight="10.0" minHeight="10.0" prefHeight="10.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
     </bottom>
     <right>
-        <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="10.0" style="-fx-background-color: white;"
-              BorderPane.alignment="CENTER"/>
+        <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="10.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
     </right>
     <top>
-        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" style="-fx-background-color: white;"
-              BorderPane.alignment="CENTER"/>
+        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
     </top>
     <center>
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="edge-to-edge"
-                    stylesheets="@../theme/newDownload.css" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="edge-to-edge" stylesheets="@../theme/newDownload.css" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
             <content>
                 <VBox prefHeight="525.0" prefWidth="649.0" spacing="20.0" style="-fx-background-color: white;">
                     <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="17.0" prefWidth="706.0" spacing="10.0">
                             <children>
-                                <Label text="Download URL"/>
-                                <TextField fx:id="urlTextField" styleClass="url-text-field" HBox.hgrow="ALWAYS"/>
+                                <Label text="Download URL" />
+                                <TextField fx:id="urlTextField" styleClass="url-text-field" HBox.hgrow="ALWAYS" />
                             </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="5.0" />
+                     </VBox.margin>
                         </HBox>
-                        <TitledPane animated="false" collapsible="false" focusTraversable="false" prefHeight="200.0"
-                                    prefWidth="200.0" styleClass="artifacts-titled-pane" text="Artifacts">
+                        <TitledPane animated="false" collapsible="false" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" styleClass="artifacts-titled-pane" text="Artifacts">
                             <content>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                     <children>
-                                        <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="706.0"
-                                              spacing="10.0">
+                                        <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="706.0" spacing="10.0">
                                             <children>
                                                 <Label text="Save location">
                                                     <HBox.margin>
-                                                        <Insets right="5.0"/>
+                                                        <Insets right="5.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                                <TextField fx:id="locationTextField" prefHeight="26.0" prefWidth="418.0"
-                                                           HBox.hgrow="ALWAYS"/>
-                                                <Button mnemonicParsing="false" onAction="#browseBtnAction"
-                                                        prefHeight="4.0" prefWidth="79.0" styleClass="button"
-                                                        stylesheets="@../theme/newDownload.css" text="Browse"/>
+                                                <TextField fx:id="locationTextField" prefHeight="26.0" prefWidth="418.0" HBox.hgrow="ALWAYS" />
+                                                <Button mnemonicParsing="false" onAction="#browseBtnAction" prefHeight="4.0" prefWidth="79.0" styleClass="button" stylesheets="@../theme/newDownload.css" text="Browse" />
                                             </children>
                                         </HBox>
-                                        <CheckBox fx:id="customNameChkBox" mnemonicParsing="false"
-                                                  text="Use custom output name">
+                                        <CheckBox fx:id="customNameChkBox" mnemonicParsing="false" text="Use custom output name">
                                             <VBox.margin>
-                                                <Insets top="10.0"/>
+                                                <Insets top="10.0" />
                                             </VBox.margin>
                                         </CheckBox>
-                                        <HBox alignment="CENTER_LEFT" disable="${!customNameChkBox.selected}"
-                                              prefHeight="15.0" prefWidth="706.0" spacing="10.0">
+                                        <HBox alignment="CENTER_LEFT" disable="${!customNameChkBox.selected}" prefHeight="15.0" prefWidth="706.0" spacing="10.0">
                                             <children>
                                                 <Label text="Custom name">
                                                     <HBox.margin>
-                                                        <Insets right="2.0"/>
+                                                        <Insets right="2.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                                <TextField fx:id="customNameTextField" prefHeight="26.0"
-                                                           prefWidth="250.0" HBox.hgrow="ALWAYS"/>
+                                                <TextField fx:id="customNameTextField" prefHeight="26.0" prefWidth="250.0" HBox.hgrow="ALWAYS" />
                                             </children>
                                         </HBox>
-                                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="726.0"
-                                              spacing="10.0">
+                                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="726.0" spacing="10.0">
                                             <children>
-                                                <Label text="Quality and Format"/>
-                                                <ChoiceBox fx:id="qualityComboBox" prefHeight="26.0" prefWidth="208.0"
-                                                           HBox.hgrow="ALWAYS"/>
+                                                <Label text="Quality and Format" />
+                                                <ChoiceBox fx:id="qualityComboBox" prefHeight="26.0" prefWidth="214.0" HBox.hgrow="ALWAYS" />
                                             </children>
                                             <VBox.margin>
-                                                <Insets bottom="10.0" top="10.0"/>
+                                                <Insets bottom="10.0" top="10.0" />
                                             </VBox.margin>
                                         </HBox>
-                                        <CheckBox fx:id="embeddedSubtitleChkBox" mnemonicParsing="false"
-                                                  text="Save embedded subtitles"/>
-                                        <CheckBox fx:id="autoGenSubtitleChkBox" mnemonicParsing="false"
-                                                  text="Save auto-generated subtitles">
-                                            <VBox.margin>
-                                                <Insets top="10.0"/>
-                                            </VBox.margin>
-                                        </CheckBox>
-                                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="726.0"
-                                              spacing="10.0">
+                                        <CheckBox fx:id="embeddedSubtitleChkBox" mnemonicParsing="false" text="Save embedded subtitles" />
+                                        <CheckBox fx:id="autoGenSubtitleChkBox" mnemonicParsing="false" text="Save auto-generated subtitles">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                                        <HBox fx:id="subtitleLanguagePane" alignment="CENTER_LEFT" disable="true" prefHeight="27.0" prefWidth="726.0" spacing="10.0">
                                             <children>
                                                 <Label text="Subtitle language">
                                                     <HBox.margin>
-                                                        <Insets right="11.0"/>
+                                                        <Insets right="11.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                                <ChoiceBox fx:id="subtitleLanguageChoiceBox" prefHeight="26.0"
-                                                           prefWidth="208.0" HBox.hgrow="ALWAYS"/>
+                                                <ChoiceBox fx:id="subtitleLanguageChoiceBox" prefHeight="26.0" prefWidth="124.0" HBox.hgrow="ALWAYS" />
                                             </children>
                                             <VBox.margin>
-                                                <Insets top="10.0"/>
+                                                <Insets top="5.0" />
                                             </VBox.margin>
                                         </HBox>
                                     </children>
                                     <padding>
-                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                     </padding>
                                 </VBox>
                             </content>
                         </TitledPane>
-                        <TitledPane fx:id="playlistPane" animated="false" collapsible="false" focusTraversable="false"
-                                    prefHeight="164.0" prefWidth="688.0" styleClass="playlist-titled-pane"
-                                    text="Playlist options">
+                        <TitledPane fx:id="playlistPane" animated="false" collapsible="false" focusTraversable="false" prefHeight="164.0" prefWidth="688.0" styleClass="playlist-titled-pane" text="Playlist options">
                             <content>
                                 <VBox prefHeight="119.0" prefWidth="688.0" spacing="20.0">
+                                    <fx:define>
+                                        <ToggleGroup fx:id="playlistToggleGroup" />
+                                    </fx:define>
                                     <children>
-                                        <HBox alignment="CENTER_LEFT" minHeight="26.0" prefHeight="26.0"
-                                              prefWidth="688.0" spacing="10.0" VBox.vgrow="NEVER">
+                                        <HBox alignment="CENTER_LEFT" minHeight="26.0" prefHeight="26.0" prefWidth="688.0" spacing="10.0" VBox.vgrow="NEVER">
                                             <children>
-                                                <RadioButton fx:id="allItemsRadioBtn" mnemonicParsing="false"
-                                                             selected="true" text="All playlist items">
-                                                    <toggleGroup>
-                                                        <ToggleGroup fx:id="playlistToggleGroup"/>
-                                                    </toggleGroup>
-                                                </RadioButton>
+                                                <RadioButton fx:id="allItemsRadioBtn" mnemonicParsing="false" selected="true" text="All playlist items">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="playlistToggleGroup" />
+                                       </toggleGroup></RadioButton>
                                             </children>
                                         </HBox>
-                                        <HBox alignment="CENTER_LEFT" prefHeight="10.0" prefWidth="688.0"
-                                              spacing="10.0">
+                                        <HBox alignment="CENTER_LEFT" prefHeight="10.0" prefWidth="688.0" spacing="10.0">
                                             <children>
-                                                <RadioButton fx:id="indexRangeRadioBtn" mnemonicParsing="false"
-                                                             text="Index range" toggleGroup="$playlistToggleGroup"/>
-                                                <HBox alignment="CENTER_RIGHT" disable="${!indexRangeRadioBtn.selected}"
-                                                      prefHeight="100.0" prefWidth="200.0" spacing="10.0"
-                                                      HBox.hgrow="ALWAYS">
+                                                <RadioButton fx:id="indexRangeRadioBtn" mnemonicParsing="false" text="Index range" toggleGroup="$playlistToggleGroup" />
+                                                <HBox alignment="CENTER_RIGHT" disable="${!indexRangeRadioBtn.selected}" prefHeight="100.0" prefWidth="200.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                                     <children>
-                                                        <Label text="from"/>
-                                                        <TextField fx:id="startIndexTextField" prefHeight="26.0"
-                                                                   prefWidth="90.0" promptText="start">
+                                                        <Label text="from" />
+                                                        <TextField fx:id="startIndexTextField" prefHeight="26.0" prefWidth="90.0" promptText="start">
                                                             <HBox.margin>
-                                                                <Insets right="30.0"/>
+                                                                <Insets right="30.0" />
                                                             </HBox.margin>
                                                         </TextField>
-                                                        <Label text="to"/>
-                                                        <TextField fx:id="endIndexTextField" prefHeight="26.0"
-                                                                   prefWidth="90.0" promptText="end"/>
+                                                        <Label text="to" />
+                                                        <TextField fx:id="endIndexTextField" prefHeight="26.0" prefWidth="90.0" promptText="end" />
                                                     </children>
                                                 </HBox>
                                             </children>
                                         </HBox>
-                                        <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="688.0" spacing="10.0"
-                                              VBox.vgrow="NEVER">
+                                        <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="688.0" spacing="10.0" VBox.vgrow="NEVER">
                                             <children>
-                                                <RadioButton fx:id="specificItemsRadioBtn" mnemonicParsing="false"
-                                                             text="Specific playlist items"
-                                                             toggleGroup="$playlistToggleGroup">
+                                                <RadioButton fx:id="specificItemsRadioBtn" mnemonicParsing="false" text="Specific playlist items" toggleGroup="$playlistToggleGroup">
                                                     <HBox.margin>
-                                                        <Insets right="100.0"/>
+                                                        <Insets right="100.0" />
                                                     </HBox.margin>
                                                 </RadioButton>
-                                                <TextField fx:id="playlistItemsTextField"
-                                                           disable="${!specificItemsRadioBtn.selected}"
-                                                           prefHeight="26.0" prefWidth="224.0"
-                                                           promptText="comma seperated indexes" HBox.hgrow="ALWAYS"/>
+                                                <TextField fx:id="playlistItemsTextField" disable="${!specificItemsRadioBtn.selected}" prefHeight="26.0" prefWidth="224.0" promptText="comma seperated indexes" HBox.hgrow="ALWAYS" />
                                             </children>
                                         </HBox>
                                     </children>
                                     <padding>
-                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                     </padding>
                                 </VBox>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" collapsible="false" focusTraversable="false" prefHeight="163.0"
-                                    prefWidth="688.0" styleClass="authentication-titled-pane" text="Authentication">
+                        <TitledPane animated="false" collapsible="false" focusTraversable="false" prefHeight="163.0" prefWidth="688.0" styleClass="authentication-titled-pane" text="Authentication">
                             <content>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                     <padding>
-                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                     </padding>
                                     <children>
-                                        <CheckBox fx:id="needLoginCheckBox" mnemonicParsing="false"
-                                                  text="Need login to download">
+                                        <CheckBox fx:id="needLoginCheckBox" mnemonicParsing="false" text="Need login to download">
                                             <VBox.margin>
-                                                <Insets bottom="5.0"/>
+                                                <Insets bottom="5.0" />
                                             </VBox.margin>
                                         </CheckBox>
-                                        <HBox alignment="CENTER_LEFT" disable="${!needLoginCheckBox.selected}"
-                                              prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="NEVER">
+                                        <HBox alignment="CENTER_LEFT" disable="${!needLoginCheckBox.selected}" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="NEVER">
                                             <children>
-                                                <Label text="Username"/>
-                                                <TextField fx:id="userNameTextField" HBox.hgrow="ALWAYS">
+                                                <Label text="Username" />
+                                                <TextField fx:id="userNameTextField" prefHeight="26.0" prefWidth="266.0" HBox.hgrow="ALWAYS">
                                                     <HBox.margin>
-                                                        <Insets right="40.0"/>
+                                                        <Insets right="40.0" />
                                                     </HBox.margin>
                                                 </TextField>
                                                 <Label text="Password">
                                                     <HBox.margin>
-                                                        <Insets right="5.0"/>
+                                                        <Insets right="5.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                                <TextField fx:id="passwordTextField" prefHeight="26.0" prefWidth="59.0"
-                                                           HBox.hgrow="ALWAYS"/>
+                                    <PasswordField fx:id="passwordTextField" prefHeight="26.0" prefWidth="158.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font></PasswordField>
                                             </children>
                                             <VBox.margin>
-                                                <Insets bottom="10.0"/>
+                                                <Insets bottom="10.0" />
                                             </VBox.margin>
                                         </HBox>
                                     </children>
                                 </VBox>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" collapsible="false" focusTraversable="false" prefHeight="200.0"
-                                    prefWidth="200.0" styleClass="other-titled-pane" text="Other options">
+                        <TitledPane animated="false" collapsible="false" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" styleClass="other-titled-pane" text="Other options">
                             <content>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                                     <padding>
-                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                     </padding>
                                     <children>
-                                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0"
-                                              spacing="10.0">
+                                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                             <children>
-                                                <Label text="Speed Limit"/>
-                                                <Spinner fx:id="limitSpinner" amountToStepBy="5" editable="true"
-                                                         initialValue="0" max="1048576" min="0" prefHeight="26.0"
-                                                         prefWidth="94.0"/>
-                                                <Label text="KiB/s"/>
+                                                <Label text="Speed Limit" />
+                                                <Spinner fx:id="limitSpinner" amountToStepBy="5" editable="true" initialValue="0" max="1048576" min="0" prefHeight="26.0" prefWidth="94.0" />
+                                                <Label text="KiB/s" />
                                             </children>
                                         </HBox>
-                                        <CheckBox fx:id="shutdownCheckBox" mnemonicParsing="false"
-                                                  text="Shutdown after finish"/>
+                                        <CheckBox fx:id="shutdownCheckBox" mnemonicParsing="false" text="Shutdown after finish" />
                                     </children>
                                 </VBox>
                             </content>
                         </TitledPane>
                     </children>
                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </padding>
                 </VBox>
             </content>

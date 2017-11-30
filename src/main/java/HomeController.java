@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -62,7 +63,7 @@ public class HomeController implements Initializable {
             super.updateItem(item, empty);
             if(!empty) {
                 progressBar.setProgress(item);
-                label.setText(String.valueOf( (float)(item * 100)) + " %");
+                label.setText(BigDecimal.valueOf(item * 100d).setScale(1,BigDecimal.ROUND_HALF_UP).toString() + " %");
                 setGraphic(stackPane);
             } else
                 setGraphic(null);
@@ -255,6 +256,7 @@ public class HomeController implements Initializable {
 
         } catch (IOException e) {
             System.err.println("Error Loading NewDownload Window!");
+            e.printStackTrace();
         }
 
     }

@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +31,8 @@ public class NewDownloadController implements Initializable{
     private CheckBox embeddedSubtitleChkBox;
     @FXML
     private CheckBox autoGenSubtitleChkBox;
+    @FXML
+    private HBox subtitleLanguagePane;
     @FXML
     private ChoiceBox<String> subtitleLanguageChoiceBox;
     @FXML
@@ -85,6 +88,7 @@ public class NewDownloadController implements Initializable{
         locationTextField.setText(System.getProperty("user.home") + "/Downloads");
         subtitleLanguageChoiceBox.setItems(FXCollections.observableArrayList("Arabic", "English", "French", "Italian", "spanish", "German", "Russian"));
         subtitleLanguageChoiceBox.setValue("English");
+        embeddedSubtitleChkBox.selectedProperty().not().and(autoGenSubtitleChkBox.selectedProperty().not()).addListener((observable, oldValue, newValue) -> subtitleLanguagePane.setDisable(newValue));
         qualityComboBox.setItems(FXCollections.observableArrayList("Best", "1080p - mp4 video", "720p - mp4 video", "480p - mp4 video", "360p - mp4 video", "240p - mp4 video", "144p - mp4 video", "48K - m4a audio only"));
         qualityComboBox.setValue("Best");
 
