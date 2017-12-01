@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+
+<VBox fx:id="errorDialogPane" maxHeight="330.0" maxWidth="500.0" minHeight="203.0" minWidth="500.0" prefHeight="203.0" prefWidth="500.0" style="-fx-background-color: white;" stylesheets="@../theme/error.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ErrorController">
+    <children>
+        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="93.0" prefWidth="500.0" VBox.vgrow="NEVER">
+            <padding>
+                <Insets bottom="20.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+            <children>
+                <TextFlow fx:id="messageTextFlow" prefHeight="50.0" prefWidth="440.0" HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+        <VBox alignment="TOP_CENTER" prefHeight="19.0" prefWidth="500.0" VBox.vgrow="ALWAYS">
+            <children>
+                <TitledPane fx:id="detailsTitledPane" animated="false" expanded="false" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="153.0" prefWidth="440.0" text="Details" VBox.vgrow="ALWAYS">
+                    <content>
+                        <TextArea fx:id="detailsTextArea" editable="false" prefHeight="128.0" prefWidth="438.0">
+                            <font>
+                                <Font size="12.0" />
+                            </font>
+                        </TextArea>
+                    </content>
+                </TitledPane>
+            </children>
+        </VBox>
+        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="84.0" prefWidth="500.0" VBox.vgrow="NEVER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#closeBtnAction" prefHeight="26.0" prefWidth="99.0" text="Close" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </HBox>
+    </children>
+</VBox>

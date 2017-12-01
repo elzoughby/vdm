@@ -254,9 +254,8 @@ public class HomeController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("windows/NewDownloadWindow.fxml"));
             homeWindowPane.getScene().setRoot(root);
 
-        } catch (IOException e) {
-            System.err.println("Error Loading NewDownload Window!");
-            e.printStackTrace();
+        } catch (Exception e) {
+            ErrorController.showErrorDialog("Error Loading NewDownload Window!", e.getStackTrace());
         }
 
     }
