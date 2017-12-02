@@ -76,11 +76,16 @@ public class ErrorDialog implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("windows/errorDialog.fxml"));
             fxmlLoader.setController(this);
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage(StageStyle.UNDECORATED);
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
+            Scene scene = new Scene(root, 500, 203);
+            Stage stage = new Stage();
+            stage.setMinWidth(500);
+            stage.setMinHeight(203);
+            stage.setMaxWidth(500);
+            stage.setMaxHeight(330);
             stage.setResizable(false);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
 
         } catch (Exception e) {
