@@ -289,7 +289,7 @@ public class HomeController implements Initializable {
             selectedItem.stopDownload();
             itemList.remove(selectedItem);
             queueItemList.remove(selectedItem);
-            DbManager.delete(selectedItem);
+            DatabaseManager.delete(selectedItem);
         }
 
     }
@@ -337,8 +337,11 @@ public class HomeController implements Initializable {
             settingStage.setTitle("Setting");
             settingStage.show();
 
-        } catch (IOException e) {
-            System.err.println("Error Loading Settings Window!");
+        } catch (Exception e) {
+            homeWindowPane.setOpacity(0.30);
+            new ErrorDialog("Error Loading Settings Window! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            homeWindowPane.setOpacity(1);
         }
 
     }

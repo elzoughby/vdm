@@ -20,13 +20,12 @@ import java.util.ResourceBundle;
 
 public class ErrorDialog implements Initializable {
 
-    private Text text;
-    private String details;
+    private String title, details;
 
     @FXML
     private VBox errorDialogPane;
     @FXML
-    private TextFlow messageTextFlow;
+    private Text titleText;
     @FXML
     private TitledPane detailsTitledPane;
     @FXML
@@ -37,8 +36,7 @@ public class ErrorDialog implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        text.setFont(Font.font(15));
-        messageTextFlow.getChildren().add(text);
+        titleText.setText(title);
         detailsTextArea.setText(details);
 
         detailsTitledPane.expandedProperty().addListener((observable, wasExpanded, nowExpanded) -> {
@@ -53,19 +51,20 @@ public class ErrorDialog implements Initializable {
 
     }
 
-    public ErrorDialog(String title, StackTraceElement[] stackTrace) {
+    public ErrorDialog(String errorTitle, StackTraceElement[] stackTrace) {
 
         StringBuilder stringBuilder = new StringBuilder();
         for(StackTraceElement ste : stackTrace)
             stringBuilder.append(ste.toString()).append("\n");
-        text = new Text(title);
+
+        title = errorTitle;
         details = stringBuilder.toString();
 
     }
 
-    public ErrorDialog(String title, String errorDetails) {
+    public ErrorDialog(String errorTitle, String errorDetails) {
 
-        text = new Text(title);
+        title = errorTitle;
         details = errorDetails;
 
     }
@@ -85,7 +84,7 @@ public class ErrorDialog implements Initializable {
             stage.showAndWait();
 
         } catch (Exception e) {
-            System.out.println("Unknown Error!");
+            System.out.println("Error in loading the ErrorDialog");
             e.printStackTrace();
         }
 

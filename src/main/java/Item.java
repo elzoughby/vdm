@@ -524,13 +524,13 @@ public class Item {
 
                             String x = downloadMatcher.group(1);
                             setDone(Float.parseFloat(x));
-                            DbManager.updateFloat(getThisItem(), "done", getDone());  //update done percent in database
+                            DatabaseManager.updateFloat(getThisItem(), "done", getDone());  //update done percent in database
                             x = downloadMatcher.group(3);
                             setSizeUnit(x);
-                            DbManager.updateString(getThisItem(), "sizeUnit", x);
+                            DatabaseManager.updateString(getThisItem(), "sizeUnit", x);
                             x = downloadMatcher.group(2);
                             setSize(Float.parseFloat(x));
-                            DbManager.updateFloat(getThisItem(), "size", getSize());
+                            DatabaseManager.updateFloat(getThisItem(), "size", getSize());
                             x = downloadMatcher.group(4);
                             setSpeed(Float.parseFloat(x));
                             x = downloadMatcher.group(5);
@@ -547,7 +547,7 @@ public class Item {
                                 if (line.matches("\\[download\\]\\s*Downloading playlist:\\s*.+")) {
                                     String title = line.split(":\\s+")[1];
                                     setTitle(title);
-                                    DbManager.updateString(getThisItem(), "title", title);
+                                    DatabaseManager.updateString(getThisItem(), "title", title);
                                 //Check If download is completed and set Finished status
                                 } else if (line.matches("\\[download\\]\\s*Finished\\s*downloading\\s*playlist:.*")) {
                                     setDone(100);
@@ -559,7 +559,7 @@ public class Item {
                                 if (line.matches("\\[download\\]\\s*(Destination:\\s*)?" + getLocation() + "[/\\\\]?.+")) {
                                     String title = line.split(getLocation() + "[/\\\\]?")[1].split("\\s*has already been downloaded")[0];
                                     setTitle(title);
-                                    DbManager.updateString(getThisItem(), "title", title);
+                                    DatabaseManager.updateString(getThisItem(), "title", title);
                                 //Check If download is completed and set Finished status
                                 } else if(!getIsPlaylist() && fileFinishMatcher.find()) {
                                     setDone(100);

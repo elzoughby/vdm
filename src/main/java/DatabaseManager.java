@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class DbManager {
+public class DatabaseManager {
 
     private static Connection connection;
 
@@ -15,10 +15,12 @@ public class DbManager {
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:nvddb.db");
-        } catch (ClassNotFoundException notFound) {
-            System.err.println("Database driver not found");
-        } catch (SQLException sql) {
-            System.err.println("Database connection error");
+        } catch (ClassNotFoundException e) {
+            new ErrorDialog("Database driver not found! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+        } catch (SQLException e) {
+            new ErrorDialog("Database connection error! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
         }
 
     }
@@ -60,8 +62,8 @@ public class DbManager {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error loading database");
-            e.printStackTrace();
+            new ErrorDialog("Error loading database! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
         }
 
     }
@@ -82,8 +84,8 @@ public class DbManager {
 
             connection.createStatement().executeUpdate(sqlCommand);
         } catch (SQLException e) {
-            System.out.println("Error inserting item");
-            e.printStackTrace();
+            new ErrorDialog("Error inserting item to database! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
         }
 
     }
@@ -94,7 +96,8 @@ public class DbManager {
             String sqlCommand = String.format("DELETE FROM items WHERE id = %d", item.getItemId());
             connection.createStatement().executeUpdate(sqlCommand);
         } catch (SQLException e) {
-            System.out.println("Error deleting item");
+            new ErrorDialog("Error deleting item from database! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
         }
 
     }
@@ -105,8 +108,8 @@ public class DbManager {
             String sqlCommand = String.format("UPDATE items SET %s = %f WHERE id = %d", columnLabel, value, item.getItemId());
             connection.createStatement().executeUpdate(sqlCommand);
         } catch (SQLException e) {
-            System.out.println("Error updating done");
-            e.printStackTrace();
+            new ErrorDialog("Error updating done value in database! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
         }
 
     }
@@ -117,7 +120,8 @@ public class DbManager {
             String sqlCommand = String.format("UPDATE items SET %s = '%s' WHERE id = %d", columnLabel, value, item.getItemId());
             connection.createStatement().executeUpdate(sqlCommand);
         } catch (SQLException e) {
-            System.out.println("Error updating title");
+            new ErrorDialog("Error updating title in database! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
         }
 
     }
@@ -129,7 +133,8 @@ public class DbManager {
             ResultSet resultSet = connection.createStatement().executeQuery("SELECT COUNT(*) FROM items");
             return resultSet.getInt(1);
         } catch (SQLException e) {
-            System.out.println("Error getting last row id");
+            new ErrorDialog("Error getting last row id from database! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
             return 0;
         }
 
@@ -138,10 +143,11 @@ public class DbManager {
     public static void close() {
 
         try {
-            if(! connection.isClosed())
+            if(!connection.isClosed())
                 connection.close();
         } catch (SQLException e) {
-            System.out.println("Error closing connection");
+            new ErrorDialog("Error closing database connection! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
         }
     }
 

@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
 <VBox fx:id="errorDialogPane" maxHeight="330.0" maxWidth="500.0" minHeight="203.0" minWidth="500.0" prefHeight="203.0" prefWidth="500.0" style="-fx-background-color: white;" stylesheets="@../theme/error.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
@@ -27,7 +28,14 @@
                   <Rectangle2D />
                </viewport>
             </ImageView>
-                <TextFlow fx:id="messageTextFlow" lineSpacing="5.0" prefHeight="50.0" prefWidth="440.0" HBox.hgrow="ALWAYS" />
+                <TextFlow fx:id="messageTextFlow" lineSpacing="5.0" prefHeight="50.0" prefWidth="440.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Text fx:id="titleText" boundsType="LOGICAL_VERTICAL_CENTER" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Text>
+               </children></TextFlow>
             </children>
         </HBox>
         <VBox alignment="TOP_CENTER" prefHeight="19.0" prefWidth="500.0" VBox.vgrow="ALWAYS">

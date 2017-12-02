@@ -98,7 +98,7 @@ public class NewDownloadController implements Initializable{
 
         Item item = new Item();
 
-        item.setItemId(DbManager.getNextId());
+        item.setItemId(DatabaseManager.getNextId());
         item.setUrl(urlTextField.getText());
         item.setTitle(urlTextField.getText());
         item.setLocation(locationTextField.getText());
@@ -168,7 +168,7 @@ public class NewDownloadController implements Initializable{
         Item item = createItem();
         item.setAddToQueue(false);
         HomeController.getItemList().add(item);
-        DbManager.insert(item);
+        DatabaseManager.insert(item);
         item.startDownload();
         cancelBtnAction();
 
@@ -180,7 +180,7 @@ public class NewDownloadController implements Initializable{
         Item item = createItem();
         item.setAddToQueue(true);
         HomeController.getQueueItemList().add(item);
-        DbManager.insert(item);
+        DatabaseManager.insert(item);
         cancelBtnAction();
 
     }
@@ -194,7 +194,10 @@ public class NewDownloadController implements Initializable{
             newDownloadWindowPane.getScene().setRoot(root);
 
         } catch (IOException e) {
-            System.err.println("Error Loading Home Window!");
+            newDownloadWindowPane.setOpacity(0.30);
+            new ErrorDialog("Error Loading Home Window! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            newDownloadWindowPane.setOpacity(1);
         }
 
     }

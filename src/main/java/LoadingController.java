@@ -29,8 +29,8 @@ public class LoadingController implements Initializable {
     @Override
     protected void finalize() throws Throwable {
 
-        DbManager.initialize();
-        DbManager.load();
+        DatabaseManager.initialize();
+        DatabaseManager.load();
         Platform.runLater(this::close);
         super.finalize();
 
@@ -51,7 +51,8 @@ public class LoadingController implements Initializable {
             pane.getScene().setRoot(newRoot);
 
         } catch (IOException e) {
-            System.out.println("Error Loading the Home Window");
+            new ErrorDialog("Error Loading the Home Window! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
         }
 
     }

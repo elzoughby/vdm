@@ -8,8 +8,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 
 public class Main extends Application {
 
@@ -18,29 +16,35 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
-        Parent root = FXMLLoader.load(getClass().getResource("windows/LoadingPage.fxml"));
-        primaryStage.setTitle("Nazel Video Downloader");
-        primaryStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(500);
-        primaryStage.show();
+        try {
 
+            Parent root = FXMLLoader.load(getClass().getResource("windows/LoadingPage.fxml"));
+            primaryStage.setTitle("Nazel Video Downloader");
+            primaryStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setMinWidth(800);
+            primaryStage.setMinHeight(500);
+            primaryStage.show();
 
-        primaryStage.setOnCloseRequest(event -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Exit");
-            alert.setContentText("Are you sure you want to exit?");
-            alert.showAndWait().ifPresent(response -> {
-                if(response == ButtonType.OK)
-                    goodbye();
-                else
-                    event.consume();
+            primaryStage.setOnCloseRequest(event -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Exit");
+                alert.setContentText("Are you sure you want to exit?");
+                alert.showAndWait().ifPresent(response -> {
+                    if(response == ButtonType.OK)
+                        goodbye();
+                    else
+                        event.consume();
+                });
+
             });
 
-        });
+        } catch (Exception e) {
+            new ErrorDialog("Error loading the LoadingPage window! \n" +
+                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+        }
 
     }
 
@@ -48,7 +52,7 @@ public class Main extends Application {
 
         for(Item i : HomeController.getItemList())
             i.stopDownload();
-        DbManager.close();
+        DatabaseManager.close();
         Platform.exit();
 
     }

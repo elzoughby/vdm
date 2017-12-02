@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 
-public class DbManagerTest {
+public class DatabaseManagerTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
@@ -21,7 +21,7 @@ public class DbManagerTest {
 
     @Test
     public void testDbConnection() {
-        DbManager.initialize();
+        DatabaseManager.initialize();
         Assert.assertNotEquals("Database driver not found\n", errContent.toString());
         Assert.assertNotEquals("Database connection error\n", errContent.toString());
         Assert.assertEquals("Database connection success\n", outContent.toString());
