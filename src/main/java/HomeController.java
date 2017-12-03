@@ -44,6 +44,8 @@ public class HomeController implements Initializable {
     private TableColumn<Item, Double> itemsProgressColumn;
     @FXML
     private TableColumn<Item, Boolean> itemsTypeColumn;
+    @FXML
+    private TableColumn<Item, String> itemsStatusColumn;
 
     // Table Progress bar cell class
     private class ProgressBarCell extends ProgressBarTableCell<Item> {
@@ -52,7 +54,7 @@ public class HomeController implements Initializable {
         ProgressBar progressBar = new ProgressBar();
         Label label = new Label();
 
-        public ProgressBarCell() {
+        ProgressBarCell() {
             progressBar.setMaxWidth(Double.MAX_VALUE);
             label.getStyleClass().add("progress-label");
             stackPane.getChildren().addAll(progressBar, label);
@@ -73,12 +75,8 @@ public class HomeController implements Initializable {
 
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        // draw progress bar in the progress columns
-        itemsProgressColumn.setCellFactory(param -> new ProgressBarCell());
 
         // draw ImageView in the type column
         itemsTypeColumn.setCellFactory(param -> {
@@ -106,10 +104,60 @@ public class HomeController implements Initializable {
             return cell;
         });
 
+        // color status based on its value
+        itemsStatusColumn.setCellFactory(param -> {
+
+            return new TableCell<Item, String>() {
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (!empty) {
+
+                        setText(item);
+                    } else {
+                        setText(null);
+                    }
+
+                }
+
+            };
+
+        });
+
+        // draw progress bar in the progress columns
+        itemsProgressColumn.setCellFactory(param -> new ProgressBarCell());
+
+        // context menu construction
+        ContextMenu rowContextMenu = getRowContextMenu();
+
         // filling the table with download items
         itemsTableView.setItems(itemList);
 
-        // listening for table row selection, to show the log of the selected item
+        // Table row factory with context menu
+        itemsTableView.setRowFactory(param -> {
+
+            TableRow<Item> row = new TableRow<>();
+
+            // change context menu queue option with selecting queueBtn
+            queueBtn.selectedProperty().addListener((observable, mainMode, queueMode) -> {
+                if (queueMode) {
+                    rowContextMenu.getItems().get(3).setText("Remove from Queue");
+                    rowContextMenu.getItems().get(3).setOnAction(event -> removeFromQueueMenuAction());
+                } else {
+                    rowContextMenu.getItems().get(3).setText("Add to Queue");
+                    rowContextMenu.getItems().get(3).setOnAction(event -> addToQueueMenuAction());                }
+            });
+
+            // show context menu for not null rows only
+            row.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(row.itemProperty()))
+                    .then(rowContextMenu)
+                    .otherwise((ContextMenu) null));
+            return row;
+        });
+
+        // listening for table row selection, to show the log and change status color of the selected item
         itemsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue == null)
                 consoleListView.setItems(null);
@@ -117,12 +165,9 @@ public class HomeController implements Initializable {
                 consoleListView.setItems(newValue.getLogList());
         });
 
-        // context menu construction
-        drawItemsContextMenu();
-
     }
 
-    private void drawItemsContextMenu() {
+    private ContextMenu getRowContextMenu() {
 
         ContextMenu rowContextMenu = new ContextMenu();
 
@@ -138,13 +183,8 @@ public class HomeController implements Initializable {
         deleteMenuItem.setOnAction(event -> removeBtnAction());
         deleteMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/delete.png").toString())));
 
-        MenuItem addToQueueMenuItem = new MenuItem("Add to Queue");
-        addToQueueMenuItem.setOnAction(event -> addToQueueMenuAction());
-        addToQueueMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/queue.png").toString())));
-
-        MenuItem removeFromQueueMenuItem = new MenuItem("Remove from Queue");
-        removeFromQueueMenuItem.setOnAction(event -> removeFromQueueMenuAction());
-        removeFromQueueMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/queue.png").toString())));
+        MenuItem queueMenuItem = new MenuItem();
+        queueMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/queue.png").toString())));
 
         MenuItem clearMenuItem = new MenuItem("Clear Logs");
         clearMenuItem.setOnAction(event -> clearLogsMenuAction());
@@ -159,29 +199,9 @@ public class HomeController implements Initializable {
         infoMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/details.png").toString())));
 
         rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, deleteMenuItem,
-                addToQueueMenuItem, clearMenuItem, openFolderMenuItem, infoMenuItem);
+                queueMenuItem, clearMenuItem, openFolderMenuItem, infoMenuItem);
 
-
-
-        itemsTableView.setRowFactory(param -> {
-
-            TableRow<Item> row = new TableRow<>();
-
-            // change context menu queue option with selecting queueBtn
-            queueBtn.selectedProperty().addListener((observable, oldValue, newValue) -> {
-                if(newValue)
-                    rowContextMenu.getItems().set(3, removeFromQueueMenuItem);
-                else
-                    rowContextMenu.getItems().set(3, addToQueueMenuItem);
-            });
-
-            // show context menu for not null rows only
-            row.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(row.itemProperty()))
-                    .then(rowContextMenu)
-                    .otherwise((ContextMenu) null));
-            return row;
-        });
-
+        return rowContextMenu;
     }
 
     static List<Item> getItemList() {

@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -71,27 +72,31 @@ public class ErrorDialog implements Initializable {
 
     public void showAndWait() {
 
-        try {
+        Platform.runLater(() -> {
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("windows/errorDialog.fxml"));
-            fxmlLoader.setController(this);
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 500, 203);
-            Stage stage = new Stage();
-            stage.setMinWidth(500);
-            stage.setMinHeight(203);
-            stage.setMaxWidth(500);
-            stage.setMaxHeight(330);
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+            try {
 
-        } catch (Exception e) {
-            System.out.println("Error in loading the ErrorDialog");
-            e.printStackTrace();
-        }
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("windows/errorDialog.fxml"));
+                fxmlLoader.setController(this);
+                Parent root = fxmlLoader.load();
+                Scene scene = new Scene(root, 500, 203);
+                Stage stage = new Stage();
+                stage.setMinWidth(500);
+                stage.setMinHeight(203);
+                stage.setMaxWidth(500);
+                stage.setMaxHeight(330);
+                stage.setResizable(false);
+                stage.setScene(scene);
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+
+            } catch (Exception e) {
+                System.out.println("Error in loading the ErrorDialog");
+                e.printStackTrace();
+            }
+
+        });
 
     }
 
