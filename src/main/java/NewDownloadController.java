@@ -119,26 +119,27 @@ public class NewDownloadController implements Initializable{
 
         item.setIsVideo(true);
         item.setFormat("mp4");
+       String qualitySelect =  qualityComboBox.getSelectionModel().getSelectedItem() ;
 
-        if (qualityComboBox.getSelectionModel().getSelectedItem().equals("1080p - mp4 video")) {
+        if (qualitySelect.equals("1080p - mp4 video")) {
             item.setVideoQuality(137);
             item.setAudioQuality(141);
-        } else if (qualityComboBox.getSelectionModel().getSelectedItem().equals("720p - mp4 video")) {
+        } else if (qualitySelect.equals("720p - mp4 video")) {
             item.setVideoQuality(22);
             item.setAudioQuality(0);
-        } else if (qualityComboBox.getSelectionModel().getSelectedItem().equals("480p - mp4 video")) {
+        } else if (qualitySelect.equals("480p - mp4 video")) {
             item.setVideoQuality(135);
             item.setAudioQuality(140);
-        } else if (qualityComboBox.getSelectionModel().getSelectedItem().equals("360p - mp4 video")) {
+        } else if (qualitySelect.equals("360p - mp4 video")) {
             item.setVideoQuality(18);
             item.setAudioQuality(0);
-        } else if (qualityComboBox.getSelectionModel().getSelectedItem().equals("240p - mp4 video")) {
+        } else if (qualitySelect.equals("240p - mp4 video")) {
             item.setVideoQuality(133);
             item.setAudioQuality(139);
-        } else if (qualityComboBox.getSelectionModel().getSelectedItem().equals("144p - mp4 video")) {
+        } else if (qualitySelect.equals("144p - mp4 video")) {
             item.setVideoQuality(17);
             item.setAudioQuality(0);
-        } else if (qualityComboBox.getSelectionModel().getSelectedItem().equals("48K - m4a audio only")) {
+        } else if (qualitySelect.equals("48K - m4a audio only")) {
             item.setFormat("mp3");
             item.setIsVideo(false);
             item.setVideoQuality(0);

@@ -289,7 +289,7 @@ public class HomeController implements Initializable {
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         if( selectedItem != null && selectedItem.getStatus().equals("Stopped"))
             selectedItem.startDownload();
-
+        System.out.println("iam from start ");
     }
 
     @FXML

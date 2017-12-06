@@ -54,7 +54,11 @@ public class DatabaseManager {
                 item.setDone( resultSet.getFloat("done") );
                 item.setSizeUnit( resultSet.getString("sizeUnit") );
                 item.setSize( resultSet.getFloat("size") );
-                item.setStatus("Stopped");
+
+                if (resultSet.getFloat("done") ==100 )
+                    item.setStatus("Finished");
+                else
+                   item.setStatus("Stopped");
 
                 HomeController.getItemList().add(item);
                 if(item.isAddToQueue())
@@ -143,9 +147,13 @@ public class DatabaseManager {
     public static void close() {
 
         try {
-            if(!connection.isClosed())
+            if(!connection.isClosed()  )
                 connection.close();
-        } catch (SQLException e) {
+
+        } catch (NullPointerException np ){   // you must check if connection is null and handle it
+            System.out.println("connection is null "); //you should handle this
+        }
+        catch (SQLException e) {
             new ErrorDialog("Error closing database connection! \n" +
                     "Restart program and try again.", e.getStackTrace()).showAndWait();
         }

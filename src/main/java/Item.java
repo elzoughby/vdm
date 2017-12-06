@@ -3,6 +3,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -505,13 +506,27 @@ public class Item {
                 Pattern fileFinishPattern = Pattern.compile(fileFinishRegex);
                 String buff;
 
+                doneProperty().addListener(e->{
+                    if (doneProperty().getValue( ) == 100  )
+                    {
+                        setStatus("Finished");
+                        setSpeed(0);
+                        setEta("");
+                        Alert a = new Alert(Alert.AlertType.INFORMATION) ;
+                        a.setTitle("Success ");
+                        a.setContentText("The file successfuly downloaded ");
+                        a.show();
+                      //  DatabaseManager.updateString(getThisItem(), "sizeUnit", "Finished");
+                    }
 
+                });
+
+                //buff var for reader of ytdl  then line take its value ;
                 while ((buff = bufferedReader.readLine()) != null && getStatus().equals("Running")) {
 
                     final String line = buff;
                     final Matcher downloadMatcher = downloadPattern.matcher(line);
                     final Matcher fileFinishMatcher = fileFinishPattern.matcher(line);
-
                     Platform.runLater( () -> {
 
                         //parsing download status info
@@ -550,19 +565,28 @@ public class Item {
                                     DatabaseManager.updateString(getThisItem(), "title", title);
                                 //Check If download is completed and set Finished status
                                 } else if (line.matches("\\[download\\]\\s*Finished\\s*downloading\\s*playlist:.*")) {
+                                    System.out.println("i finished  playlist ");
                                     setDone(100);
                                     setSize(0);
                                     finishDownload();
                                 }
                             } else {
                                 //parse the title of download playlist item and add it to the database
+                              //  System.out.println("before if ");
                                 if (line.matches("\\[download\\]\\s*(Destination:\\s*)?" + getLocation() + "[/\\\\]?.+")) {
                                     String title = line.split(getLocation() + "[/\\\\]?")[1].split("\\s*has already been downloaded")[0];
                                     setTitle(title);
+                                  //  System.out.println("alreedy ");
                                     DatabaseManager.updateString(getThisItem(), "title", title);
+                              /*      Alert a = new Alert(Alert.AlertType.WARNING) ;
+                                    a.setTitle("Warn !! ");
+                                    a.setContentText("this file alreedy downloaded ");
+                                    a.show();*/
                                 //Check If download is completed and set Finished status
                                 } else if(!getIsPlaylist() && fileFinishMatcher.find()) {
                                     setDone(100);
+                                    System.out.println("i finished ");
+                                    setStatus("finished");
                                     setSizeUnit(fileFinishMatcher.group(2));
                                     setSize(Float.parseFloat(fileFinishMatcher.group(1)));
                                     finishDownload();
@@ -588,20 +612,30 @@ public class Item {
 
     public void stopDownload() {
 
-        if (! getStatus().equals("Stopped")) {
-            setStatus("Stopped");
+        if (  getStatus().equals("Running") ) {
+           setStatus("Stopped");
+            if( ytdlProcess != null )
+            ytdlProcess.destroy();
+            setSpeed(0);
+            setEta("");
+        }else if ( getStatus().equals("Finished"))
+        {
+            if( ytdlProcess != null )
             ytdlProcess.destroy();
             setSpeed(0);
             setEta("");
         }
+
     }
 
     public void finishDownload() {
 
         setStatus("Finished");
+        System.out.println("finished");
         ytdlProcess.destroy();
         setSpeed(0);
         setEta("");
+
     }
 
 }
