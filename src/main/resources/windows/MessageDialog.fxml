@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<VBox fx:id="errorDialogPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="196.0" prefWidth="500.0" style="-fx-background-color: white;" stylesheets="@../theme/error.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane fx:id="dragPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="26.0" prefWidth="500.0" VBox.vgrow="NEVER" />
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="64.0" prefWidth="500.0" spacing="25.0" VBox.vgrow="NEVER">
+         <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" />
+         </padding>
+         <children>
+            <ImageView fitHeight="65.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../theme/imgs/warning.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+            <TextFlow lineSpacing="5.0" prefHeight="31.0" prefWidth="369.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Text fx:id="titleText" boundsType="LOGICAL_VERTICAL_CENTER" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Text>
+               </children>
+               <HBox.margin>
+                  <Insets top="4.0" />
+               </HBox.margin>
+            </TextFlow>
+         </children>
+      </HBox>
+      <VBox fx:id="messageOptionPane" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="26.0" prefWidth="500.0" VBox.vgrow="ALWAYS">
+         <padding>
+            <Insets left="98.0" right="30.0" />
+         </padding>
+      </VBox>
+      <HBox fx:id="messageActionPane" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" prefWidth="500.0" spacing="20.0" VBox.vgrow="NEVER">
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

@@ -14,6 +14,7 @@ import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.Desktop;
@@ -183,7 +184,8 @@ public class HomeController implements Initializable {
         deleteMenuItem.setOnAction(event -> removeBtnAction());
         deleteMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/delete.png").toString())));
 
-        MenuItem queueMenuItem = new MenuItem();
+        MenuItem queueMenuItem = new MenuItem("Add to Queue");
+        queueMenuItem.setOnAction(event -> addToQueueMenuAction());
         queueMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/queue.png").toString())));
 
         MenuItem clearMenuItem = new MenuItem("Clear Logs");
@@ -306,10 +308,25 @@ public class HomeController implements Initializable {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         if( selectedItem != null) {
-            selectedItem.stopDownload();
-            itemList.remove(selectedItem);
-            queueItemList.remove(selectedItem);
-            DatabaseManager.delete(selectedItem);
+
+            MessageDialog deleteDialog = new MessageDialog("Are you sure you want to delete this item?\n" +
+                    "You cannot undo this step", MessageDialog.Buttons.YES_AND_NO);
+            CheckBox checkBox = new CheckBox("Delete files from the disk");
+            checkBox.setTextFill(Color.CRIMSON);
+            deleteDialog.addCheckBox(checkBox);
+            deleteDialog.getNoButton().setOnAction(event -> deleteDialog.close());
+            deleteDialog.getYesButton().setOnAction(event -> {
+                if(checkBox.isSelected()) {
+
+                }
+                selectedItem.stopDownload();
+                itemList.remove(selectedItem);
+                queueItemList.remove(selectedItem);
+                DatabaseManager.delete(selectedItem);
+                deleteDialog.close();
+            });
+            deleteDialog.showAndWait();
+
         }
 
     }

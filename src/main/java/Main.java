@@ -3,8 +3,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -29,16 +27,17 @@ public class Main extends Application {
             primaryStage.show();
 
             primaryStage.setOnCloseRequest(event -> {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Exit");
-                alert.setContentText("Are you sure you want to exit?");
-                alert.showAndWait().ifPresent(response -> {
-                    if(response == ButtonType.OK)
-                        goodbye();
-                    else
-                        event.consume();
+                MessageDialog exitDialog = new MessageDialog("It seems you clicked the exit button right now,\n" +
+                        "Are you sure you want to exit?", MessageDialog.Buttons.YES_AND_NO);
+                exitDialog.getYesButton().setOnAction(e -> {
+                    exitDialog.close();
+                    goodbye();
                 });
-
+                exitDialog.getNoButton().setOnAction(e -> {
+                    exitDialog.close();
+                    event.consume();
+                });
+                exitDialog.showAndWait();
             });
 
         } catch (Exception e) {

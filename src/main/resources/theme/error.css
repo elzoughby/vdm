@@ -115,3 +115,30 @@
     -fx-padding: 0;
 }
 
+
+/* =========== Checkbox style =========== */
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-border-radius:0;
+}
+
+.check-box:hover .box {
+    -fx-background-color: #fafafa;
+}
+
+.check-box:armed .box {
+    -fx-background-color: white;
+}
+
+.check-box:focused .box {
+    -fx-border-color: darkturquoise;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #28a3f4;
+}
+
