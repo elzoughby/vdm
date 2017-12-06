@@ -1,14 +1,17 @@
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -20,26 +23,33 @@ import java.util.ResourceBundle;
 
 public class MessageDialog implements Initializable {
 
+    public enum Type {
+        ERROR,
+        INFO,
+        OPTION
+    }
     public enum Buttons {
         OK,
         CLOSE,
-        YES_AND_NO
+        YES_AND_NO,
+        OK_AND_CANCEL
     }
 
     private String messageTitle;
+    private Type messageType;
     private Buttons actionButtons;
     private double xOffset = 0;
     private double yOffset = 0;
 
     private Stage messageStage;
-    private Button okButton;
-    private Button closeButton;
     private Button yesButton;
     private Button noButton;
     @FXML
-    private VBox errorDialogPane;
+    private VBox messageDialogPane;
     @FXML
     private Pane dragPane;
+    @FXML
+    private ImageView messageImageView;
     @FXML
     private Text titleText;
     @FXML
@@ -49,9 +59,10 @@ public class MessageDialog implements Initializable {
 
 
 
-    public MessageDialog(String messageTitle, Buttons actionButtons) {
+    public MessageDialog(String messageTitle,Type messageType, Buttons actionButtons) {
 
         this.messageTitle = messageTitle;
+        this.messageType = messageType;
         this.actionButtons = actionButtons;
 
         try {
@@ -61,8 +72,8 @@ public class MessageDialog implements Initializable {
             fxmlLoader.load();
 
         } catch (Exception e) {
-            new ErrorDialog("Error in loading the MessageDialog!" +
-                    "Restart program and try again", e.getStackTrace());
+            System.out.println("Error loading message dialog!");
+            e.printStackTrace();
         }
 
     }
@@ -70,23 +81,40 @@ public class MessageDialog implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        titleText.setText(messageTitle);
+        titleText.textProperty().bind(new SimpleStringProperty(messageTitle));
+
+        switch(messageType) {
+            case ERROR:
+                messageImageView.setImage(new Image(getClass().getResource("theme/imgs/error.png").toString()));
+                break;
+            case INFO:
+            case OPTION:
+                messageImageView.setImage(new Image(getClass().getResource("theme/imgs/warning.png").toString()));
+                break;
+        }
 
         switch(actionButtons) {
             case OK:
-                okButton = new Button("OK");
-                okButton.setPrefWidth(100);
-                messageActionPane.getChildren().add(okButton);
+                yesButton = new Button("OK");
+                yesButton.setPrefWidth(100);
+                messageActionPane.getChildren().add(yesButton);
                 break;
             case CLOSE:
-                closeButton = new Button("Close");
-                closeButton.setPrefWidth(100);
-                messageActionPane.getChildren().add(closeButton);
+                noButton = new Button("Close");
+                noButton.setPrefWidth(100);
+                messageActionPane.getChildren().add(noButton);
                 break;
             case YES_AND_NO:
                 yesButton = new Button("Yes");
                 yesButton.setPrefWidth(100);
                 noButton = new Button("No");
+                noButton.setPrefWidth(100);
+                messageActionPane.getChildren().addAll(noButton, yesButton);
+                break;
+            case OK_AND_CANCEL:
+                yesButton = new Button("OK");
+                yesButton.setPrefWidth(100);
+                noButton = new Button("Cancel");
                 noButton.setPrefWidth(100);
                 messageActionPane.getChildren().addAll(noButton, yesButton);
                 break;
@@ -102,6 +130,53 @@ public class MessageDialog implements Initializable {
             messageStage.setY(event.getScreenY() - yOffset);
         });
 
+    }
+
+    public MessageDialog createErrorDialog(StackTraceElement[] errorDetails) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for(StackTraceElement ste : errorDetails)
+            stringBuilder.append(ste.toString()).append("\n");
+
+        TextArea textArea = new TextArea(stringBuilder.toString());
+        textArea.setEditable(false);
+        textArea.setFont(new Font(12));
+        TitledPane detailsTitledPane = new TitledPane("Details",textArea);
+        noButton.setOnAction(event -> close());
+        addTitledPane(detailsTitledPane);
+
+        return this;
+    }
+
+    public MessageDialog createErrorDialog(String errorDetails) {
+
+        TextArea textArea = new TextArea(errorDetails);
+        textArea.setEditable(false);
+        textArea.setFont(new Font(12));
+        TitledPane detailsTitledPane = new TitledPane("Details",textArea);
+        noButton.setOnAction(event -> close());
+        addTitledPane(detailsTitledPane);
+
+        return this;
+    }
+
+    public void addTitledPane(TitledPane titledPane) {
+
+        if(messageOptionPane.getChildren().size() == 0) {
+            titledPane.setExpanded(false);
+            titledPane.setAnimated(false);
+            titledPane.expandedProperty().addListener((observable, wasExpanded, nowExpanded) -> {
+                if(nowExpanded) {
+                    messageStage.setMaxHeight(330);
+                    messageStage.setMinHeight(330);
+                } else {
+                    messageStage.setMaxHeight(196);
+                    messageStage.setMinHeight(196);
+                }
+            });
+            messageOptionPane.setPadding(new Insets(0, 30, 0, 30));
+            messageOptionPane.getChildren().add(titledPane);
+        }
     }
 
     public void addCheckBox(CheckBox checkBox) {
@@ -120,11 +195,11 @@ public class MessageDialog implements Initializable {
     }
 
     public Button getOkButton() {
-        return okButton;
+        return yesButton;
     }
 
     public Button getCloseButton() {
-        return closeButton;
+        return noButton;
     }
 
     public Button getYesButton() {
@@ -132,6 +207,10 @@ public class MessageDialog implements Initializable {
     }
 
     public Button getNoButton() {
+        return noButton;
+    }
+
+    public Button getCancelButton() {
         return noButton;
     }
 
@@ -153,7 +232,7 @@ public class MessageDialog implements Initializable {
 
     private void initMessageStage() {
 
-        Scene scene = new Scene(errorDialogPane);
+        Scene scene = new Scene(messageDialogPane);
         messageStage = new Stage();
         messageStage.setScene(scene);
         messageStage.setResizable(false);
@@ -164,7 +243,7 @@ public class MessageDialog implements Initializable {
         messageStage.setMaxWidth(500);
 
         if(messageOptionPane.getChildren().size() == 0) {
-            errorDialogPane.getChildren().remove(messageOptionPane);
+            messageDialogPane.getChildren().remove(messageOptionPane);
             messageStage.setMinHeight(170);
             messageStage.setMaxHeight(170);
         } else {

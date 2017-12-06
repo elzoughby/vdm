@@ -28,7 +28,7 @@ public class Main extends Application {
 
             primaryStage.setOnCloseRequest(event -> {
                 MessageDialog exitDialog = new MessageDialog("It seems you clicked the exit button right now,\n" +
-                        "Are you sure you want to exit?", MessageDialog.Buttons.YES_AND_NO);
+                        "Are you sure you want to exit?", MessageDialog.Type.INFO, MessageDialog.Buttons.YES_AND_NO);
                 exitDialog.getYesButton().setOnAction(e -> {
                     exitDialog.close();
                     goodbye();
@@ -41,8 +41,9 @@ public class Main extends Application {
             });
 
         } catch (Exception e) {
-            new ErrorDialog("Error loading the LoadingPage window! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error loading the LoadingPage window! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
     }

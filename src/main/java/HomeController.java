@@ -278,8 +278,9 @@ public class HomeController implements Initializable {
 
         } catch (Exception e) {
             homeWindowPane.setOpacity(0.30);
-            new ErrorDialog("Error Loading NewDownload Window! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error Loading NewDownload Window! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
             homeWindowPane.setOpacity(1);
         }
 
@@ -310,7 +311,7 @@ public class HomeController implements Initializable {
         if( selectedItem != null) {
 
             MessageDialog deleteDialog = new MessageDialog("Are you sure you want to delete this item?\n" +
-                    "You cannot undo this step", MessageDialog.Buttons.YES_AND_NO);
+                    "You cannot undo this step", MessageDialog.Type.OPTION, MessageDialog.Buttons.OK_AND_CANCEL);
             CheckBox checkBox = new CheckBox("Delete files from the disk");
             checkBox.setTextFill(Color.CRIMSON);
             deleteDialog.addCheckBox(checkBox);
@@ -376,8 +377,9 @@ public class HomeController implements Initializable {
 
         } catch (Exception e) {
             homeWindowPane.setOpacity(0.30);
-            new ErrorDialog("Error Loading Settings Window! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error Loading Settings Window! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
             homeWindowPane.setOpacity(1);
         }
 
@@ -386,10 +388,11 @@ public class HomeController implements Initializable {
     @FXML
     void helpBtnAction() {
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Sorry, beta version");
-        alert.setContentText("No help in this version. Help yourself!");
-        alert.showAndWait();
+        MessageDialog messageDialog = new MessageDialog("Ooh, you need help in this simple program?\n" +
+                "Sorry, no help in this version. help yourself", MessageDialog.Type.INFO, MessageDialog.Buttons.OK);
+        messageDialog.getOkButton().setOnAction(event -> messageDialog.close());
+        messageDialog.showAndWait();
+
     }
 
     @FXML

@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -11,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox fx:id="errorDialogPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="196.0" prefWidth="500.0" style="-fx-background-color: white;" stylesheets="@../theme/error.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="messageDialogPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="196.0" prefWidth="500.0" style="-fx-background-color: white;" stylesheets="@../theme/error.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane fx:id="dragPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="26.0" prefWidth="500.0" VBox.vgrow="NEVER" />
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="64.0" prefWidth="500.0" spacing="25.0" VBox.vgrow="NEVER">
@@ -19,10 +18,7 @@
             <Insets bottom="20.0" left="30.0" right="30.0" />
          </padding>
          <children>
-            <ImageView fitHeight="65.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../theme/imgs/warning.png" />
-               </image>
+            <ImageView fx:id="messageImageView" fitHeight="46.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
                <viewport>
                   <Rectangle2D />
                </viewport>
@@ -36,12 +32,12 @@
                   </Text>
                </children>
                <HBox.margin>
-                  <Insets top="4.0" />
+                  <Insets top="2.0" />
                </HBox.margin>
             </TextFlow>
          </children>
       </HBox>
-      <VBox fx:id="messageOptionPane" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="26.0" prefWidth="500.0" VBox.vgrow="ALWAYS">
+      <VBox fx:id="messageOptionPane" alignment="CENTER_LEFT" maxHeight="285.0" minHeight="-Infinity" prefHeight="26.0" prefWidth="500.0" VBox.vgrow="ALWAYS">
          <padding>
             <Insets left="98.0" right="30.0" />
          </padding>

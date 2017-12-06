@@ -51,8 +51,9 @@ public class LoadingController implements Initializable {
             pane.getScene().setRoot(newRoot);
 
         } catch (IOException e) {
-            new ErrorDialog("Error Loading the Home Window! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error Loading the Home Window! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
     }

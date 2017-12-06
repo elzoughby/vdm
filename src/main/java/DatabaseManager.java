@@ -16,11 +16,13 @@ public class DatabaseManager {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:nvddb.db");
         } catch (ClassNotFoundException e) {
-            new ErrorDialog("Database driver not found! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Database driver not found! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         } catch (SQLException e) {
-            new ErrorDialog("Database connection error! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Database connection error! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
     }
@@ -62,8 +64,9 @@ public class DatabaseManager {
             }
 
         } catch (SQLException e) {
-            new ErrorDialog("Error loading database! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error loading database! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
     }
@@ -84,8 +87,9 @@ public class DatabaseManager {
 
             connection.createStatement().executeUpdate(sqlCommand);
         } catch (SQLException e) {
-            new ErrorDialog("Error inserting item to database! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error inserting item to database! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
     }
@@ -96,8 +100,9 @@ public class DatabaseManager {
             String sqlCommand = String.format("DELETE FROM items WHERE id = %d", item.getItemId());
             connection.createStatement().executeUpdate(sqlCommand);
         } catch (SQLException e) {
-            new ErrorDialog("Error deleting item from database! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error deleting item from database! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
     }
@@ -108,8 +113,9 @@ public class DatabaseManager {
             String sqlCommand = String.format("UPDATE items SET %s = %f WHERE id = %d", columnLabel, value, item.getItemId());
             connection.createStatement().executeUpdate(sqlCommand);
         } catch (SQLException e) {
-            new ErrorDialog("Error updating done value in database! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error updating done value in database! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
     }
@@ -120,8 +126,9 @@ public class DatabaseManager {
             String sqlCommand = String.format("UPDATE items SET %s = '%s' WHERE id = %d", columnLabel, value, item.getItemId());
             connection.createStatement().executeUpdate(sqlCommand);
         } catch (SQLException e) {
-            new ErrorDialog("Error updating title in database! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error updating title in database! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
     }
@@ -133,8 +140,9 @@ public class DatabaseManager {
             ResultSet resultSet = connection.createStatement().executeQuery("SELECT COUNT(*) FROM items");
             return resultSet.getInt(1);
         } catch (SQLException e) {
-            new ErrorDialog("Error getting last row id from database! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error getting last row id from database! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
             return 0;
         }
 
@@ -146,8 +154,9 @@ public class DatabaseManager {
             if(!connection.isClosed())
                 connection.close();
         } catch (SQLException e) {
-            new ErrorDialog("Error closing database connection! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error closing database connection! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
     }
 

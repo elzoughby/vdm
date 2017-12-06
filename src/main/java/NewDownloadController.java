@@ -195,8 +195,9 @@ public class NewDownloadController implements Initializable{
 
         } catch (IOException e) {
             newDownloadWindowPane.setOpacity(0.30);
-            new ErrorDialog("Error Loading Home Window! \n" +
-                    "Restart program and try again.", e.getStackTrace()).showAndWait();
+            new MessageDialog("Error Loading the Home Window! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
             newDownloadWindowPane.setOpacity(1);
         }
 
