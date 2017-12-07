@@ -8,6 +8,8 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -157,8 +159,13 @@ public class NewDownloadController implements Initializable{
     @FXML
     void browseBtnAction() {
 
-        String saveLocation = new DirectoryChooser().showDialog(newDownloadWindowPane.getScene().getWindow()).getPath();
-        locationTextField.setText(saveLocation);
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setInitialDirectory(new File(locationTextField.getText()));
+        directoryChooser.setTitle("Choose save location");
+
+        File selectedDirectory = directoryChooser.showDialog(newDownloadWindowPane.getScene().getWindow());
+        if(selectedDirectory != null)
+            locationTextField.setText(selectedDirectory.getPath());
 
     }
 
