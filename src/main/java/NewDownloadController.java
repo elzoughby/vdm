@@ -101,7 +101,7 @@ public class NewDownloadController implements Initializable{
         item.setItemId(DatabaseManager.getNextId());
         item.setUrl(urlTextField.getText());
         item.setTitle(urlTextField.getText());
-        item.setLocation(locationTextField.getText());
+        item.setLocation(locationTextField.getText().replaceAll("[/\\\\]$",""));
         if(customNameChkBox.isSelected())
             item.setCustomName(customNameTextField.getText());
 

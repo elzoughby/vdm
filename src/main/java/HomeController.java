@@ -319,12 +319,45 @@ public class HomeController implements Initializable {
             deleteDialog.getYesButton().setOnAction(event -> {
                 if(checkBox.isSelected()) {
 
+                    selectedItem.stopDownload();
+                    boolean result;
+
+                    if(selectedItem.getIsPlaylist()) {
+
+                        if(System.getProperty("os.name").toLowerCase().contains("win"))
+                            result = deleteItemFiles(selectedItem.getLocation() + "\\" +
+                                    (selectedItem.getCustomName().equals("")? selectedItem.getTitle() : selectedItem.getCustomName()));
+                        else
+                            result = deleteItemFiles(selectedItem.getLocation() + "/" +
+                                    (selectedItem.getCustomName().equals("")? selectedItem.getTitle() : selectedItem.getCustomName()));
+
+                    } else {
+
+                        if(System.getProperty("os.name").toLowerCase().contains("win"))
+                            result = deleteItemFiles(selectedItem.getLocation() + "\\" +
+                                    selectedItem.getTitle());
+                        else
+                            result = deleteItemFiles(selectedItem.getLocation() + "/" +
+                                    selectedItem.getTitle());
+
+                    }
+
+                    if (result) {
+                        itemList.remove(selectedItem);
+                        queueItemList.remove(selectedItem);
+                        DatabaseManager.delete(selectedItem);
+                        deleteDialog.close();
+                    }
+
+                } else {
+
+                    selectedItem.stopDownload();
+                    itemList.remove(selectedItem);
+                    queueItemList.remove(selectedItem);
+                    DatabaseManager.delete(selectedItem);
+                    deleteDialog.close();
+
                 }
-                selectedItem.stopDownload();
-                itemList.remove(selectedItem);
-                queueItemList.remove(selectedItem);
-                DatabaseManager.delete(selectedItem);
-                deleteDialog.close();
             });
             deleteDialog.showAndWait();
 
@@ -414,6 +447,41 @@ public class HomeController implements Initializable {
         else {
             homeSplitPane.getItems().add(1, consoleListView);
             homeSplitPane.setDividerPosition(0, 0.7);
+        }
+
+    }
+
+    private boolean deleteItemFiles(String path) {
+
+        File file = new File(path);
+
+        if (file.exists()) {
+
+            if (file.isDirectory()) {
+                if ((file.list()).length > 0) {
+                    for(String s : file.list())
+                        deleteItemFiles(new File(path, s).getPath());
+                }
+            }
+
+            boolean result = file.delete();
+
+            // test if delete of file is success or not
+            if (! result) {
+                new MessageDialog("File cannot be deleted! \n" +
+                        "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
+                        .createErrorDialog("The file may be in use by another program").showAndWait();
+            }
+
+            return result;
+
+        } else {
+
+            new MessageDialog("File delete failed, file does not exist! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
+                    .createErrorDialog("file is not exist").showAndWait();
+            return false;
+
         }
 
     }
