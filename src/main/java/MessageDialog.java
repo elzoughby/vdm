@@ -35,6 +35,11 @@ public class MessageDialog implements Initializable {
         OK_AND_CANCEL
     }
 
+    private final int DIALOG_WIDTH = 480;
+    private final int INFO_DIALOG_HEIGHT = 138;
+    private final int OPTION_DIALOG_HEIGHT = 180;
+    private final int ERROR_DIALOG_HEIGHT = 300;
+
     private String messageTitle;
     private Type messageType;
     private Buttons actionButtons;
@@ -167,11 +172,11 @@ public class MessageDialog implements Initializable {
             titledPane.setAnimated(false);
             titledPane.expandedProperty().addListener((observable, wasExpanded, nowExpanded) -> {
                 if(nowExpanded) {
-                    messageStage.setMaxHeight(330);
-                    messageStage.setMinHeight(330);
+                    messageStage.setMaxHeight(ERROR_DIALOG_HEIGHT);
+                    messageStage.setMinHeight(ERROR_DIALOG_HEIGHT);
                 } else {
-                    messageStage.setMaxHeight(196);
-                    messageStage.setMinHeight(196);
+                    messageStage.setMaxHeight(OPTION_DIALOG_HEIGHT);
+                    messageStage.setMinHeight(OPTION_DIALOG_HEIGHT);
                 }
             });
             messageOptionPane.setPadding(new Insets(0, 30, 0, 30));
@@ -239,16 +244,16 @@ public class MessageDialog implements Initializable {
         messageStage.initStyle(StageStyle.UNDECORATED);
         messageStage.initModality(Modality.APPLICATION_MODAL);
         messageStage.setOnCloseRequest(Event::consume);
-        messageStage.setMinWidth(500);
-        messageStage.setMaxWidth(500);
+        messageStage.setMinWidth(DIALOG_WIDTH);
+        messageStage.setMaxWidth(DIALOG_WIDTH);
 
         if(messageOptionPane.getChildren().size() == 0) {
             messageDialogPane.getChildren().remove(messageOptionPane);
-            messageStage.setMinHeight(170);
-            messageStage.setMaxHeight(170);
+            messageStage.setMinHeight(INFO_DIALOG_HEIGHT);
+            messageStage.setMaxHeight(INFO_DIALOG_HEIGHT);
         } else {
-            messageStage.setMinHeight(196);
-            messageStage.setMaxHeight(196);
+            messageStage.setMinHeight(OPTION_DIALOG_HEIGHT);
+            messageStage.setMaxHeight(OPTION_DIALOG_HEIGHT);
         }
 
     }
