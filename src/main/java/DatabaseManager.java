@@ -56,11 +56,16 @@ public class DatabaseManager {
                 item.setDone( resultSet.getFloat("done") );
                 item.setSizeUnit( resultSet.getString("sizeUnit") );
                 item.setSize( resultSet.getFloat("size") );
-                item.setStatus("Stopped");
 
-                HomeController.getItemList().add(item);
-                if(item.isAddToQueue())
+                if (item.getDone() == 100.0)
+                    item.setStatus("Finished");
+                else
+                    item.setStatus("Stopped");
+
+                if (item.isAddToQueue())
                     HomeController.getQueueItemList().add(item);
+                else
+                    HomeController.getItemList().add(item);
             }
 
         } catch (SQLException e) {
@@ -151,11 +156,13 @@ public class DatabaseManager {
     public static void close() {
 
         try {
-            if(!connection.isClosed())
+            if (!connection.isClosed())
                 connection.close();
+        } catch (NullPointerException n) {
+            System.out.println("Database connection was not successful!");
         } catch (SQLException e) {
             new MessageDialog("Error closing database connection! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "some data might not be saved.", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
     }

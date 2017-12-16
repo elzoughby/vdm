@@ -471,16 +471,6 @@ public class Item {
 
         cmdList.add(url.getValue());
 
-        if (shutdownAfterFinish.getValue().equals("Shutdown")) {
-            cmdList.add("&");
-            cmdList.add("shutdown");
-            cmdList.add("-H");
-        } else if (shutdownAfterFinish.getValue().equals("Sleep")) {
-            cmdList.add("&");
-            cmdList.add("shutdown");
-            cmdList.add("-s");
-        }
-
         return cmdList;
     }
 
@@ -588,7 +578,7 @@ public class Item {
 
     public void stopDownload() {
 
-        if (! getStatus().equals("Stopped")) {
+        if (getStatus().equals("Running")) {
             setStatus("Stopped");
             ytdlProcess.destroy();
             setSpeed(0);
