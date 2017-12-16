@@ -9,55 +9,48 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox fx:id="messageDialogPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="180.0" prefWidth="480.0" style="-fx-background-color: white;" stylesheets="@../theme/message.css"
-      xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="messageDialogPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="480.0" style="-fx-background-color: white;" stylesheets="@../theme/message.css" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Pane fx:id="dragPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="24.0" VBox.vgrow="NEVER"/>
-        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="44.0" spacing="25.0"
-              VBox.vgrow="NEVER">
+        <Pane fx:id="dragPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="24.0" VBox.vgrow="NEVER" />
+        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="44.0" spacing="25.0" VBox.vgrow="NEVER">
             <padding>
-                <Insets left="30.0" right="30.0"/>
+                <Insets left="30.0" right="30.0" />
             </padding>
             <children>
-                <ImageView fx:id="messageImageView" fitHeight="46.0" fitWidth="46.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fx:id="messageImageView" fitHeight="44.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                     <viewport>
-                        <Rectangle2D/>
+                        <Rectangle2D />
                     </viewport>
                 </ImageView>
-                <TextFlow lineSpacing="5.0" prefHeight="31.0" HBox.hgrow="ALWAYS">
+                <TextFlow lineSpacing="5.0" prefHeight="44.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Text fx:id="titleText" boundsType="LOGICAL_VERTICAL_CENTER" lineSpacing="5.0"
-                              strokeType="OUTSIDE" strokeWidth="0.0"/>
+                        <Text fx:id="titleText" boundsType="LOGICAL_VERTICAL_CENTER" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                     </children>
                     <HBox.margin>
-                        <Insets/>
+                        <Insets />
                     </HBox.margin>
                 </TextFlow>
             </children>
             <VBox.margin>
-                <Insets bottom="16.0"/>
+                <Insets bottom="16.0" />
             </VBox.margin>
         </HBox>
-        <VBox fx:id="messageOptionPane" alignment="CENTER_LEFT" maxHeight="285.0" minHeight="-Infinity"
-              prefHeight="26.0" prefWidth="480.0" VBox.vgrow="ALWAYS">
+        <VBox fx:id="messageOptionPane" alignment="CENTER_LEFT" maxHeight="285.0" minHeight="-Infinity" prefHeight="26.0" prefWidth="480.0" VBox.vgrow="ALWAYS">
             <padding>
-                <Insets left="98.0" right="30.0"/>
+                <Insets left="98.0" right="30.0" />
             </padding>
             <VBox.margin>
-                <Insets bottom="20.0"/>
+                <Insets bottom="20.0" />
             </VBox.margin>
         </VBox>
-        <HBox fx:id="messageActionPane" alignment="TOP_CENTER" maxHeight="-Infinity" minHeight="-Infinity"
-              prefHeight="30.0" prefWidth="480.0" spacing="20.0" VBox.vgrow="NEVER">
+        <HBox fx:id="messageActionPane" alignment="TOP_CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="480.0" spacing="20.0" VBox.vgrow="NEVER">
             <padding>
-                <Insets left="30.0" right="30.0"/>
+                <Insets left="30.0" right="30.0" />
             </padding>
             <VBox.margin>
-                <Insets/>
+                <Insets />
             </VBox.margin>
         </HBox>
-        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0"/>
+        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" />
     </children>
 </VBox>

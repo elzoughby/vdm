@@ -56,14 +56,31 @@
     -fx-border-width: 0px;
 }
 
-.playlist-titled-pane {
+.website-titled-pane {
     -fx-background-color: white;
     -fx-border-color: rgba(105, 235, 35, 0.16);
     -fx-border-width: 1px;
 }
 
-.playlist-titled-pane > .title {
+.website-titled-pane > .title {
     -fx-background-color: rgba(105, 235, 35, 0.16);
+    -fx-background-radius: 0px;
+    -fx-padding: 4;
+}
+
+.website-titled-pane > *.content {
+    -fx-background-color: white;
+    -fx-border-width: 0px;
+}
+
+.playlist-titled-pane {
+    -fx-background-color: white;
+    -fx-border-color: rgba(233, 235, 0, 0.2);
+    -fx-border-width: 1px;
+}
+
+.playlist-titled-pane > .title {
+    -fx-background-color: rgba(233, 235, 0, 0.2);
     -fx-background-radius: 0px;
     -fx-padding: 4;
 }
@@ -75,12 +92,12 @@
 
 .authentication-titled-pane {
     -fx-background-color: white;
-    -fx-border-color: rgba(233, 235, 0, 0.2);
+    -fx-border-color: rgba(235, 67, 84, 0.13);
     -fx-border-width: 1px;
 }
 
 .authentication-titled-pane > .title {
-    -fx-background-color: rgba(233, 235, 0, 0.2);
+    -fx-background-color: rgba(235, 67, 84, 0.13);
     -fx-background-radius: 0px;
     -fx-padding: 4;
 }
@@ -92,12 +109,12 @@
 
 .other-titled-pane {
     -fx-background-color: white;
-    -fx-border-color: rgba(235, 67, 84, 0.13);
+    -fx-border-color: rgba(146, 82, 235, 0.2);
     -fx-border-width: 1px;
 }
 
 .other-titled-pane > .title {
-    -fx-background-color: rgba(235, 67, 84, 0.13);
+    -fx-background-color: rgba(146, 82, 235, 0.2);
     -fx-background-radius: 0px;
     -fx-padding: 4;
 }
@@ -111,7 +128,7 @@
 /* ========== TextField style ========== */
 
 .text-field {
-    -fx-background-color: #dcdcdc, white;
+    -fx-background-color: #cdcdcd, white;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-background-radius: 0;
 }
@@ -135,13 +152,14 @@
     -fx-background-color: darkturquoise, white;
 }
 
+
 /* =========== Button style =========== */
 
 .button {
     -fx-background-color: #f0f0f0;
     -fx-background-radius: 0;
     -fx-background-insets: 0;
-    -fx-border-color: #e1e1e1;
+    -fx-border-color: #dcdcdc;
     -fx-border-radius: 0;
     -fx-border-width: 1px;
 }
@@ -164,7 +182,7 @@
 .check-box .box {
     -fx-background-color: white;
     -fx-background-radius: 0;
-    -fx-border-color: #dcdcdc;
+    -fx-border-color: #d7d7d7;
     -fx-border-width: 1px;
     -fx-border-radius:0;
 }
@@ -189,7 +207,7 @@
 /* =========== Checkbox style =========== */
 
 .choice-box {
-    -fx-background-color: #dcdcdc, #f5f5f5;
+    -fx-background-color: #d7d7d7, #f5f5f5;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-background-radius: 0;
     -fx-mark-color: #878787;
@@ -219,7 +237,7 @@
 .radio-button .radio {
     -fx-background-color: white;
     -fx-background-radius: 130px;;
-    -fx-border-color: #dcdcdc;
+    -fx-border-color: #d7d7d7;
     -fx-border-radius: 130px;
     -fx-border-width: 1px;
 }
@@ -245,7 +263,7 @@
 /* ============ Spinner style ============ */
 
 .spinner {
-    -fx-border-color: #e1e1e1;
+    -fx-border-color: #d7d7d7;
     -fx-border-radius: 0;
     -fx-border-width: 1px;
     -fx-mark-color: #878787;

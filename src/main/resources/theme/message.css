@@ -4,7 +4,7 @@
     -fx-background-color: #f0f0f0;
     -fx-background-radius: 0;
     -fx-background-insets: 0;
-    -fx-border-color: #e1e1e1;
+    -fx-border-color: #dcdcdc;
     -fx-border-radius: 0;
     -fx-border-width: 1px;
 }
@@ -122,7 +122,7 @@
 .check-box .box {
     -fx-background-color: white;
     -fx-background-radius: 0;
-    -fx-border-color: #dcdcdc;
+    -fx-border-color: #d7d7d7;
     -fx-border-width: 1px;
     -fx-border-radius:0;
 }
@@ -143,3 +143,19 @@
     -fx-background-color: #28a3f4;
 }
 
+
+/* ========== TextField style ========== */
+
+.text-field {
+    -fx-background-color: #cdcdcd, white;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-background-radius: 0;
+}
+
+.text-field:focused {
+    -fx-background-color: darkturquoise, white;
+}
+
+.text-field:disabled {
+    -fx-background-color: #dcdcdc, #f8f8f8;
+}

@@ -277,6 +277,7 @@ public class HomeController implements Initializable {
             homeWindowPane.getScene().setRoot(root);
 
         } catch (Exception e) {
+            e.printStackTrace();
             homeWindowPane.setOpacity(0.30);
             new MessageDialog("Error Loading NewDownload Window! \n" +
                     "Restart program and try again.", MessageDialog.Type.ERROR,
