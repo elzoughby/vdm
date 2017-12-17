@@ -49,7 +49,7 @@
                     </tooltip>
                 </Button>
                 <Separator prefHeight="0.0" prefWidth="0.0" />
-                <ToggleButton fx:id="queueBtn" mnemonicParsing="false" onAction="#queueBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-queue" stylesheets="@../theme/toolbar.css">
+                <ToggleButton fx:id="queueBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="button-queue" stylesheets="@../theme/toolbar.css">
                     <tooltip>
                         <Tooltip text="Show/Hide Queue" />
                     </tooltip>

@@ -47,14 +47,13 @@ public class HomeController implements Initializable {
     private TableColumn<Item, Boolean> itemsTypeColumn;
     @FXML
     private TableColumn<Item, String> itemsStatusColumn;
-
     // Table Progress bar cell class
     private class ProgressBarCell extends ProgressBarTableCell<Item> {
 
         StackPane stackPane = new StackPane();
+
         ProgressBar progressBar = new ProgressBar();
         Label label = new Label();
-
         ProgressBarCell() {
             progressBar.setMaxWidth(Double.MAX_VALUE);
             label.getStyleClass().add("progress-label");
@@ -72,8 +71,8 @@ public class HomeController implements Initializable {
                 setGraphic(null);
         }
 
-    }
 
+    }
 
 
     @Override
@@ -166,6 +165,15 @@ public class HomeController implements Initializable {
                 consoleListView.setItems(newValue.getLogList());
         });
 
+        // listening for queue ToggleButton state, to show Queue list or Main list
+        queueBtn.selectedProperty().addListener((observableValue, wasSelected, nowSelected) -> {
+            if(nowSelected) {
+                itemsTableView.setItems(queueItemList);
+            } else {
+                itemsTableView.setItems(itemList);
+            }
+        });
+
     }
 
     private ContextMenu getRowContextMenu() {
@@ -214,6 +222,9 @@ public class HomeController implements Initializable {
         return queueItemList;
     }
 
+    public ToggleButton getQueueBtn() {
+        return queueBtn;
+    }
 
     private void addToQueueMenuAction() {
 
@@ -273,7 +284,10 @@ public class HomeController implements Initializable {
 
         try {
 
-            Parent root = FXMLLoader.load(getClass().getResource("windows/NewDownloadWindow.fxml"));
+            FXMLLoader newDownloadWindowLoader = new FXMLLoader(getClass().getResource("windows/NewDownloadWindow.fxml"));
+            newDownloadWindowLoader.load();
+            ((NewDownloadController) newDownloadWindowLoader.getController()).setQueueBtnSelected(queueBtn.isSelected());
+            Parent root = newDownloadWindowLoader.getRoot();
             homeWindowPane.getScene().setRoot(root);
 
         } catch (Exception e) {
@@ -387,15 +401,6 @@ public class HomeController implements Initializable {
             stage.showAndWait();
         }
 
-    }
-
-    @FXML
-    void queueBtnAction() {
-
-        if(itemsTableView.getItems().equals(itemList))
-            itemsTableView.setItems(queueItemList);
-        else
-            itemsTableView.setItems(itemList);
     }
 
     @FXML

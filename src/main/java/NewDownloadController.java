@@ -10,7 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -62,6 +61,8 @@ public class NewDownloadController implements Initializable{
     @FXML
     private CheckBox shutdownCheckBox;
 
+    private boolean isQueueBtnSelected;
+
 
 
     @Override
@@ -94,6 +95,10 @@ public class NewDownloadController implements Initializable{
         qualityComboBox.setItems(FXCollections.observableArrayList("Best", "1080p - mp4 video", "720p - mp4 video", "480p - mp4 video", "360p - mp4 video", "240p - mp4 video", "144p - mp4 video", "48K - m4a audio only"));
         qualityComboBox.setValue("Best");
 
+    }
+
+    public void setQueueBtnSelected(boolean selected) {
+        isQueueBtnSelected = selected;
     }
 
     private Item createItem() {
@@ -178,7 +183,7 @@ public class NewDownloadController implements Initializable{
         HomeController.getItemList().add(item);
         DatabaseManager.insert(item);
         item.startDownload();
-        cancelBtnAction();
+        cancelAndSetQueueBtn(false);
 
     }
 
@@ -190,19 +195,26 @@ public class NewDownloadController implements Initializable{
         item.setStatus("Stopped");
         HomeController.getQueueItemList().add(item);
         DatabaseManager.insert(item);
-        cancelBtnAction();
+        cancelAndSetQueueBtn(true);
 
     }
 
     @FXML
     void cancelBtnAction() {
+        cancelAndSetQueueBtn(isQueueBtnSelected);
+    }
+
+    private void cancelAndSetQueueBtn(boolean queueBtnSelected) {
 
         try {
 
-            Parent root = FXMLLoader.load(getClass().getResource("windows/HomeWindow.fxml"));
+            FXMLLoader homeWindowLoader = new FXMLLoader(getClass().getResource("windows/HomeWindow.fxml"));
+            homeWindowLoader.load();
+            ((HomeController) homeWindowLoader.getController()).getQueueBtn().setSelected(queueBtnSelected);
+            Parent root = homeWindowLoader.getRoot();
             newDownloadWindowPane.getScene().setRoot(root);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             newDownloadWindowPane.setOpacity(0.30);
             new MessageDialog("Error Loading the Home Window! \n" +
                     "Restart program and try again.", MessageDialog.Type.ERROR,
