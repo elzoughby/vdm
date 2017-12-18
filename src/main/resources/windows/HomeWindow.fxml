@@ -19,7 +19,7 @@
             stylesheets="@../theme/home.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
     <left>
         <ToolBar orientation="VERTICAL" prefHeight="492.0" prefWidth="42.0" style="-fx-background-color: white;"
-                 BorderPane.alignment="CENTER">
+                 BorderPane.alignment="TOP_CENTER">
             <items>
                 <Button mnemonicParsing="false" onAction="#addBtnAction" prefHeight="30.0" prefWidth="30.0"
                         styleClass="button-add" stylesheets="@../theme/toolbar.css">
