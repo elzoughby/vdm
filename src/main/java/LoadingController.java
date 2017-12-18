@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 public class LoadingController implements Initializable {
 
     @FXML
-    private StackPane pane;
+    private StackPane LoadingPane;
 
 
 
@@ -48,9 +48,9 @@ public class LoadingController implements Initializable {
             fadeIn.setCycleCount(1);
             fadeIn.play();
 
-            pane.getScene().setRoot(newRoot);
+            LoadingPane.getScene().setRoot(newRoot);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             new MessageDialog("Error Loading the Home Window! \n" +
                     "Restart program and try again.", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();

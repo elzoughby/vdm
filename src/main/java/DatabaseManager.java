@@ -153,7 +153,7 @@ public class DatabaseManager {
 
     }
 
-    public static void close() {
+    public static void closeConnection() {
 
         try {
             if (!connection.isClosed())
@@ -166,6 +166,5 @@ public class DatabaseManager {
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
     }
-
 
 }

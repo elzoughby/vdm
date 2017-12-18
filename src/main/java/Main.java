@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 public class Main extends Application {
@@ -24,21 +25,8 @@ public class Main extends Application {
             primaryStage.setScene(new Scene(root));
             primaryStage.setMinWidth(800);
             primaryStage.setMinHeight(500);
+            primaryStage.setOnCloseRequest(this::close);
             primaryStage.show();
-
-            primaryStage.setOnCloseRequest(event -> {
-                MessageDialog exitDialog = new MessageDialog("It seems you clicked the exit button right now,\n" +
-                        "Are you sure you want to exit?", MessageDialog.Type.INFO, MessageDialog.Buttons.YES_AND_NO);
-                exitDialog.getYesButton().setOnAction(e -> {
-                    exitDialog.close();
-                    goodbye();
-                });
-                exitDialog.getNoButton().setOnAction(e -> {
-                    exitDialog.close();
-                    event.consume();
-                });
-                exitDialog.showAndWait();
-            });
 
         } catch (Exception e) {
             new MessageDialog("Error loading the LoadingPage window! \n" +
@@ -48,12 +36,22 @@ public class Main extends Application {
 
     }
 
-    private void goodbye() {
+    private void close(WindowEvent event) {
 
-        for(Item i : HomeController.getItemList())
-            i.stopDownload();
-        DatabaseManager.close();
-        Platform.exit();
+        MessageDialog exitDialog = new MessageDialog("It seems you clicked the exit button right now,\n" +
+                "Are you sure you want to exit?", MessageDialog.Type.INFO, MessageDialog.Buttons.YES_AND_NO);
+        exitDialog.getYesButton().setOnAction(e -> {
+            exitDialog.close();
+            for(Item i : HomeController.getItemList())
+                i.stopDownload();
+            DatabaseManager.closeConnection();
+            Platform.exit();
+        });
+        exitDialog.getNoButton().setOnAction(e -> {
+            exitDialog.close();
+            event.consume();
+        });
+        exitDialog.showAndWait();
 
     }
 

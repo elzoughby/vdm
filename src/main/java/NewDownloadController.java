@@ -101,6 +101,49 @@ public class NewDownloadController implements Initializable{
         isQueueBtnSelected = selected;
     }
 
+
+    @FXML
+    private void browseBtnAction() {
+
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setInitialDirectory(new File(locationTextField.getText()));
+        directoryChooser.setTitle("Choose save location");
+
+        File selectedDirectory = directoryChooser.showDialog(newDownloadWindowPane.getScene().getWindow());
+        if(selectedDirectory != null)
+            locationTextField.setText(selectedDirectory.getPath());
+
+    }
+
+    @FXML
+    private void startBtnAction() {
+
+        Item item = createItem();
+        item.setAddToQueue(false);
+        HomeController.getItemList().add(item);
+        DatabaseManager.insert(item);
+        item.startDownload();
+        cancelAndSetQueueBtn(false);
+
+    }
+
+    @FXML
+    private void scheduleBtnAction() {
+
+        Item item = createItem();
+        item.setAddToQueue(true);
+        item.setStatus("Stopped");
+        HomeController.getQueueItemList().add(item);
+        DatabaseManager.insert(item);
+        cancelAndSetQueueBtn(true);
+
+    }
+
+    @FXML
+    private void cancelBtnAction() {
+        cancelAndSetQueueBtn(isQueueBtnSelected);
+    }
+
     private Item createItem() {
 
         Item item = new Item();
@@ -160,48 +203,6 @@ public class NewDownloadController implements Initializable{
         item.setShutdownAfterFinish(shutdownCheckBox.isSelected());
 
         return item;
-    }
-
-    @FXML
-    void browseBtnAction() {
-
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setInitialDirectory(new File(locationTextField.getText()));
-        directoryChooser.setTitle("Choose save location");
-
-        File selectedDirectory = directoryChooser.showDialog(newDownloadWindowPane.getScene().getWindow());
-        if(selectedDirectory != null)
-            locationTextField.setText(selectedDirectory.getPath());
-
-    }
-
-    @FXML
-    void startBtnAction() {
-
-        Item item = createItem();
-        item.setAddToQueue(false);
-        HomeController.getItemList().add(item);
-        DatabaseManager.insert(item);
-        item.startDownload();
-        cancelAndSetQueueBtn(false);
-
-    }
-
-    @FXML
-    void scheduleBtnAction() {
-
-        Item item = createItem();
-        item.setAddToQueue(true);
-        item.setStatus("Stopped");
-        HomeController.getQueueItemList().add(item);
-        DatabaseManager.insert(item);
-        cancelAndSetQueueBtn(true);
-
-    }
-
-    @FXML
-    void cancelBtnAction() {
-        cancelAndSetQueueBtn(isQueueBtnSelected);
     }
 
     private void cancelAndSetQueueBtn(boolean queueBtnSelected) {

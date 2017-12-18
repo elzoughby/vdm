@@ -28,25 +28,6 @@ import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
-    private static ObservableList<Item> itemList = FXCollections.observableArrayList();
-    private static ObservableList<Item> queueItemList = FXCollections.observableArrayList();
-
-    @FXML
-    private BorderPane homeWindowPane;
-    @FXML
-    private SplitPane homeSplitPane;
-    @FXML
-    private ToggleButton queueBtn;
-    @FXML
-    private ListView<String> consoleListView;
-    @FXML
-    private TableView<Item> itemsTableView;
-    @FXML
-    private TableColumn<Item, Double> itemsProgressColumn;
-    @FXML
-    private TableColumn<Item, Boolean> itemsTypeColumn;
-    @FXML
-    private TableColumn<Item, String> itemsStatusColumn;
     // Table Progress bar cell class
     private class ProgressBarCell extends ProgressBarTableCell<Item> {
 
@@ -71,8 +52,31 @@ public class HomeController implements Initializable {
                 setGraphic(null);
         }
 
-
     }
+
+
+
+    private static ObservableList<Item> itemList = FXCollections.observableArrayList();
+
+    private static ObservableList<Item> queueItemList = FXCollections.observableArrayList();
+
+    @FXML
+    private BorderPane homeWindowPane;
+    @FXML
+    private SplitPane homeSplitPane;
+    @FXML
+    private ToggleButton queueBtn;
+    @FXML
+    private ListView<String> consoleListView;
+    @FXML
+    private TableView<Item> itemsTableView;
+    @FXML
+    private TableColumn<Item, Double> itemsProgressColumn;
+    @FXML
+    private TableColumn<Item, Boolean> itemsTypeColumn;
+    @FXML
+    private TableColumn<Item, String> itemsStatusColumn;
+
 
 
     @Override
@@ -114,12 +118,10 @@ public class HomeController implements Initializable {
                     super.updateItem(item, empty);
 
                     if (!empty) {
-
                         setText(item);
                     } else {
                         setText(null);
                     }
-
                 }
 
             };
@@ -214,17 +216,26 @@ public class HomeController implements Initializable {
         return rowContextMenu;
     }
 
-    static List<Item> getItemList() {
+    public static List<Item> getItemList() {
         return itemList;
     }
 
-    static List<Item> getQueueItemList() {
+    public static List<Item> getQueueItemList() {
         return queueItemList;
     }
 
     public ToggleButton getQueueBtn() {
         return queueBtn;
     }
+
+    public ListView<String> getConsoleListView() {
+        return consoleListView;
+    }
+
+    public TableView<Item> getItemsTableView() {
+        return itemsTableView;
+    }
+
 
     private void addToQueueMenuAction() {
 
@@ -278,9 +289,44 @@ public class HomeController implements Initializable {
 
     }
 
+    private boolean deleteItemFiles(String path) {
+
+        File file = new File(path);
+
+        if (file.exists()) {
+
+            if (file.isDirectory()) {
+                if ((file.list()).length > 0) {
+                    for(String s : file.list())
+                        deleteItemFiles(new File(path, s).getPath());
+                }
+            }
+
+            boolean result = file.delete();
+
+            // test if delete of file is success or not
+            if (! result) {
+                new MessageDialog("File cannot be deleted! \n" +
+                        "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
+                        .createErrorDialog("The file may be in use by another program").showAndWait();
+            }
+
+            return result;
+
+        } else {
+
+            new MessageDialog("File delete failed, file does not exist! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
+                    .createErrorDialog("file is not exist").showAndWait();
+            return false;
+
+        }
+
+    }
+
 
     @FXML
-    void addBtnAction() {
+    private void addBtnAction() {
 
         try {
 
@@ -302,7 +348,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void startBtnAction() {
+    private void startBtnAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         if( selectedItem != null && selectedItem.getStatus().equals("Stopped"))
@@ -311,7 +357,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void stopBtnAction() {
+    private void stopBtnAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         if (selectedItem != null)
@@ -320,7 +366,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void removeBtnAction() {
+    private void removeBtnAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         if( selectedItem != null) {
@@ -381,7 +427,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void infoBtnAction() {
+    private void infoBtnAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         if( selectedItem != null) {
@@ -404,7 +450,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void settingBtnAction() {
+    private void settingBtnAction() {
 
         try {
 
@@ -425,7 +471,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void helpBtnAction() {
+    private void helpBtnAction() {
 
         MessageDialog messageDialog = new MessageDialog("Ooh, you need help in this simple program?\n" +
                 "Sorry, no help in this version. help yourself", MessageDialog.Type.INFO, MessageDialog.Buttons.OK);
@@ -435,59 +481,13 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void aboutBtnAction() {
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("About");
-        alert.setHeaderText("Nazel Video Downloader Team");
-        alert.setContentText("Mohamed Bazazo \nIsmail Elmogy \nAhmed Elzoughby");
-        alert.showAndWait();
-
-    }
-
-    @FXML
-    void logBtnAction() {
+    private void logBtnAction() {
 
         if(homeSplitPane.getItems().size() == 2)
             homeSplitPane.getItems().remove(consoleListView);
         else {
             homeSplitPane.getItems().add(1, consoleListView);
             homeSplitPane.setDividerPosition(0, 0.7);
-        }
-
-    }
-
-    private boolean deleteItemFiles(String path) {
-
-        File file = new File(path);
-
-        if (file.exists()) {
-
-            if (file.isDirectory()) {
-                if ((file.list()).length > 0) {
-                    for(String s : file.list())
-                        deleteItemFiles(new File(path, s).getPath());
-                }
-            }
-
-            boolean result = file.delete();
-
-            // test if delete of file is success or not
-            if (! result) {
-                new MessageDialog("File cannot be deleted! \n" +
-                        "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
-                        .createErrorDialog("The file may be in use by another program").showAndWait();
-            }
-
-            return result;
-
-        } else {
-
-            new MessageDialog("File delete failed, file does not exist! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
-                    .createErrorDialog("file is not exist").showAndWait();
-            return false;
-
         }
 
     }
