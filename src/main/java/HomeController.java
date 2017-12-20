@@ -142,16 +142,6 @@ public class HomeController implements Initializable {
 
             TableRow<Item> row = new TableRow<>();
 
-            // change context menu queue option with selecting queueBtn
-            queueBtn.selectedProperty().addListener((observable, mainMode, queueMode) -> {
-                if (queueMode) {
-                    rowContextMenu.getItems().get(3).setText("Remove from Queue");
-                    rowContextMenu.getItems().get(3).setOnAction(event -> removeFromQueueMenuAction());
-                } else {
-                    rowContextMenu.getItems().get(3).setText("Add to Queue");
-                    rowContextMenu.getItems().get(3).setOnAction(event -> addToQueueMenuAction());                }
-            });
-
             // show context menu for not null rows only
             row.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(row.itemProperty()))
                     .then(rowContextMenu)
@@ -167,53 +157,19 @@ public class HomeController implements Initializable {
                 consoleListView.setItems(newValue.getLogList());
         });
 
-        // listening for queue ToggleButton state, to show Queue list or Main list
+        // Show/Hide Queue list and change context menu queue option with selecting queueBtn
         queueBtn.selectedProperty().addListener((observableValue, wasSelected, nowSelected) -> {
             if(nowSelected) {
                 itemsTableView.setItems(queueItemList);
+                rowContextMenu.getItems().get(3).setText("Remove from Queue");
+                rowContextMenu.getItems().get(3).setOnAction(event -> removeFromQueueMenuAction());
             } else {
                 itemsTableView.setItems(itemList);
+                rowContextMenu.getItems().get(3).setText("Add to Queue");
+                rowContextMenu.getItems().get(3).setOnAction(event -> addToQueueMenuAction());
             }
         });
 
-    }
-
-    private ContextMenu getRowContextMenu() {
-
-        ContextMenu rowContextMenu = new ContextMenu();
-
-        MenuItem startMenuItem = new MenuItem("Start");
-        startMenuItem.setOnAction(event -> startBtnAction());
-        startMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/start.png").toString())));
-
-        MenuItem pauseMenuItem = new MenuItem("Pause");
-        pauseMenuItem.setOnAction(event -> stopBtnAction());
-        pauseMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/pause.png").toString())));
-
-        MenuItem deleteMenuItem = new MenuItem("Delete");
-        deleteMenuItem.setOnAction(event -> removeBtnAction());
-        deleteMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/delete.png").toString())));
-
-        MenuItem queueMenuItem = new MenuItem("Add to Queue");
-        queueMenuItem.setOnAction(event -> addToQueueMenuAction());
-        queueMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/queue.png").toString())));
-
-        MenuItem clearMenuItem = new MenuItem("Clear Logs");
-        clearMenuItem.setOnAction(event -> clearLogsMenuAction());
-        clearMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/clear.png").toString())));
-
-        MenuItem openFolderMenuItem = new MenuItem("Open Location");
-        openFolderMenuItem.setOnAction(event -> openFolderMenuAction());
-        openFolderMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/folder.png").toString())));
-
-        MenuItem infoMenuItem = new MenuItem("Properties");
-        infoMenuItem.setOnAction(event -> infoBtnAction());
-        infoMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/details.png").toString())));
-
-        rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, deleteMenuItem,
-                queueMenuItem, clearMenuItem, openFolderMenuItem, infoMenuItem);
-
-        return rowContextMenu;
     }
 
     public static List<Item> getItemList() {
@@ -240,17 +196,27 @@ public class HomeController implements Initializable {
     private void addToQueueMenuAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
-        selectedItem.setAddToQueue(true);
-        selectedItem.stopDownload();
-        queueItemList.add(selectedItem);
+        selectedItem.setIsAddedToQueue(true);
+        stopBtnAction();
         itemList.remove(selectedItem);
+        queueItemList.add(selectedItem);
+        if(queueIsRunningBefore(selectedItem) && ! selectedItem.getStatus().equals("Finished"))
+            selectedItem.setStatus("Waiting");
 
     }
 
     private void removeFromQueueMenuAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
-        selectedItem.setAddToQueue(false);
+        selectedItem.setIsAddedToQueue(false);
+
+        if(selectedItem.getStatus().equals("Waiting")) {
+            selectedItem.setStatus("Stopped");
+        } else if(selectedItem.getStatus().equals("Running")) {
+            if(! queueIsRunningBefore(selectedItem))
+                setNextQueueItemsStatus(selectedItem, "Stopped");
+        }
+
         itemList.add(selectedItem);
         queueItemList.remove(selectedItem);
 
@@ -289,41 +255,6 @@ public class HomeController implements Initializable {
 
     }
 
-    private boolean deleteItemFiles(String path) {
-
-        File file = new File(path);
-
-        if (file.exists()) {
-
-            if (file.isDirectory()) {
-                if ((file.list()).length > 0) {
-                    for(String s : file.list())
-                        deleteItemFiles(new File(path, s).getPath());
-                }
-            }
-
-            boolean result = file.delete();
-
-            // test if delete of file is success or not
-            if (! result) {
-                new MessageDialog("File cannot be deleted! \n" +
-                        "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
-                        .createErrorDialog("The file may be in use by another program").showAndWait();
-            }
-
-            return result;
-
-        } else {
-
-            new MessageDialog("File delete failed, file does not exist! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
-                    .createErrorDialog("file is not exist").showAndWait();
-            return false;
-
-        }
-
-    }
-
 
     @FXML
     private void addBtnAction() {
@@ -351,8 +282,14 @@ public class HomeController implements Initializable {
     private void startBtnAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
-        if( selectedItem != null && selectedItem.getStatus().equals("Stopped"))
+        boolean isValidItem = selectedItem != null
+                && (selectedItem.getStatus().equals("Stopped") || selectedItem.getStatus().equals("Waiting"));
+
+        if(isValidItem) {
             selectedItem.startDownload();
+            if(selectedItem.getIsAddedToQueue())
+                setNextQueueItemsStatus(selectedItem, "Waiting");
+        }
 
     }
 
@@ -360,8 +297,14 @@ public class HomeController implements Initializable {
     private void stopBtnAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
-        if (selectedItem != null)
+        boolean isValidItem = selectedItem != null
+                && (selectedItem.getStatus().equals("Running") || selectedItem.getStatus().equals("Waiting"));
+
+        if (isValidItem) {
+            if(selectedItem.getIsAddedToQueue() && selectedItem.getStatus().equals("Running"))
+                setNextQueueItemsStatus(selectedItem, "Stopped");
             selectedItem.stopDownload();
+        }
 
     }
 
@@ -380,7 +323,7 @@ public class HomeController implements Initializable {
             deleteDialog.getYesButton().setOnAction(event -> {
                 if(checkBox.isSelected()) {
 
-                    selectedItem.stopDownload();
+                    stopBtnAction();
                     boolean result;
 
                     if(selectedItem.getIsPlaylist()) {
@@ -412,7 +355,7 @@ public class HomeController implements Initializable {
 
                 } else {
 
-                    selectedItem.stopDownload();
+                    stopBtnAction();
                     itemList.remove(selectedItem);
                     queueItemList.remove(selectedItem);
                     DatabaseManager.delete(selectedItem);
@@ -490,6 +433,100 @@ public class HomeController implements Initializable {
             homeSplitPane.setDividerPosition(0, 0.7);
         }
 
+    }
+
+
+    private ContextMenu getRowContextMenu() {
+
+        ContextMenu rowContextMenu = new ContextMenu();
+
+        MenuItem startMenuItem = new MenuItem("Start");
+        startMenuItem.setOnAction(event -> startBtnAction());
+        startMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/start.png").toString())));
+
+        MenuItem pauseMenuItem = new MenuItem("Pause");
+        pauseMenuItem.setOnAction(event -> stopBtnAction());
+        pauseMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/pause.png").toString())));
+
+        MenuItem deleteMenuItem = new MenuItem("Delete");
+        deleteMenuItem.setOnAction(event -> removeBtnAction());
+        deleteMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/delete.png").toString())));
+
+        MenuItem queueMenuItem = new MenuItem("Add to Queue");
+        queueMenuItem.setOnAction(event -> addToQueueMenuAction());
+        queueMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/queue.png").toString())));
+
+        MenuItem clearMenuItem = new MenuItem("Clear Logs");
+        clearMenuItem.setOnAction(event -> clearLogsMenuAction());
+        clearMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/clear.png").toString())));
+
+        MenuItem openFolderMenuItem = new MenuItem("Open Location");
+        openFolderMenuItem.setOnAction(event -> openFolderMenuAction());
+        openFolderMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/folder.png").toString())));
+
+        MenuItem infoMenuItem = new MenuItem("Properties");
+        infoMenuItem.setOnAction(event -> infoBtnAction());
+        infoMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/details.png").toString())));
+
+        rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, deleteMenuItem,
+                queueMenuItem, clearMenuItem, openFolderMenuItem, infoMenuItem);
+
+        return rowContextMenu;
+    }
+
+    private boolean deleteItemFiles(String path) {
+
+        File file = new File(path);
+
+        if (file.exists()) {
+
+            if (file.isDirectory()) {
+                if ((file.list()).length > 0) {
+                    for(String s : file.list())
+                        deleteItemFiles(new File(path, s).getPath());
+                }
+            }
+
+            boolean result = file.delete();
+
+            // test if delete of file is success or not
+            if (! result) {
+                new MessageDialog("File cannot be deleted! \n" +
+                        "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
+                        .createErrorDialog("The file may be in use by another program").showAndWait();
+            }
+
+            return result;
+
+        } else {
+
+            new MessageDialog("File delete failed, file does not exist! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
+                    .createErrorDialog("file is not exist").showAndWait();
+            return false;
+
+        }
+
+    }
+
+    private void setNextQueueItemsStatus(Item currentItem, String newStatus) {
+
+        for(int i = queueItemList.indexOf(currentItem) + 1; i < queueItemList.size(); i++) {
+
+            if(queueItemList.get(i).getStatus().equals("Stopped") || queueItemList.get(i).getStatus().equals("Waiting"))
+                queueItemList.get(i).setStatus(newStatus);
+            else if(queueItemList.get(i).getStatus().equals("Running"))
+                break;
+        }
+
+    }
+
+    private boolean queueIsRunningBefore(Item currentItem) {
+        for(Item item : queueItemList) {
+            if(item.getStatus().equals("Running"))
+                return true;
+        }
+        return false;
     }
 
 }

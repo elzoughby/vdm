@@ -15,8 +15,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane fx:id="homeWindowPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0"
-            stylesheets="@../theme/home.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
+<BorderPane fx:id="homeWindowPane" prefHeight="500.0" prefWidth="800.0" stylesheets="@../theme/home.css"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
     <left>
         <ToolBar orientation="VERTICAL" prefHeight="492.0" prefWidth="42.0" style="-fx-background-color: white;"
                  BorderPane.alignment="TOP_CENTER">
@@ -104,36 +104,36 @@
                                 <PropertyValueFactory property="isPlaylist"/>
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsTitleColumn" maxWidth="1500.0" minWidth="260.0" prefWidth="260.0"
+                        <TableColumn fx:id="itemsTitleColumn" maxWidth="1500.0" minWidth="80.0" prefWidth="260.0"
                                      text="Title">
                             <cellValueFactory>
                                 <PropertyValueFactory property="title"/>
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsStatusColumn" maxWidth="150.0" minWidth="80.0" text="Status">
+                        <TableColumn fx:id="itemsStatusColumn" maxWidth="150.0" minWidth="70.0" text="Status">
                             <cellValueFactory>
                                 <PropertyValueFactory property="status"/>
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsSizeColumn" maxWidth="150.0" minWidth="100.0" prefWidth="100.0"
+                        <TableColumn fx:id="itemsSizeColumn" maxWidth="150.0" minWidth="80.0" prefWidth="100.0"
                                      text="Size">
                             <cellValueFactory>
                                 <PropertyValueFactory property="sizeString"/>
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsProgressColumn" maxWidth="500.0" minWidth="100.0" prefWidth="100.0"
+                        <TableColumn fx:id="itemsProgressColumn" maxWidth="500.0" minWidth="70.0" prefWidth="100.0"
                                      text="Done">
                             <cellValueFactory>
                                 <PropertyValueFactory property="progress"/>
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="100.0" prefWidth="100.0"
+                        <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="80.0" prefWidth="100.0"
                                      text="Speed">
                             <cellValueFactory>
                                 <PropertyValueFactory property="speedString"/>
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsEtaColumn" maxWidth="150.0" minWidth="80.0" text="ETA">
+                        <TableColumn fx:id="itemsEtaColumn" maxWidth="150.0" minWidth="70.0" text="ETA">
                             <cellValueFactory>
                                 <PropertyValueFactory property="eta"/>
                             </cellValueFactory>

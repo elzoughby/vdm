@@ -23,8 +23,8 @@ public class Main extends Application {
             primaryStage.setTitle("Nazel Video Downloader");
             primaryStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));
             primaryStage.setScene(new Scene(root));
-            primaryStage.setMinWidth(800);
-            primaryStage.setMinHeight(500);
+            primaryStage.setMinWidth(600);
+            primaryStage.setMinHeight(400);
             primaryStage.setOnCloseRequest(this::close);
             primaryStage.show();
 
