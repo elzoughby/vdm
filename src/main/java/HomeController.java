@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 
 public class HomeController implements Initializable {
@@ -55,6 +56,10 @@ public class HomeController implements Initializable {
     }
 
 
+    private static final String HOME_PAGE_NODE = "Home";
+    private static final String DIVIDER_POSITION = "dividerPosition";
+    private static final String HIDE_LOG = "hideLog";
+    private Preferences programData = Preferences.userRoot().node(HOME_PAGE_NODE);
 
     private static ObservableList<Item> itemList = FXCollections.observableArrayList();
 
@@ -169,6 +174,15 @@ public class HomeController implements Initializable {
                 rowContextMenu.getItems().get(3).setOnAction(event -> addToQueueMenuAction());
             }
         });
+
+        // save and restore SplitPane divider position
+        homeSplitPane.setDividerPositions(programData.getDouble(DIVIDER_POSITION, 0.8));
+        homeSplitPane.getDividers().get(0).positionProperty().addListener((observableValue, oldValue, newValue) ->
+                programData.putDouble(DIVIDER_POSITION, newValue.doubleValue()));
+
+        // hide split pane if it was hidden last time
+        if(programData.getBoolean(HIDE_LOG, false))
+            homeSplitPane.getItems().remove(consoleListView);
 
     }
 
@@ -426,12 +440,16 @@ public class HomeController implements Initializable {
     @FXML
     private void logBtnAction() {
 
-        if(homeSplitPane.getItems().size() == 2)
+        boolean isLogVisible = homeSplitPane.getItems().size() == 2;
+
+        if(isLogVisible) {
             homeSplitPane.getItems().remove(consoleListView);
-        else {
+        } else {
             homeSplitPane.getItems().add(1, consoleListView);
-            homeSplitPane.setDividerPosition(0, 0.7);
+            homeSplitPane.setDividerPosition(0, programData.getDouble(DIVIDER_POSITION, 0.8));
         }
+
+        programData.putBoolean(HIDE_LOG, isLogVisible);
 
     }
 

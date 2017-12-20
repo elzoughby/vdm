@@ -91,7 +91,7 @@
         </ToolBar>
     </left>
     <center>
-        <SplitPane fx:id="homeSplitPane" dividerPositions="0.7229166666666667" orientation="VERTICAL" prefWidth="160.0"
+        <SplitPane fx:id="homeSplitPane" dividerPositions="0.828" orientation="VERTICAL" prefWidth="160.0"
                    style="-fx-padding: 0;" stylesheets="@../theme/home.css" BorderPane.alignment="CENTER">
             <items>
                 <TableView fx:id="itemsTableView" prefWidth="751.0" style="-fx-border-color: #d7d7d7;">

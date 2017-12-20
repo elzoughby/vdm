@@ -86,7 +86,7 @@
                                 <Insets bottom="5.0"/>
                             </VBox.margin>
                         </HBox>
-                        <TitledPane animated="false" focusTraversable="false" prefHeight="10.0" prefWidth="694.0"
+                        <TitledPane animated="false" prefHeight="10.0" prefWidth="694.0"
                                     styleClass="artifacts-titled-pane" text="Artifacts">
                             <content>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
@@ -135,8 +135,8 @@
                                 </VBox>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" expanded="false" focusTraversable="false" prefHeight="14.0"
-                                    prefWidth="694.0" styleClass="website-titled-pane" text="Website Options">
+                        <TitledPane animated="false" expanded="false" prefHeight="14.0" prefWidth="694.0"
+                                    styleClass="website-titled-pane" text="Website Options">
                             <content>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                     <children>
@@ -182,8 +182,8 @@
                             </content>
                         </TitledPane>
                         <TitledPane fx:id="playlistPane" animated="false" disable="true" expanded="false"
-                                    focusTraversable="false" prefHeight="8.0" prefWidth="694.0"
-                                    styleClass="playlist-titled-pane" text="Playlist options">
+                                    prefHeight="8.0" prefWidth="694.0" styleClass="playlist-titled-pane"
+                                    text="Playlist options">
                             <content>
                                 <VBox prefHeight="119.0" prefWidth="688.0" spacing="20.0">
                                     <fx:define>
@@ -247,8 +247,8 @@
                                 </VBox>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" expanded="false" focusTraversable="false" prefHeight="8.0"
-                                    prefWidth="694.0" styleClass="authentication-titled-pane" text="Authentication">
+                        <TitledPane animated="false" expanded="false" prefHeight="8.0" prefWidth="694.0"
+                                    styleClass="authentication-titled-pane" text="Authentication">
                             <content>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                     <padding>
@@ -291,8 +291,8 @@
                                 </VBox>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" expanded="false" focusTraversable="false" prefHeight="18.0"
-                                    prefWidth="694.0" styleClass="other-titled-pane" text="Other options">
+                        <TitledPane animated="false" expanded="false" prefHeight="18.0" prefWidth="694.0"
+                                    styleClass="other-titled-pane" text="Other options">
                             <content>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                                     <padding>

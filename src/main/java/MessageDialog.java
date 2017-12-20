@@ -243,9 +243,14 @@ public class MessageDialog implements Initializable {
         messageStage.setResizable(false);
         messageStage.initStyle(StageStyle.UNDECORATED);
         messageStage.initModality(Modality.APPLICATION_MODAL);
+        messageStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));
         messageStage.setOnCloseRequest(Event::consume);
         messageStage.setMinWidth(DIALOG_WIDTH);
         messageStage.setMaxWidth(DIALOG_WIDTH);
+        if(messageType == Type.ERROR)
+            messageStage.setTitle("Error");
+        else
+            messageStage.setTitle("Nazel Video Downloader");
 
         if(messageOptionPane.getChildren().size() == 0) {
             messageDialogPane.getChildren().remove(messageOptionPane);
