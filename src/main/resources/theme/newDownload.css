@@ -6,6 +6,10 @@
     -fx-border-width: 1px;
 }
 
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
 .scroll-bar:vertical {
     -fx-background-color: #f0f0f0;
     -fx-background-insets: 0;
@@ -286,10 +290,7 @@
     -fx-background-color: #ffffff;
     -fx-border-color: darkturquoise;
     -fx-border-width: 1px;
-}
-
-.choice-box .menu-item:focused {
-    -fx-background-color: #28a3f4;
+    -fx-selection-bar: #bae6f5;
 }
 
 

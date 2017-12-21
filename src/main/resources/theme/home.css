@@ -12,8 +12,8 @@
 }
 
 .list-cell:filled:selected {
-    -fx-background-color: dodgerblue;
-    -fx-text-fill: white;
+    -fx-background-color: #bae6f5;
+    -fx-text-fill: black;
 }
 
 
@@ -21,7 +21,15 @@
 
 .table-view {
     -fx-selection-bar-non-focused: #e9e9e9;
-    -fx-selection-bar: #0096c8;
+    -fx-selection-bar: #bae6f5;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-insets: 0;
+}
+
+.table-row-cell:odd:filled:selected {
+    -fx-background-insets: 0;
 }
 
 .table-view .column-header, .table-view .column-header .filler, .table-view .column-header-background .filler {
@@ -29,7 +37,6 @@
     -fx-border-color: #cdcdcd;
     -fx-border-style: dotted;
 }
-
 
 /* ======= Progress column style ======= */
 
@@ -99,3 +106,9 @@
     -fx-padding: 0;
 }
 
+
+/* =========== Context menu =========== */
+
+.menu-item {
+    -fx-selection-bar: #bae6f5;
+}
