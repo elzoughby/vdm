@@ -12,6 +12,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -122,11 +123,29 @@ public class HomeController implements Initializable {
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
 
-                    if (!empty) {
-                        setText(item);
-                    } else {
+                    if (empty) {
                         setText(null);
+                    } else {
+
+                        setText(item);
+                        Item currentItem = getTableView().getItems().get(getIndex());
+                        switch (currentItem.getStatus()) {
+                            case "Stopped":
+                                setTextFill(Color.CRIMSON);
+                                break;
+                            case "Running":
+                                setTextFill(Color.valueOf("#009128"));
+                                break;
+                            case "Finished":
+                                setTextFill(Color.BLACK);
+                                break;
+                            case "Waiting":
+                                setTextFill(Color.valueOf("#00918a"));
+                                break;
+                        }
+
                     }
+
                 }
 
             };
@@ -145,13 +164,21 @@ public class HomeController implements Initializable {
         // Table row factory with context menu
         itemsTableView.setRowFactory(param -> {
 
-            TableRow<Item> row = new TableRow<>();
+            return new TableRow<Item>() {
 
-            // show context menu for not null rows only
-            row.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(row.itemProperty()))
-                    .then(rowContextMenu)
-                    .otherwise((ContextMenu) null));
-            return row;
+                @Override
+                protected void updateItem(Item item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null || empty) {
+                        setContextMenu(null);
+                    } else {
+                        setContextMenu(rowContextMenu);
+                    }
+                }
+
+            };
+
         });
 
         // listening for table row selection, to show the log and change status color of the selected item

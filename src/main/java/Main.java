@@ -55,6 +55,8 @@ public class Main extends Application {
             exitDialog.close();
             for(Item i : HomeController.getItemList())
                 i.stopDownload();
+            for(Item i : HomeController.getQueueItemList())
+                i.stopDownload();
             DatabaseManager.closeConnection();
             Platform.exit();
         });
