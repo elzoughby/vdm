@@ -99,18 +99,19 @@
                         <Label text="click + to add new download"/>
                     </placeholder>
                     <columns>
-                        <TableColumn fx:id="itemsTypeColumn" maxWidth="26.0" minWidth="26.0" prefWidth="26.0" text="">
+                        <TableColumn fx:id="itemsTypeColumn" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="">
                             <cellValueFactory>
                                 <PropertyValueFactory property="isPlaylist"/>
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsTitleColumn" maxWidth="1500.0" minWidth="80.0" prefWidth="260.0"
+                        <TableColumn fx:id="itemsTitleColumn" maxWidth="1500.0" minWidth="80.0" prefWidth="250.0"
                                      text="Title">
                             <cellValueFactory>
                                 <PropertyValueFactory property="title"/>
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsStatusColumn" maxWidth="150.0" minWidth="70.0" text="Status">
+                        <TableColumn fx:id="itemsStatusColumn" maxWidth="150.0" minWidth="80.0" prefWidth="90.0"
+                                     text="Status">
                             <cellValueFactory>
                                 <PropertyValueFactory property="status"/>
                             </cellValueFactory>
@@ -133,7 +134,8 @@
                                 <PropertyValueFactory property="speedString"/>
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsEtaColumn" maxWidth="150.0" minWidth="70.0" text="ETA">
+                        <TableColumn fx:id="itemsEtaColumn" maxWidth="150.0" minWidth="70.0" prefWidth="76.0"
+                                     text="ETA">
                             <cellValueFactory>
                                 <PropertyValueFactory property="eta"/>
                             </cellValueFactory>

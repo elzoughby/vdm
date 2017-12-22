@@ -1,5 +1,3 @@
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +11,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
