@@ -264,7 +264,7 @@ public class HomeController implements Initializable {
 
         if(selectedItem.getStatus().equals("Waiting")) {
             selectedItem.setStatus("Stopped");
-        } else if(selectedItem.getStatus().equals("Running")) {
+        } else if(selectedItem.getStatus().equals("Running") || selectedItem.getStatus().equals("Starting")) {
             if(! queueIsRunningBefore(selectedItem))
                 setNextQueueItemsStatus(selectedItem, "Stopped");
         }
@@ -334,10 +334,11 @@ public class HomeController implements Initializable {
     private void startBtnAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
-        boolean isValidItem = selectedItem != null
-                && (selectedItem.getStatus().equals("Stopped") || selectedItem.getStatus().equals("Waiting"));
+        boolean isValidItem = selectedItem != null &&
+                (selectedItem.getStatus().equals("Stopped") || selectedItem.getStatus().equals("Waiting"));
 
         if(isValidItem) {
+            selectedItem.setStatus("Starting");
             selectedItem.startDownload();
             if(selectedItem.getIsAddedToQueue())
                 setNextQueueItemsStatus(selectedItem, "Waiting");
@@ -350,11 +351,14 @@ public class HomeController implements Initializable {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         boolean isValidItem = selectedItem != null
-                && (selectedItem.getStatus().equals("Running") || selectedItem.getStatus().equals("Waiting"));
+                && (selectedItem.getStatus().equals("Starting") || selectedItem.getStatus().equals("Running")
+                || selectedItem.getStatus().equals("Waiting"));
 
         if (isValidItem) {
-            if(selectedItem.getIsAddedToQueue() && selectedItem.getStatus().equals("Running"))
+            if(selectedItem.getIsAddedToQueue() && (selectedItem.getStatus().equals("Starting")
+                    || selectedItem.getStatus().equals("Running"))) {
                 setNextQueueItemsStatus(selectedItem, "Stopped");
+            }
             selectedItem.stopDownload();
         }
 
@@ -571,7 +575,7 @@ public class HomeController implements Initializable {
 
             if(queueItemList.get(i).getStatus().equals("Stopped") || queueItemList.get(i).getStatus().equals("Waiting"))
                 queueItemList.get(i).setStatus(newStatus);
-            else if(queueItemList.get(i).getStatus().equals("Running"))
+            else if(queueItemList.get(i).getStatus().equals("Starting") || queueItemList.get(i).getStatus().equals("Running"))
                 break;
         }
 
@@ -579,7 +583,7 @@ public class HomeController implements Initializable {
 
     private boolean queueIsRunningBefore(Item currentItem) {
         for(Item item : queueItemList) {
-            if(item.getStatus().equals("Running"))
+            if(item.getStatus().equals("Starting") || item.getStatus().equals("Running"))
                 return true;
         }
         return false;

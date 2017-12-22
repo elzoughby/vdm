@@ -233,7 +233,7 @@ public class NewDownloadController implements Initializable{
 
     private boolean queueIsRunningBefore(Item currentItem) {
         for(Item item : HomeController.getQueueItemList()) {
-            if(item.getStatus().equals("Running"))
+            if(item.getStatus().equals("Starting") || item.getStatus().equals("Running"))
                 return true;
         }
         return false;

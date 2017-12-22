@@ -418,7 +418,7 @@ public class Item {
                 List<String> cmd = commandBuilder();
                 System.out.println(cmd.toString().replace(",", ""));
                 ytdlProcess = new ProcessBuilder(cmd).start();
-                setStatus("Running");
+                setStatus("Starting");
 
                 InputStream inputStream = ytdlProcess.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -431,7 +431,8 @@ public class Item {
                 String buff;
 
 
-                while ((buff = bufferedReader.readLine()) != null && getStatus().equals("Running")) {
+                while ((buff = bufferedReader.readLine()) != null &&
+                        (getStatus().equals("Starting") || getStatus().equals("Running"))) {
 
                     final String line = buff;
                     final Matcher downloadMatcher = downloadPattern.matcher(line);
@@ -441,10 +442,13 @@ public class Item {
 
                         //parsing download status info
                         if (downloadMatcher.find()) {
+                            setStatus("Running");
+
                             //combine the download messages in one line
-                            if (logList.size() > 0 && logList.get(logList.size() - 1).matches(downloadRegex))
-                                logList.set(logList.size() - 1, line);
-                            else
+                            if (logList.size() > 0 && logList.get(logList.size() - 1).matches(downloadRegex)) {
+                                logList.remove(logList.size() - 1);
+                                logList.add(line);
+                            } else
                                 logList.add(line);
 
                             String x = downloadMatcher.group(1);
