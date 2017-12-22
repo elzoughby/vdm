@@ -1,4 +1,5 @@
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -125,22 +126,32 @@ public class HomeController implements Initializable {
 
                     if (empty) {
                         setText(null);
+                        setGraphic(null);
                     } else {
 
                         setText(item);
+                        setAlignment(Pos.CENTER_LEFT);
                         Item currentItem = getTableView().getItems().get(getIndex());
                         switch (currentItem.getStatus()) {
                             case "Stopped":
                                 setTextFill(Color.CRIMSON);
+                                setGraphic(new ImageView(new Image(getClass().getResource("status/stop.png").toString())));
                                 break;
                             case "Running":
                                 setTextFill(Color.valueOf("#009128"));
+                                setGraphic(new ImageView(new Image(getClass().getResource("status/run.png").toString())));
                                 break;
                             case "Finished":
                                 setTextFill(Color.BLACK);
+                                setGraphic(new ImageView(new Image(getClass().getResource("status/finish.png").toString())));
                                 break;
                             case "Waiting":
                                 setTextFill(Color.valueOf("#00918a"));
+                                setGraphic(new ImageView(new Image(getClass().getResource("status/wait.png").toString())));
+                                break;
+                            case "Starting":
+                                setTextFill(Color.valueOf("#005491"));
+                                setGraphic(new ImageView(new Image(getClass().getResource("status/start.png").toString())));
                                 break;
                         }
 
