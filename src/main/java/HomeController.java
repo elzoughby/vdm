@@ -18,8 +18,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
@@ -260,11 +262,38 @@ public class HomeController implements Initializable {
                    else if(os.contains("linux"))
                    {
 
-                       //first select desktop manger
-                       Runtime.getRuntime().exec("kde-open  "+location) ;
-                       Runtime.getRuntime().exec("xdg-open  "+location) ;
-                       Runtime.getRuntime().exec("gnome-open  "+location) ;
-                   }
+                       String msg ;
+                       //    Process p = Runtime.getRuntime().exec("cat /proc/version") ;
+                       Process p = Runtime.getRuntime().exec("pgrep -l \"gnome|kde|xfce|mate|lxde|cinnamon\"") ;
+                       BufferedReader br = new BufferedReader(
+                               new InputStreamReader(p.getInputStream()));
+                       msg = br.readLine() ;
+                       if (msg.contains("kde")){
+                           Runtime.getRuntime().exec("kde-open  " +location );
+                       }
+                       else if (msg.contains("gnome"))
+                       {
+                           Runtime.getRuntime().exec("gnome-open  " +location );
+                       }
+                       else if(msg.contains("mate")){
+                           Runtime.getRuntime().exec("mate-open  " +location );
+                       }
+                       else if(msg.contains("cinnamon")){
+                           Runtime.getRuntime().exec("open_gnome3  " +location );
+                       }
+                       else if(msg.contains("lxde")){
+                           Runtime.getRuntime().exec("(pcmanfm   " +location );
+                       }
+                       else if (msg.contains("xfce")){
+                       Runtime.getRuntime().exec("(exo-open  " +location );
+                        }
+                       else
+                       {
+                           Runtime.getRuntime().exec("xdg-open  " +location );
+
+                       }
+                       p.destroy();
+                    }
 
 
                 } catch (IOException e) {
