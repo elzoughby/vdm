@@ -17,7 +17,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 
         try {
-
             Parent root = FXMLLoader.load(getClass().getResource("windows/LoadingPage.fxml"));
             primaryStage.setTitle("Nazel Video Downloader");
             primaryStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));

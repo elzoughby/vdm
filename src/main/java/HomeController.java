@@ -250,12 +250,22 @@ public class HomeController implements Initializable {
                 try {
 
                     String location = itemsTableView.getSelectionModel().getSelectedItem().getLocation();
-                    Desktop desktop = null;
-                    File file = new File(location);
-                    if (Desktop.isDesktopSupported())
-                        desktop = Desktop.getDesktop();
-                    if (desktop != null)
-                        desktop.open(file);
+
+                   String os =  System.getProperty("os.name").toLowerCase() ;
+                   if (os.contains("win"))
+                   {
+                    Runtime.getRuntime().exec("explorer "+location) ;
+
+                   }
+                   else if(os.contains("linux"))
+                   {
+
+                       //first select desktop manger
+                       Runtime.getRuntime().exec("kde-open  "+location) ;
+                       Runtime.getRuntime().exec("xdg-open  "+location) ;
+                       Runtime.getRuntime().exec("gnome-open  "+location) ;
+                   }
+
 
                 } catch (IOException e) {
                     System.err.println("Error Opening Location Folder");
@@ -263,7 +273,7 @@ public class HomeController implements Initializable {
 
             }
 
-        };
+        }.run();
 
     }
 
