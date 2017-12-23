@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -279,28 +280,24 @@ public class HomeController implements Initializable {
 
     private void openFolderMenuAction() {
 
-        new Runnable() {
+        String location = itemsTableView.getSelectionModel().getSelectedItem().getLocation();
+        String os =  System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
 
-            @Override
-            public void run() {
+        try {
 
-                try {
-
-                    String location = itemsTableView.getSelectionModel().getSelectedItem().getLocation();
-                    Desktop desktop = null;
-                    File file = new File(location);
-                    if (Desktop.isDesktopSupported())
-                        desktop = Desktop.getDesktop();
-                    if (desktop != null)
-                        desktop.open(file);
-
-                } catch (IOException e) {
-                    System.err.println("Error Opening Location Folder");
-                }
-
+            if (os.contains("win")) {
+                Runtime.getRuntime().exec("explorer " + location);
+            } else if (os.contains("mac")) {
+                Runtime.getRuntime().exec("open " + location);
+            } else {
+                Runtime.getRuntime().exec("xdg-open " + location);
             }
 
-        };
+        } catch(Exception e) {
+            new MessageDialog("Error opening save location! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
+        }
 
     }
 
