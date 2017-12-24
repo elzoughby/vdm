@@ -202,12 +202,12 @@ public class HomeController implements Initializable {
         queueBtn.selectedProperty().addListener((observableValue, wasSelected, nowSelected) -> {
             if(nowSelected) {
                 itemsTableView.setItems(queueItemList);
-                rowContextMenu.getItems().get(3).setText("Remove from Queue");
-                rowContextMenu.getItems().get(3).setOnAction(event -> removeFromQueueMenuAction());
+                rowContextMenu.getItems().get(5).setText("Remove from Queue");
+                rowContextMenu.getItems().get(5).setOnAction(event -> removeFromQueueMenuAction());
             } else {
                 itemsTableView.setItems(itemList);
-                rowContextMenu.getItems().get(3).setText("Add to Queue");
-                rowContextMenu.getItems().get(3).setOnAction(event -> addToQueueMenuAction());
+                rowContextMenu.getItems().get(5).setText("Add to Queue");
+                rowContextMenu.getItems().get(5).setOnAction(event -> addToQueueMenuAction());
             }
         });
 
@@ -299,6 +299,54 @@ public class HomeController implements Initializable {
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
+    }
+
+    private void upMenuAction() {
+        Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
+        int oldIndex = itemsTableView.getSelectionModel().getSelectedIndex();
+        int newIndex = oldIndex - 1;
+        if(oldIndex > 0) {
+            itemsTableView.getItems().remove(oldIndex);
+            itemsTableView.getItems().add(newIndex, selectedItem);
+            itemsTableView.getSelectionModel().clearAndSelect(newIndex);
+
+            if(selectedItem.getIsAddedToQueue()) {
+                if(selectedItem.getStatus().equals("Starting") || selectedItem.getStatus().equals("Running")) {
+                    if(itemsTableView.getItems().get(oldIndex).getStatus().equals("Stopped"))
+                        itemsTableView.getItems().get(oldIndex).setStatus("Waiting");
+                } else if(selectedItem.getStatus().equals("Waiting") || selectedItem.getStatus().equals("Stopped")) {
+                    if(queueIsRunningBefore(selectedItem))
+                        itemsTableView.getItems().get(newIndex).setStatus("Waiting");
+                    else
+                        itemsTableView.getItems().get(newIndex).setStatus("Stopped");
+                }
+            }
+        }
+    }
+
+    private void downMenuAction() {
+        Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
+        int oldIndex = itemsTableView.getSelectionModel().getSelectedIndex();
+        int newIndex = oldIndex + 1;
+        if(newIndex < itemsTableView.getItems().size()) {
+            itemsTableView.getItems().remove(oldIndex);
+            itemsTableView.getItems().add(newIndex, selectedItem);
+            itemsTableView.getSelectionModel().clearAndSelect(newIndex);
+
+            if(selectedItem.getIsAddedToQueue()) {
+                if(selectedItem.getStatus().equals("Starting") || selectedItem.getStatus().equals("Running")) {
+                    if(itemsTableView.getItems().get(oldIndex).getStatus().equals("Waiting")) {
+                        if(!queueIsRunningBefore(itemsTableView.getItems().get(oldIndex)))
+                            itemsTableView.getItems().get(oldIndex).setStatus("Stopped");
+                    }
+                } else if(selectedItem.getStatus().equals("Waiting") || selectedItem.getStatus().equals("Stopped")) {
+                    if(queueIsRunningBefore(selectedItem))
+                        itemsTableView.getItems().get(newIndex).setStatus("Waiting");
+                    else
+                        itemsTableView.getItems().get(newIndex).setStatus("Stopped");
+                }
+            }
+        }
     }
 
 
@@ -506,6 +554,14 @@ public class HomeController implements Initializable {
         deleteMenuItem.setOnAction(event -> removeBtnAction());
         deleteMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/delete.png").toString())));
 
+        MenuItem upeMenuItem = new MenuItem("Up");
+        upeMenuItem.setOnAction(event -> upMenuAction());
+        upeMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/up.png").toString())));
+
+        MenuItem downMenuItem = new MenuItem("Down");
+        downMenuItem.setOnAction(event -> downMenuAction());
+        downMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/down.png").toString())));
+
         MenuItem queueMenuItem = new MenuItem("Add to Queue");
         queueMenuItem.setOnAction(event -> addToQueueMenuAction());
         queueMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/queue.png").toString())));
@@ -522,8 +578,8 @@ public class HomeController implements Initializable {
         infoMenuItem.setOnAction(event -> infoBtnAction());
         infoMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/details.png").toString())));
 
-        rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, deleteMenuItem,
-                queueMenuItem, clearMenuItem, openFolderMenuItem, infoMenuItem);
+        rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, deleteMenuItem, upeMenuItem,
+                downMenuItem, queueMenuItem, clearMenuItem, openFolderMenuItem, infoMenuItem);
 
         return rowContextMenu;
     }
@@ -576,11 +632,13 @@ public class HomeController implements Initializable {
     }
 
     private boolean queueIsRunningBefore(Item currentItem) {
-        for(Item item : queueItemList) {
-            if(item.getStatus().equals("Starting") || item.getStatus().equals("Running"))
+
+        for(int i = 0; i < queueItemList.indexOf(currentItem); i++) {
+            if(queueItemList.get(i).getStatus().equals("Starting") || queueItemList.get(i).getStatus().equals("Running"))
                 return true;
         }
         return false;
+
     }
 
 }
