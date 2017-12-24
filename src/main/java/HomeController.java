@@ -202,12 +202,14 @@ public class HomeController implements Initializable {
         queueBtn.selectedProperty().addListener((observableValue, wasSelected, nowSelected) -> {
             if(nowSelected) {
                 itemsTableView.setItems(queueItemList);
-                rowContextMenu.getItems().get(5).setText("Remove from Queue");
-                rowContextMenu.getItems().get(5).setOnAction(event -> removeFromQueueMenuAction());
+                rowContextMenu.getItems().get(2).setDisable(false);
+                rowContextMenu.getItems().get(6).setText("Remove from Queue");
+                rowContextMenu.getItems().get(6).setOnAction(event -> removeFromQueueMenuAction());
             } else {
                 itemsTableView.setItems(itemList);
-                rowContextMenu.getItems().get(5).setText("Add to Queue");
-                rowContextMenu.getItems().get(5).setOnAction(event -> addToQueueMenuAction());
+                rowContextMenu.getItems().get(2).setDisable(true);
+                rowContextMenu.getItems().get(6).setText("Add to Queue");
+                rowContextMenu.getItems().get(6).setOnAction(event -> addToQueueMenuAction());
             }
         });
 
@@ -299,6 +301,13 @@ public class HomeController implements Initializable {
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
+    }
+
+    private void waitMenuAction() {
+        Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
+
+        if(selectedItem.getStatus().equals("Stopped") && queueIsRunningBefore(selectedItem))
+            selectedItem.setStatus("Waiting");
     }
 
     private void upMenuAction() {
@@ -550,6 +559,11 @@ public class HomeController implements Initializable {
         pauseMenuItem.setOnAction(event -> stopBtnAction());
         pauseMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/pause.png").toString())));
 
+        MenuItem waitMenuItem = new MenuItem("Wait");
+        waitMenuItem.setDisable(true);
+        waitMenuItem.setOnAction(event -> waitMenuAction());
+        waitMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/wait.png").toString())));
+
         MenuItem deleteMenuItem = new MenuItem("Delete");
         deleteMenuItem.setOnAction(event -> removeBtnAction());
         deleteMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/delete.png").toString())));
@@ -578,7 +592,7 @@ public class HomeController implements Initializable {
         infoMenuItem.setOnAction(event -> infoBtnAction());
         infoMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/details.png").toString())));
 
-        rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, deleteMenuItem, upeMenuItem,
+        rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, waitMenuItem, deleteMenuItem, upeMenuItem,
                 downMenuItem, queueMenuItem, clearMenuItem, openFolderMenuItem, infoMenuItem);
 
         return rowContextMenu;

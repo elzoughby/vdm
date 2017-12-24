@@ -44,6 +44,7 @@
 
 .button-info {
     -fx-background-image:  url(imgs/details.png) ;
+    -fx-background-size: 22px,22px ;
 }
 
 .button-queue {
@@ -58,11 +59,6 @@
 
 .button-help {
     -fx-background-image:  url(imgs/help.png) ;
-    -fx-background-size: 22px,22px ;
-}
-
-.button-about {
-    -fx-background-image:  url(imgs/about.png) ;
     -fx-background-size: 22px,22px ;
 }
 
