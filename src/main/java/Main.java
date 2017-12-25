@@ -47,24 +47,30 @@ public class Main extends Application {
 
     }
 
-    private void close(WindowEvent event) {
+    public void close(WindowEvent event) {
 
         MessageDialog exitDialog = new MessageDialog("It seems you clicked the exit button right now,\n" +
                 "Are you sure you want to exit?", MessageDialog.Type.INFO, MessageDialog.Buttons.YES_AND_NO);
         exitDialog.getYesButton().setOnAction(e -> {
             exitDialog.close();
-            for(Item i : HomeController.getItemList())
-                i.stopDownload();
-            for(Item i : HomeController.getQueueItemList())
-                i.stopDownload();
-            DatabaseManager.closeConnection();
-            Platform.exit();
+            saveAndExit();
         });
         exitDialog.getNoButton().setOnAction(e -> {
             exitDialog.close();
             event.consume();
         });
         exitDialog.showAndWait();
+
+    }
+
+    public static void saveAndExit() {
+
+        for(Item i : HomeController.getItemList())
+            i.stopDownload();
+        for(Item i : HomeController.getQueueItemList())
+            i.stopDownload();
+        DatabaseManager.closeConnection();
+        Platform.exit();
 
     }
 

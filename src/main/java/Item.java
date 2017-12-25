@@ -1,3 +1,4 @@
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -7,9 +8,7 @@ import javafx.concurrent.Task;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -530,6 +529,10 @@ public class Item {
         setSpeed(0);
         setEta("");
 
+        if(getShutdownAfterFinish()) {
+            shutdownAfter(30);
+        }
+
         if(getIsAddedToQueue()) {
             Item nextQueueItem = getNextQueueItemTo(this);
             while(nextQueueItem != null && (nextQueueItem.getStatus().equals("Stopped") || nextQueueItem.getStatus().equals("Finished")))
@@ -544,9 +547,9 @@ public class Item {
 
         List<String> cmdList = new ArrayList<>(Arrays.asList("python", "youtube-dl", "-i", "-c", "--no-part"));
 
-        if (speedLimit.getValue() != 0) {
+        if (getSpeedLimit() != 0) {
             cmdList.add("-r");
-            cmdList.add(speedLimit.getValue().toString());
+            cmdList.add(String.valueOf(getSpeedLimit() + "K"));
         }
 
         if (audioQuality.getValue() == 0 && videoQuality.getValue() != 0) {
@@ -601,6 +604,47 @@ public class Item {
 
     private Item getThisItem() {
         return this;
+    }
+
+    private void shutdownAfter(int seconds) {
+
+        Timer timer = new Timer();
+        Platform.runLater(() -> timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+
+                Main.saveAndExit();
+                try {
+
+                    String os = System.getProperty("os.name").toLowerCase();
+
+                    if (os.startsWith("win"))
+                        Runtime.getRuntime().exec("shutdown.exe -s -t 0");
+                    else
+                        Runtime.getRuntime().exec("shutdown -h now");
+
+                } catch(Exception e) {
+
+                    new MessageDialog("Error executing shutdown command!\n" +
+                            "Restart program and try again.", MessageDialog.Type.ERROR,
+                            MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).show();
+
+                }
+                System.exit(0);
+            }
+
+        }, seconds * 1000));
+
+        MessageDialog messageDialog = new MessageDialog("Attention, Computer will shutdown after " +
+                seconds + " seconds !\nSave your work, or click cancel to stop.", MessageDialog.Type.INFO, MessageDialog.Buttons.OK_AND_CANCEL);
+        messageDialog.getOkButton().setOnAction(actionEvent -> messageDialog.close());
+        messageDialog.getCancelButton().setOnAction(actionEvent -> {
+            timer.cancel();
+            messageDialog.close();
+        });
+        messageDialog.show();
+
     }
 
     private Item getNextQueueItemTo(Item currentItem) {
