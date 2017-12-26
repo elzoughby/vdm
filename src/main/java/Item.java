@@ -40,6 +40,7 @@ public class Item {
     private DoubleProperty progress = new SimpleDoubleProperty();
     private FloatProperty size = new SimpleFloatProperty();
     private FloatProperty speed = new SimpleFloatProperty();
+    private boolean approximateSize = false;
     private String sizeUnit = "";
     private String speedUnit = "";
     private StringProperty speedString = new SimpleStringProperty();
@@ -328,7 +329,7 @@ public class Item {
         if(size == 0)
             this.sizeString.set("");
         else
-            this.sizeString.set(this.size.get() + " " + this.sizeUnit);
+            this.sizeString.set(approximateSize? "~" : "" + this.size.get() + " " + this.sizeUnit);
     }
 
     public float getSpeed() {
@@ -373,6 +374,14 @@ public class Item {
 
     public StringProperty sizeStringProperty() {
         return sizeString;
+    }
+
+    public boolean isApproximateSize() {
+        return approximateSize;
+    }
+
+    public void setApproximateSize(boolean approximateSize) {
+        this.approximateSize = approximateSize;
     }
 
     public String getSizeUnit() {
@@ -422,8 +431,8 @@ public class Item {
                 InputStream inputStream = ytdlProcess.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-                String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*~?(\\d+\\.\\d+)([MKG]?i?B)\\s*at\\s*(\\d+\\.\\d+)([MKG]?i?B/s)\\s*ETA\\s*(.*)";
-                String fileFinishRegex = "\\[download\\]\\s*100%\\s*of\\s*~?(\\d+\\.\\d+)\\s*([MKG]?i?B).*";
+                String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*(~?\\d+\\.\\d+)([MKG]?i?B)\\s*at\\s*(\\d+\\.\\d+)([MKG]?i?B/s)\\s*ETA\\s*(.*)";
+                String fileFinishRegex = "\\[download\\]\\s*100%\\s*of\\s*(~?\\d+\\.\\d+)\\s*([MKG]?i?B).*";
 
                 Pattern downloadPattern = Pattern.compile(downloadRegex);
                 Pattern fileFinishPattern = Pattern.compile(fileFinishRegex);
@@ -457,7 +466,8 @@ public class Item {
                             setSizeUnit(x);
                             DatabaseManager.updateString(getThisItem(), "sizeUnit", x);
                             x = downloadMatcher.group(2);
-                            setSize(Float.parseFloat(x));
+                            approximateSize = x.startsWith("~");
+                            setSize(Float.parseFloat(x.replace("~", "")));
                             DatabaseManager.updateFloat(getThisItem(), "size", getSize());
                             x = downloadMatcher.group(4);
                             setSpeed(Float.parseFloat(x));
@@ -483,7 +493,7 @@ public class Item {
                                     finishDownload();
                                 }
                             } else {
-                                //parse the title of download playlist item and add it to the database
+                                //parse the title of download item and add it to the database
                                 if (line.matches("\\[download\\]\\s*(Destination:\\s*)?" + getLocation() + "[/\\\\]?.+")) {
                                     String title = line.split(getLocation() + "[/\\\\]?")[1].split("\\s*has already been downloaded")[0];
                                     setTitle(title);
@@ -491,8 +501,13 @@ public class Item {
                                 //Check If download is completed and set Finished status
                                 } else if(!getIsPlaylist() && fileFinishMatcher.find()) {
                                     setDone(100);
-                                    setSizeUnit(fileFinishMatcher.group(2));
-                                    setSize(Float.parseFloat(fileFinishMatcher.group(1)));
+                                    String x = fileFinishMatcher.group(2);
+                                    setSizeUnit(x);
+                                    DatabaseManager.updateString(getThisItem(), "sizeUnit", x);
+                                    x = fileFinishMatcher.group(1);
+                                    approximateSize = x.startsWith("~");
+                                    setSize(Float.parseFloat(x.replace("~", "")));
+                                    DatabaseManager.updateFloat(getThisItem(), "size", getSize());
                                     finishDownload();
                                 }
                             }
