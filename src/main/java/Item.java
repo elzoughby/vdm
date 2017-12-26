@@ -1,4 +1,3 @@
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -36,15 +35,9 @@ public class Item {
     private StringProperty playlistItems = new SimpleStringProperty();
     private BooleanProperty needAllPlaylistItems = new SimpleBooleanProperty();
     private StringProperty status = new SimpleStringProperty();
-    private FloatProperty done = new SimpleFloatProperty();
-    private DoubleProperty progress = new SimpleDoubleProperty();
-    private FloatProperty size = new SimpleFloatProperty();
-    private FloatProperty speed = new SimpleFloatProperty();
-    private boolean approximateSize = false;
-    private String sizeUnit = "";
-    private String speedUnit = "";
-    private StringProperty speedString = new SimpleStringProperty();
-    private StringProperty sizeString = new SimpleStringProperty();
+    private DoubleProperty done = new SimpleDoubleProperty();
+    private StringProperty size = new SimpleStringProperty();
+    private StringProperty speed = new SimpleStringProperty();
     private StringProperty eta = new SimpleStringProperty();
     private ObservableList<String> logList = FXCollections.observableArrayList();
     private Process ytdlProcess = null;
@@ -303,101 +296,40 @@ public class Item {
         this.status.set(status);
     }
 
-    public float getDone() {
+    public double getDone() {
         return done.get();
     }
 
-    public FloatProperty doneProperty() {
+    public DoubleProperty doneProperty() {
         return done;
     }
 
-    public void setDone(float done) {
+    public void setDone(double done) {
         this.done.set(done);
-        this.progress.set((this.done.get() / 100.0f));
     }
 
-    public float getSize() {
+    public String getSize() {
         return size.get();
     }
 
-    public FloatProperty sizeProperty() {
+    public StringProperty sizeProperty() {
         return size;
     }
 
-    public void setSize(float size) {
+    public void setSize(String size) {
         this.size.set(size);
-        if(size == 0)
-            this.sizeString.set("");
-        else
-            this.sizeString.set(approximateSize? "~" : "" + this.size.get() + " " + this.sizeUnit);
     }
 
-    public float getSpeed() {
+    public String getSpeed() {
         return speed.get();
     }
 
-    public FloatProperty speedProperty() {
+    public StringProperty speedProperty() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(String speed) {
         this.speed.set(speed);
-        if (speed == 0)
-            this.speedString.set("");
-        else
-            this.speedString.set(this.speed.get() + " " + this.getSpeedUnit());
-    }
-
-    public double getProgress() {
-        return progress.get();
-    }
-
-    public DoubleProperty progressProperty() {
-        return progress;
-    }
-
-    public void setProgress(double progress) {
-        this.progress.set(progress);
-    }
-
-    public String getSpeedString() {
-        return speedString.get();
-    }
-
-    public StringProperty speedStringProperty() {
-        return speedString;
-    }
-
-    public String getSizeString() {
-        return sizeString.get();
-    }
-
-    public StringProperty sizeStringProperty() {
-        return sizeString;
-    }
-
-    public boolean isApproximateSize() {
-        return approximateSize;
-    }
-
-    public void setApproximateSize(boolean approximateSize) {
-        this.approximateSize = approximateSize;
-    }
-
-    public String getSizeUnit() {
-        return sizeUnit;
-    }
-
-    public void setSizeUnit(String sizeUnit) {
-        this.sizeUnit = sizeUnit;
-    }
-
-    public String getSpeedUnit() {
-        return speedUnit;
-    }
-
-    public void setSpeedUnit(String speedUnit) {
-        this.speedUnit = speedUnit;
     }
 
     public String getEta() {
@@ -416,6 +348,19 @@ public class Item {
         return logList;
     }
 
+    public void setLogList(ObservableList<String> logList) {
+        this.logList = logList;
+    }
+
+    public Process getYtdlProcess() {
+        return ytdlProcess;
+    }
+
+    public void setYtdlProcess(Process ytdlProcess) {
+        this.ytdlProcess = ytdlProcess;
+    }
+
+
 
     public void startDownload() {
 
@@ -431,8 +376,8 @@ public class Item {
                 InputStream inputStream = ytdlProcess.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-                String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*(~?\\d+\\.\\d+)([MKG]?i?B)\\s*at\\s*(\\d+\\.\\d+)([MKG]?i?B/s)\\s*ETA\\s*(.*)";
-                String fileFinishRegex = "\\[download\\]\\s*100%\\s*of\\s*(~?\\d+\\.\\d+)\\s*([MKG]?i?B).*";
+                String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*(~?\\d+\\.\\d+[MKG]?i?B)\\s*at\\s*(\\d+\\.\\d+[MKG]?i?B/s)\\s*ETA\\s*(.*)";
+                String fileFinishRegex = "\\[download\\]\\s*100%\\s*of\\s*(~?\\d+\\.\\d+[MKG]?i?B).*";
 
                 Pattern downloadPattern = Pattern.compile(downloadRegex);
                 Pattern fileFinishPattern = Pattern.compile(fileFinishRegex);
@@ -460,20 +405,14 @@ public class Item {
                                 logList.add(line);
 
                             String x = downloadMatcher.group(1);
-                            setDone(Float.parseFloat(x));
-                            DatabaseManager.updateFloat(getThisItem(), "done", getDone());  //update done percent in database
-                            x = downloadMatcher.group(3);
-                            setSizeUnit(x);
-                            DatabaseManager.updateString(getThisItem(), "sizeUnit", x);
+                            setDone(Double.parseDouble(x));
+                            DatabaseManager.updateDouble(getThisItem(), "done", getDone());  //update done percent in database
                             x = downloadMatcher.group(2);
-                            approximateSize = x.startsWith("~");
-                            setSize(Float.parseFloat(x.replace("~", "")));
-                            DatabaseManager.updateFloat(getThisItem(), "size", getSize());
+                            setSize(x);
+                            DatabaseManager.updateString(getThisItem(), "size", getSize());
+                            x = downloadMatcher.group(3);
+                            setSpeed(x);
                             x = downloadMatcher.group(4);
-                            setSpeed(Float.parseFloat(x));
-                            x = downloadMatcher.group(5);
-                            setSpeedUnit(x);
-                            x = downloadMatcher.group(6);
                             setEta(x);
 
                         } else if (!line.equals("")) {
@@ -489,7 +428,7 @@ public class Item {
                                 //Check If download is completed and set Finished status
                                 } else if (line.matches("\\[download\\]\\s*Finished\\s*downloading\\s*playlist:.*")) {
                                     setDone(100);
-                                    setSize(0);
+                                    setSize("");
                                     finishDownload();
                                 }
                             } else {
@@ -501,13 +440,9 @@ public class Item {
                                 //Check If download is completed and set Finished status
                                 } else if(!getIsPlaylist() && fileFinishMatcher.find()) {
                                     setDone(100);
-                                    String x = fileFinishMatcher.group(2);
-                                    setSizeUnit(x);
-                                    DatabaseManager.updateString(getThisItem(), "sizeUnit", x);
-                                    x = fileFinishMatcher.group(1);
-                                    approximateSize = x.startsWith("~");
-                                    setSize(Float.parseFloat(x.replace("~", "")));
-                                    DatabaseManager.updateFloat(getThisItem(), "size", getSize());
+                                    String x = fileFinishMatcher.group(1);
+                                    setSize(x);
+                                    DatabaseManager.updateString(getThisItem(), "size", getSize());
                                     finishDownload();
                                 }
                             }
@@ -533,7 +468,7 @@ public class Item {
         setStatus("Stopped");
         if(ytdlProcess != null)
             ytdlProcess.destroy();
-        setSpeed(0);
+        setSpeed("");
         setEta("");
     }
 
@@ -541,7 +476,7 @@ public class Item {
 
         setStatus("Finished");
         ytdlProcess.destroy();
-        setSpeed(0);
+        setSpeed("");
         setEta("");
 
         if(getShutdownAfterFinish()) {

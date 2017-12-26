@@ -46,8 +46,8 @@ public class HomeController implements Initializable {
         public void updateItem(Double item, boolean empty) {
             super.updateItem(item, empty);
             if(!empty) {
-                progressBar.setProgress(item);
-                label.setText(BigDecimal.valueOf(item * 100d).setScale(1,BigDecimal.ROUND_HALF_UP).toString() + " %");
+                progressBar.setProgress(item / 100);
+                label.setText(BigDecimal.valueOf(item).setScale(1,BigDecimal.ROUND_HALF_UP).toString() + " %");
                 setGraphic(stackPane);
             } else
                 setGraphic(null);

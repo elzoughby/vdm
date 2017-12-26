@@ -119,19 +119,19 @@
                         <TableColumn fx:id="itemsSizeColumn" maxWidth="150.0" minWidth="80.0" prefWidth="100.0"
                                      text="Size">
                             <cellValueFactory>
-                                <PropertyValueFactory property="sizeString"/>
+                                <PropertyValueFactory property="size"/>
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="itemsProgressColumn" maxWidth="500.0" minWidth="70.0" prefWidth="100.0"
                                      text="Done">
                             <cellValueFactory>
-                                <PropertyValueFactory property="progress"/>
+                                <PropertyValueFactory property="done"/>
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="80.0" prefWidth="100.0"
                                      text="Speed">
                             <cellValueFactory>
-                                <PropertyValueFactory property="speedString"/>
+                                <PropertyValueFactory property="speed"/>
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="itemsEtaColumn" maxWidth="150.0" minWidth="70.0" prefWidth="76.0"

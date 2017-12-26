@@ -29,9 +29,8 @@ CREATE TABLE playlistItems (
     playlistEndIndex              INTEGER,
     playlistItems                 TEXT,
     needAllPlaylistItems              BOOLEAN NOT NULL,
-    done                  DECIMAL,
-    size                  DECIMAL,
-    sizeUnit              TEXT
+    done                  TEXT,
+    size                  DECIMAL
 );
 
 
