@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
+
 <BorderPane fx:id="homeWindowPane" prefHeight="500.0" prefWidth="800.0" stylesheets="@../theme/home.css"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
     <left>
@@ -96,7 +97,7 @@
             <items>
                 <TableView fx:id="itemsTableView" prefWidth="751.0" style="-fx-border-color: #d7d7d7;">
                     <placeholder>
-                        <Label text="click + to add new download"/>
+                        <Label/>
                     </placeholder>
                     <columns>
                         <TableColumn fx:id="itemsTypeColumn" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="">

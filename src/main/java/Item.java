@@ -36,9 +36,9 @@ public class Item {
     private BooleanProperty needAllPlaylistItems = new SimpleBooleanProperty();
     private StringProperty status = new SimpleStringProperty();
     private DoubleProperty done = new SimpleDoubleProperty();
-    private StringProperty size = new SimpleStringProperty();
-    private StringProperty speed = new SimpleStringProperty();
-    private StringProperty eta = new SimpleStringProperty();
+    private StringProperty size = new SimpleStringProperty("");
+    private StringProperty speed = new SimpleStringProperty("");
+    private StringProperty eta = new SimpleStringProperty("");
     private ObservableList<String> logList = FXCollections.observableArrayList();
     private Process ytdlProcess = null;
 
@@ -376,8 +376,8 @@ public class Item {
                 InputStream inputStream = ytdlProcess.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-                String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*(~?\\d+\\.\\d+[MKG]?i?B)\\s*at\\s*(\\d+\\.\\d+[MKG]?i?B/s)\\s*ETA\\s*(.*)";
-                String fileFinishRegex = "\\[download\\]\\s*100%\\s*of\\s*(~?\\d+\\.\\d+[MKG]?i?B).*";
+                String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*(~?\\d+\\.\\d+)([MKG]?i?B)\\s*at\\s*(\\d+\\.\\d+)([MKG]?i?B/s)\\s*ETA\\s*(.*)";
+                String fileFinishRegex = "\\[download\\]\\s*100%\\s*of\\s*(~?\\d+\\.\\d+)([MKG]?i?B).*";
 
                 Pattern downloadPattern = Pattern.compile(downloadRegex);
                 Pattern fileFinishPattern = Pattern.compile(fileFinishRegex);
@@ -404,16 +404,12 @@ public class Item {
                             } else
                                 logList.add(line);
 
-                            String x = downloadMatcher.group(1);
-                            setDone(Double.parseDouble(x));
+                            setDone(Double.parseDouble(downloadMatcher.group(1)));
                             DatabaseManager.updateDouble(getThisItem(), "done", getDone());  //update done percent in database
-                            x = downloadMatcher.group(2);
-                            setSize(x);
+                            setSize(downloadMatcher.group(2) + " " + downloadMatcher.group(3));
                             DatabaseManager.updateString(getThisItem(), "size", getSize());
-                            x = downloadMatcher.group(3);
-                            setSpeed(x);
-                            x = downloadMatcher.group(4);
-                            setEta(x);
+                            setSpeed(downloadMatcher.group(4) + " " + downloadMatcher.group(5));
+                            setEta(downloadMatcher.group(6));
 
                         } else if (!line.equals("")) {
 
@@ -440,8 +436,7 @@ public class Item {
                                 //Check If download is completed and set Finished status
                                 } else if(!getIsPlaylist() && fileFinishMatcher.find()) {
                                     setDone(100);
-                                    String x = fileFinishMatcher.group(1);
-                                    setSize(x);
+                                    setSize(fileFinishMatcher.group(1) + " " + fileFinishMatcher.group(2));
                                     DatabaseManager.updateString(getThisItem(), "size", getSize());
                                     finishDownload();
                                 }

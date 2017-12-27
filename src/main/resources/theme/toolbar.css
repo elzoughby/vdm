@@ -14,7 +14,7 @@
 }
 
 .button:focused, .toggle-button:focused {
-    -fx-border-color: #ebebeb;
+    -fx-border-color: #e6e6e6;
     -fx-border-style: dashed;
     -fx-border-radius: 3px;
     -fx-border-width: 1px;
