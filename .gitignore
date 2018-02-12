@@ -1,5 +1,6 @@
 .idea/kotlinc.xml
 .idea/workspace.xml
+.idea/uiDesigner.xml
 out/
 target/
 data/*.json

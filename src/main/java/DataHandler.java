@@ -8,9 +8,9 @@ import java.nio.file.Paths;
 import java.util.prefs.Preferences;
 
 
-public class DatabaseManager {
+public class DataHandler {
 
-    private static final String DATABASE_NODE = "DatabaseManager";
+    private static final String DATABASE_NODE = "DataHandler";
     private static final String NEXT_ID = "nextID";
 
     private static Preferences programData = Preferences.userRoot().node(DATABASE_NODE);

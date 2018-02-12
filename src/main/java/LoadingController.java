@@ -28,7 +28,7 @@ public class LoadingController implements Initializable {
     @Override
     protected void finalize() throws Throwable {
 
-        DatabaseManager.load();
+        DataHandler.load();
         Platform.runLater(this::close);
         super.finalize();
 

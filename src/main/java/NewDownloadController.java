@@ -121,7 +121,7 @@ public class NewDownloadController implements Initializable{
         Item item = createItem();
         item.setIsAddedToQueue(false);
         HomeController.getItemList().add(item);
-        DatabaseManager.save(item);
+        DataHandler.save(item);
         item.startDownload();
         cancelAndSetQueueBtn(false);
 
@@ -139,7 +139,7 @@ public class NewDownloadController implements Initializable{
             item.setStatus("Stopped");
 
         HomeController.getQueueItemList().add(item);
-        DatabaseManager.save(item);
+        DataHandler.save(item);
         cancelAndSetQueueBtn(true);
 
     }
@@ -154,7 +154,7 @@ public class NewDownloadController implements Initializable{
 
         Item item = new Item();
 
-        item.setId(DatabaseManager.getNextId());
+        item.setId(DataHandler.getNextId());
         item.setUrl(urlTextField.getText());
         item.setTitle(urlTextField.getText());
         item.setLocation(locationTextField.getText().replaceAll("[/\\\\]$",""));

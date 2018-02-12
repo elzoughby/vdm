@@ -470,7 +470,7 @@ public class Item {
                             setSize(downloadMatcher.group(2) + " " + downloadMatcher.group(3));
                             setSpeed(downloadMatcher.group(4) + " " + downloadMatcher.group(5));
                             setEta(downloadMatcher.group(6));
-                            DatabaseManager.save(getThisItem());
+                            DataHandler.save(getThisItem());
 
                         } else if (!line.equals("")) {
 
@@ -481,7 +481,7 @@ public class Item {
                                 if (line.matches("\\[download\\]\\s*Downloading playlist:\\s*.+")) {
                                     String title = line.split(":\\s+")[1];
                                     setTitle(title);
-                                    DatabaseManager.save(getThisItem());
+                                    DataHandler.save(getThisItem());
                                 //Check If download is completed and set Finished status
                                 } else if (line.matches("\\[download\\]\\s*Finished\\s*downloading\\s*playlist:.*")) {
                                     setDone(100);
@@ -493,12 +493,12 @@ public class Item {
                                 if (line.matches("\\[download\\]\\s*(Destination:\\s*)?" + getLocation() + "[/\\\\]?.+")) {
                                     String title = line.split(getLocation() + "[/\\\\]?")[1].split("\\s*has already been downloaded")[0];
                                     setTitle(title);
-                                    DatabaseManager.save(getThisItem());
+                                    DataHandler.save(getThisItem());
                                 //Check If download is completed and set Finished status
                                 } else if(!getIsPlaylist() && fileFinishMatcher.find()) {
                                     setDone(100);
                                     setSize(fileFinishMatcher.group(1) + " " + fileFinishMatcher.group(2));
-                                    DatabaseManager.save(getThisItem());
+                                    DataHandler.save(getThisItem());
                                     finishDownload();
                                 }
                             }

@@ -247,7 +247,7 @@ public class HomeController implements Initializable {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         selectedItem.setIsAddedToQueue(true);
-        DatabaseManager.save(selectedItem);
+        DataHandler.save(selectedItem);
         stopBtnAction();
         itemList.remove(selectedItem);
         queueItemList.add(selectedItem);
@@ -260,7 +260,7 @@ public class HomeController implements Initializable {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         selectedItem.setIsAddedToQueue(false);
-        DatabaseManager.save(selectedItem);
+        DataHandler.save(selectedItem);
 
         if(selectedItem.getStatus().equals("Waiting")) {
             selectedItem.setStatus("Stopped");
@@ -456,7 +456,7 @@ public class HomeController implements Initializable {
                     if (result) {
                         itemList.remove(selectedItem);
                         queueItemList.remove(selectedItem);
-                        DatabaseManager.delete(selectedItem);
+                        DataHandler.delete(selectedItem);
                         deleteDialog.close();
                     }
 
@@ -465,7 +465,7 @@ public class HomeController implements Initializable {
                     stopBtnAction();
                     itemList.remove(selectedItem);
                     queueItemList.remove(selectedItem);
-                    DatabaseManager.delete(selectedItem);
+                    DataHandler.delete(selectedItem);
                     deleteDialog.close();
 
                 }
