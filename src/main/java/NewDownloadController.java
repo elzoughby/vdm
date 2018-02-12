@@ -121,7 +121,7 @@ public class NewDownloadController implements Initializable{
         Item item = createItem();
         item.setIsAddedToQueue(false);
         HomeController.getItemList().add(item);
-        DatabaseManager.insert(item);
+        DatabaseManager.save(item);
         item.startDownload();
         cancelAndSetQueueBtn(false);
 
@@ -139,7 +139,7 @@ public class NewDownloadController implements Initializable{
             item.setStatus("Stopped");
 
         HomeController.getQueueItemList().add(item);
-        DatabaseManager.insert(item);
+        DatabaseManager.save(item);
         cancelAndSetQueueBtn(true);
 
     }

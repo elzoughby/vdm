@@ -15,18 +15,21 @@
           </JavaFxApplicationIcons>
         </option>
         <option name="title" value="Nazel Video Downloader" />
-        <option name="vendor" value="NVD Team" />
-        <option name="version" value="0.6" />
+        <option name="vendor" value="Nazeloon" />
+        <option name="version" value="0.9.1" />
         <option name="width" value="800" />
       </options>
     </properties>
     <root id="root">
       <element id="archive" name="NazelVideoDownloader.jar">
         <element id="module-output" name="NazelVideoDownloader" />
-        <element id="library" level="project" name="Maven: org.xerial:sqlite-jdbc:3.18.0" />
       </element>
-      <element id="file-copy" path="$PROJECT_DIR$/nvddb.db" />
       <element id="file-copy" path="$PROJECT_DIR$/youtube-dl" />
+      <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.2" />
+      <element id="library" level="project" name="Maven: org.hildan.fxgson:fx-gson:3.1.0" />
+      <element id="directory" name="data">
+        <element id="dir-copy" path="$PROJECT_DIR$/data" />
+      </element>
     </root>
   </artifact>
 </component>

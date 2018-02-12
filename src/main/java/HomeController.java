@@ -16,9 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
@@ -249,6 +247,7 @@ public class HomeController implements Initializable {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         selectedItem.setIsAddedToQueue(true);
+        DatabaseManager.save(selectedItem);
         stopBtnAction();
         itemList.remove(selectedItem);
         queueItemList.add(selectedItem);
@@ -261,6 +260,7 @@ public class HomeController implements Initializable {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         selectedItem.setIsAddedToQueue(false);
+        DatabaseManager.save(selectedItem);
 
         if(selectedItem.getStatus().equals("Waiting")) {
             selectedItem.setStatus("Stopped");

@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,7 +28,6 @@ public class LoadingController implements Initializable {
     @Override
     protected void finalize() throws Throwable {
 
-        DatabaseManager.initialize();
         DatabaseManager.load();
         Platform.runLater(this::close);
         super.finalize();
