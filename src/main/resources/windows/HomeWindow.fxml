@@ -15,157 +15,134 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-
-<BorderPane fx:id="homeWindowPane" prefHeight="500.0" prefWidth="800.0" stylesheets="@../theme/home.css"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
+<BorderPane fx:id="homeWindowPane" prefHeight="500.0" prefWidth="800.0" stylesheets="@../theme/home.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
     <left>
-        <ToolBar orientation="VERTICAL" prefHeight="492.0" prefWidth="42.0" style="-fx-background-color: white;"
-                 BorderPane.alignment="TOP_CENTER">
+        <ToolBar orientation="VERTICAL" prefHeight="492.0" prefWidth="42.0" style="-fx-background-color: white;" BorderPane.alignment="TOP_CENTER">
             <items>
-                <Button mnemonicParsing="false" onAction="#addBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="button-add" stylesheets="@../theme/toolbar.css">
+                <Button mnemonicParsing="false" onAction="#addBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-add" stylesheets="@../theme/toolbar.css">
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets />
                     </opaqueInsets>
                     <tooltip>
-                        <Tooltip text="New Download"/>
+                        <Tooltip text="New Download   [Ctrl+n]" />
                     </tooltip>
                 </Button>
-                <Separator prefHeight="0.0" prefWidth="0.0"/>
-                <Button mnemonicParsing="false" onAction="#startBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="button-start" stylesheets="@../theme/toolbar.css">
+                <Separator prefHeight="0.0" prefWidth="0.0" />
+                <Button mnemonicParsing="false" onAction="#startBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-start" stylesheets="@../theme/toolbar.css">
                     <tooltip>
-                        <Tooltip text="Start"/>
+                        <Tooltip text="Start   [Ctrl+s]" />
                     </tooltip>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#stopBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="button-pause" stylesheets="@../theme/toolbar.css">
+                <Button mnemonicParsing="false" onAction="#stopBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-pause" stylesheets="@../theme/toolbar.css">
                     <tooltip>
-                        <Tooltip text="Pause"/>
+                        <Tooltip text="Pause   [Ctrl+p]" />
                     </tooltip>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#removeBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="button-remove" stylesheets="@../theme/toolbar.css">
+                <Button mnemonicParsing="false" onAction="#removeBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-remove" stylesheets="@../theme/toolbar.css">
                     <tooltip>
-                        <Tooltip text="Delete"/>
+                        <Tooltip text="Delete   [Delete]" />
                     </tooltip>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#infoBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="button-info" stylesheets="@../theme/toolbar.css">
+                <Button mnemonicParsing="false" onAction="#infoBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-info" stylesheets="@../theme/toolbar.css">
                     <tooltip>
-                        <Tooltip text="Download Info"/>
+                        <Tooltip text="Properties   [Alt+↵]" />
                     </tooltip>
                 </Button>
-                <Separator prefHeight="0.0" prefWidth="0.0"/>
-                <ToggleButton fx:id="queueBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0"
-                              styleClass="button-queue" stylesheets="@../theme/toolbar.css">
+                <Separator prefHeight="0.0" prefWidth="0.0" />
+                <ToggleButton fx:id="queueBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="button-queue" stylesheets="@../theme/toolbar.css">
                     <tooltip>
-                        <Tooltip text="Show/Hide Queue"/>
+                        <Tooltip text="Show/Hide Queue   [F6]" />
                     </tooltip>
                 </ToggleButton>
-                <Separator prefHeight="0.0" prefWidth="0.0"/>
-                <Button mnemonicParsing="false" onAction="#logBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="button-log" stylesheets="@../theme/toolbar.css">
+                <Separator prefHeight="0.0" prefWidth="0.0" />
+                <Button mnemonicParsing="false" onAction="#logBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-log" stylesheets="@../theme/toolbar.css">
                     <tooltip>
-                        <Tooltip text="Show/Hide loglist"/>
+                        <Tooltip text="Show/Hide log   [F7]" />
                     </tooltip>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#settingBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="button-setting" stylesheets="@../theme/toolbar.css">
+                <Button mnemonicParsing="false" onAction="#settingBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-setting" stylesheets="@../theme/toolbar.css">
                     <tooltip>
-                        <Tooltip text="Settings"/>
+                        <Tooltip text="Settings   [F10]" />
                     </tooltip>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#helpBtnAction" prefHeight="30.0" prefWidth="30.0"
-                        styleClass="button-help" stylesheets="@../theme/toolbar.css">
+                <Button mnemonicParsing="false" onAction="#helpBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-help" stylesheets="@../theme/toolbar.css">
                     <tooltip>
-                        <Tooltip text="Help"/>
+                        <Tooltip text="Help   [F1]" />
                     </tooltip>
                 </Button>
             </items>
             <BorderPane.margin>
-                <Insets top="-7.0"/>
+                <Insets top="-7.0" />
             </BorderPane.margin>
             <opaqueInsets>
-                <Insets/>
+                <Insets />
             </opaqueInsets>
         </ToolBar>
     </left>
     <center>
-        <SplitPane fx:id="homeSplitPane" dividerPositions="0.828" orientation="VERTICAL" prefWidth="160.0"
-                   style="-fx-padding: 0;" stylesheets="@../theme/home.css" BorderPane.alignment="CENTER">
+        <SplitPane fx:id="homeSplitPane" dividerPositions="0.828" orientation="VERTICAL" prefWidth="160.0" style="-fx-padding: 0;" stylesheets="@../theme/home.css" BorderPane.alignment="CENTER">
             <items>
                 <TableView fx:id="itemsTableView" prefWidth="751.0" style="-fx-border-color: #d7d7d7;">
                     <placeholder>
-                        <Label/>
+                        <Label />
                     </placeholder>
                     <columns>
                         <TableColumn fx:id="itemsTypeColumn" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="">
                             <cellValueFactory>
-                                <PropertyValueFactory property="isPlaylist"/>
+                                <PropertyValueFactory property="isPlaylist" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsTitleColumn" maxWidth="1500.0" minWidth="80.0" prefWidth="250.0"
-                                     text="Title">
+                        <TableColumn fx:id="itemsTitleColumn" maxWidth="1500.0" minWidth="80.0" prefWidth="250.0" text="Title">
                             <cellValueFactory>
-                                <PropertyValueFactory property="title"/>
+                                <PropertyValueFactory property="title" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsStatusColumn" maxWidth="150.0" minWidth="80.0" prefWidth="90.0"
-                                     text="Status">
+                        <TableColumn fx:id="itemsStatusColumn" maxWidth="150.0" minWidth="80.0" prefWidth="90.0" text="Status">
                             <cellValueFactory>
-                                <PropertyValueFactory property="status"/>
+                                <PropertyValueFactory property="status" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsSizeColumn" maxWidth="150.0" minWidth="80.0" prefWidth="100.0"
-                                     text="Size">
+                        <TableColumn fx:id="itemsSizeColumn" maxWidth="150.0" minWidth="80.0" prefWidth="100.0" text="Size">
                             <cellValueFactory>
-                                <PropertyValueFactory property="size"/>
+                                <PropertyValueFactory property="size" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsProgressColumn" maxWidth="500.0" minWidth="70.0" prefWidth="100.0"
-                                     text="Done">
+                        <TableColumn fx:id="itemsProgressColumn" maxWidth="500.0" minWidth="70.0" prefWidth="100.0" text="Done">
                             <cellValueFactory>
-                                <PropertyValueFactory property="done"/>
+                                <PropertyValueFactory property="done" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="80.0" prefWidth="100.0"
-                                     text="Speed">
+                        <TableColumn fx:id="itemsSpeedColumn" maxWidth="150.0" minWidth="80.0" prefWidth="100.0" text="Speed">
                             <cellValueFactory>
-                                <PropertyValueFactory property="speed"/>
+                                <PropertyValueFactory property="speed" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="itemsEtaColumn" maxWidth="150.0" minWidth="70.0" prefWidth="76.0"
-                                     text="ETA">
+                        <TableColumn fx:id="itemsEtaColumn" maxWidth="150.0" minWidth="70.0" prefWidth="76.0" text="ETA">
                             <cellValueFactory>
-                                <PropertyValueFactory property="eta"/>
+                                <PropertyValueFactory property="eta" />
                             </cellValueFactory>
                         </TableColumn>
                     </columns>
 
                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
                 </TableView>
-                <ListView fx:id="consoleListView" prefWidth="751.0"
-                          style="-fx-border-color: #d7d7d7; -fx-padding: 1px;">
+                <ListView fx:id="consoleListView" prefWidth="751.0" style="-fx-border-color: #d7d7d7; -fx-padding: 1px;">
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets />
                     </opaqueInsets>
                 </ListView>
             </items>
         </SplitPane>
     </center>
     <bottom>
-        <Pane maxHeight="10.0" minHeight="10.0" prefHeight="10.0" style="-fx-background-color: white;"
-              BorderPane.alignment="CENTER"/>
+        <Pane maxHeight="10.0" minHeight="10.0" prefHeight="10.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
     </bottom>
     <right>
-        <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="10.0" style="-fx-background-color: white;"
-              BorderPane.alignment="CENTER"/>
+        <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="10.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
     </right>
     <top>
-        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" style="-fx-background-color: white;"
-              BorderPane.alignment="CENTER"/>
+        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
     </top>
 </BorderPane>

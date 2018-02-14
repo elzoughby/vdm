@@ -1,5 +1,7 @@
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +13,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -211,6 +217,20 @@ public class HomeController implements Initializable {
             }
         });
 
+        // Keyboard shortcuts for non-contextmenu options
+        homeWindowPane.setOnKeyPressed((KeyEvent keyEvent) -> {
+            if(new KeyCodeCombination(KeyCode.N, KeyCombination.SHORTCUT_DOWN).match(keyEvent))
+                addBtnAction();
+            else if(new KeyCodeCombination(KeyCode.F6).match(keyEvent))
+                queueBtn.fire();
+            else if(new KeyCodeCombination(KeyCode.F7).match(keyEvent))
+                logBtnAction();
+            else if(new KeyCodeCombination(KeyCode.F10).match(keyEvent))
+                settingBtnAction();
+            else if(new KeyCodeCombination(KeyCode.F1).match(keyEvent))
+                helpBtnAction();
+        });
+
         // save and restore SplitPane divider position
         homeSplitPane.setDividerPositions(programData.getDouble(DIVIDER_POSITION, 0.8));
         homeSplitPane.getDividers().get(0).positionProperty().addListener((observableValue, oldValue, newValue) ->
@@ -246,59 +266,71 @@ public class HomeController implements Initializable {
     private void addToQueueMenuAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
-        selectedItem.setIsAddedToQueue(true);
-        DataHandler.save(selectedItem);
-        stopBtnAction();
-        itemList.remove(selectedItem);
-        queueItemList.add(selectedItem);
-        if(queueIsRunningBefore(selectedItem) && ! selectedItem.getStatus().equals("Finished"))
-            selectedItem.setStatus("Waiting");
+        if(selectedItem != null) {
+            selectedItem.setIsAddedToQueue(true);
+            DataHandler.save(selectedItem);
+            stopBtnAction();
+            itemList.remove(selectedItem);
+            queueItemList.add(selectedItem);
+            if (queueIsRunningBefore(selectedItem) && !selectedItem.getStatus().equals("Finished"))
+                selectedItem.setStatus("Waiting");
+        }
 
     }
 
     private void removeFromQueueMenuAction() {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
-        selectedItem.setIsAddedToQueue(false);
-        DataHandler.save(selectedItem);
+        if(selectedItem != null) {
+            selectedItem.setIsAddedToQueue(false);
+            DataHandler.save(selectedItem);
 
-        if(selectedItem.getStatus().equals("Waiting")) {
-            selectedItem.setStatus("Stopped");
-        } else if(selectedItem.getStatus().equals("Running") || selectedItem.getStatus().equals("Starting")) {
-            if(! queueIsRunningBefore(selectedItem))
-                setNextQueueItemsStatus(selectedItem, "Stopped");
+            if (selectedItem.getStatus().equals("Waiting")) {
+                selectedItem.setStatus("Stopped");
+            } else if (selectedItem.getStatus().equals("Running") || selectedItem.getStatus().equals("Starting")) {
+                if (!queueIsRunningBefore(selectedItem))
+                    setNextQueueItemsStatus(selectedItem, "Stopped");
+            }
+
+            itemList.add(selectedItem);
+            queueItemList.remove(selectedItem);
         }
-
-        itemList.add(selectedItem);
-        queueItemList.remove(selectedItem);
 
     }
 
     private void clearLogsMenuAction() {
 
-        itemsTableView.getSelectionModel().getSelectedItem().getLogList().clear();
+        Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
+        if(selectedItem != null)
+            selectedItem.getLogList().clear();
 
     }
 
     private void openFolderMenuAction() {
 
-        String location = itemsTableView.getSelectionModel().getSelectedItem().getLocation();
-        String os =  System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
+        Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
 
-        try {
+        if(selectedItem != null) {
 
-            if (os.contains("win")) {
-                Runtime.getRuntime().exec("explorer " + location);
-            } else if (os.contains("mac")) {
-                Runtime.getRuntime().exec("open " + location);
-            } else {
-                Runtime.getRuntime().exec("xdg-open " + location);
+            String location = selectedItem.getLocation();
+            String os = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
+
+            try {
+
+                if (os.contains("win")) {
+                    Runtime.getRuntime().exec("explorer " + location);
+                } else if (os.contains("mac")) {
+                    Runtime.getRuntime().exec("open " + location);
+                } else {
+                    Runtime.getRuntime().exec("xdg-open " + location);
+                }
+
+            } catch (Exception e) {
+                new MessageDialog("Error opening save location! \n" +
+                        "Restart program and try again.", MessageDialog.Type.ERROR,
+                        MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
             }
 
-        } catch(Exception e) {
-            new MessageDialog("Error opening save location! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
-                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
     }
@@ -553,43 +585,53 @@ public class HomeController implements Initializable {
 
         MenuItem startMenuItem = new MenuItem("Start");
         startMenuItem.setOnAction(event -> startBtnAction());
+        startMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN));
         startMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/start.png").toString())));
 
         MenuItem pauseMenuItem = new MenuItem("Pause");
         pauseMenuItem.setOnAction(event -> stopBtnAction());
+        pauseMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.SHORTCUT_DOWN));
         pauseMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/pause.png").toString())));
 
         MenuItem waitMenuItem = new MenuItem("Wait");
         waitMenuItem.setDisable(true);
         waitMenuItem.setOnAction(event -> waitMenuAction());
+        waitMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN));
         waitMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/wait.png").toString())));
 
         MenuItem deleteMenuItem = new MenuItem("Delete");
         deleteMenuItem.setOnAction(event -> removeBtnAction());
+        deleteMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.DELETE));
         deleteMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/delete.png").toString())));
 
         MenuItem upeMenuItem = new MenuItem("Up");
         upeMenuItem.setOnAction(event -> upMenuAction());
+        upeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.UP, KeyCombination.SHORTCUT_DOWN));
         upeMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/up.png").toString())));
 
         MenuItem downMenuItem = new MenuItem("Down");
         downMenuItem.setOnAction(event -> downMenuAction());
+        downMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.DOWN, KeyCombination.SHORTCUT_DOWN));
         downMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/down.png").toString())));
 
         MenuItem queueMenuItem = new MenuItem("Add to Queue");
         queueMenuItem.setOnAction(event -> addToQueueMenuAction());
+        queueMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.SHORTCUT_DOWN));
         queueMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/queue.png").toString())));
 
         MenuItem clearMenuItem = new MenuItem("Clear Logs");
         clearMenuItem.setOnAction(event -> clearLogsMenuAction());
+        clearMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCombination.SHORTCUT_DOWN));
         clearMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/clear.png").toString())));
 
         MenuItem openFolderMenuItem = new MenuItem("Open Location");
         openFolderMenuItem.setOnAction(event -> openFolderMenuAction());
+        openFolderMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN));
         openFolderMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/folder.png").toString())));
 
         MenuItem infoMenuItem = new MenuItem("Properties");
         infoMenuItem.setOnAction(event -> infoBtnAction());
+        infoMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ALT_DOWN));
         infoMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/details.png").toString())));
 
         rowContextMenu.getItems().addAll(startMenuItem, pauseMenuItem, waitMenuItem, deleteMenuItem, upeMenuItem,

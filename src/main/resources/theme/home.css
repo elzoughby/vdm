@@ -109,6 +109,11 @@
 
 /* =========== Context menu =========== */
 
+.context-menu .accelerator-text {
+    -fx-text-fill: #878787;
+    -fx-font-size: 8.5pt;
+}
+
 .menu-item {
     -fx-selection-bar: #bae6f5;
 }

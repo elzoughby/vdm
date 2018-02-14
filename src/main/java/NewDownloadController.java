@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.input.Clipboard;
+import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
@@ -94,6 +94,15 @@ public class NewDownloadController implements Initializable{
         embeddedSubtitleChkBox.selectedProperty().not().and(autoGenSubtitleChkBox.selectedProperty().not()).addListener((observable, oldValue, newValue) -> subtitleLanguagePane.setDisable(newValue));
         qualityComboBox.setItems(FXCollections.observableArrayList("Best", "1080p - mp4 video", "720p - mp4 video", "480p - mp4 video", "360p - mp4 video", "240p - mp4 video", "144p - mp4 video", "48K - m4a audio only"));
         qualityComboBox.setValue("Best");
+
+        newDownloadWindowPane.setOnKeyPressed((KeyEvent keyEvent) -> {
+            if(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN).match(keyEvent))
+                startBtnAction();
+            else if(new KeyCodeCombination(KeyCode.Q, KeyCombination.SHORTCUT_DOWN).match(keyEvent))
+                scheduleBtnAction();
+            else if(new KeyCodeCombination(KeyCode.ESCAPE).match(keyEvent))
+                cancelBtnAction();
+        });
 
     }
 

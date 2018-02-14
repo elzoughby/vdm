@@ -8,6 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -133,6 +137,11 @@ public class MessageDialog implements Initializable {
         dragPane.setOnMouseDragged(event -> {
             messageStage.setX(event.getScreenX() - xOffset);
             messageStage.setY(event.getScreenY() - yOffset);
+        });
+
+        messageDialogPane.setOnKeyPressed((KeyEvent keyEvent) -> {
+            if(new KeyCodeCombination(KeyCode.ESCAPE).match(keyEvent))
+                noButton.fire();
         });
 
     }
