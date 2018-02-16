@@ -1,7 +1,5 @@
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,18 +11,17 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -200,6 +197,66 @@ public class HomeController implements Initializable {
                 consoleListView.setItems(null);
             else
                 consoleListView.setItems(newValue.getLogList());
+        });
+
+        // adding contextmenu to the log list
+        consoleListView.setCellFactory(stringListView -> {
+
+            ListCell<String> cell = new ListCell<>();
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem copyMenuItem = new MenuItem("Copy");
+            copyMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.SHORTCUT_DOWN));
+            copyMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/copy.png").toString())));
+            copyMenuItem.setOnAction(actionEvent -> {
+                Clipboard systemClipboard = Clipboard.getSystemClipboard();
+                ClipboardContent clipboardContent = new ClipboardContent();
+                clipboardContent.putString(cell.getItem());
+                systemClipboard.setContent(clipboardContent);
+            });
+
+            MenuItem saveMenuItem = new MenuItem("Save as");
+            saveMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCombination.SHORTCUT_DOWN));
+            saveMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/save.png").toString())));
+            saveMenuItem.setOnAction(actionEvent -> {
+                Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save log file");
+                fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+                fileChooser.setInitialFileName("NVD-item-" + selectedItem.getId() + ".log");
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.log", "*.txt"));
+                File file = fileChooser.showSaveDialog(homeWindowPane.getScene().getWindow());
+                if(file != null) {
+                    StringBuilder sb = new StringBuilder();
+                    selectedItem.getLogList().forEach(line -> sb.append(line).append('\n'));
+                    try {
+                        if(! file.exists())
+                            Files.createFile(file.toPath());
+                        Files.write(file.toPath(), sb.toString().getBytes());
+                    } catch (Exception e) {
+                        homeWindowPane.setOpacity(0.30);
+                        new MessageDialog("Error Saving log file! \n" +
+                                "Restart program and try again.", MessageDialog.Type.ERROR,
+                                MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
+                        homeWindowPane.setOpacity(1);
+                    }
+                }
+            });
+
+            MenuItem clearMenuItem = new MenuItem("Clear all");
+            clearMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCombination.SHORTCUT_DOWN));
+            clearMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/clear.png").toString())));
+            clearMenuItem.setOnAction(actionEvent -> clearLogsMenuAction());
+
+            contextMenu.getItems().addAll(copyMenuItem, saveMenuItem, clearMenuItem);
+            cell.textProperty().bind(cell.itemProperty());
+            cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+                if (isNowEmpty)
+                    cell.setContextMenu(null);
+                else
+                    cell.setContextMenu(contextMenu);
+            });
+            return cell;
         });
 
         // Show/Hide Queue list and change context menu queue option with selecting queueBtn

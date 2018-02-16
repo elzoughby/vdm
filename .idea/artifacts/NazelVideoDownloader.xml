@@ -27,9 +27,6 @@
       <element id="file-copy" path="$PROJECT_DIR$/youtube-dl" />
       <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.2" />
       <element id="library" level="project" name="Maven: org.hildan.fxgson:fx-gson:3.1.0" />
-      <element id="directory" name="data">
-        <element id="dir-copy" path="$PROJECT_DIR$/data" />
-      </element>
     </root>
   </artifact>
 </component>

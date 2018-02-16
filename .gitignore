@@ -3,4 +3,4 @@
 .idea/uiDesigner.xml
 out/
 target/
-data/*.json
+data/

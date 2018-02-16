@@ -20,6 +20,9 @@ public class DataHandler {
     public static void load() {
 
         try {
+
+            if(Files.notExists(Paths.get("data")) || (! Files.isDirectory(Paths.get("data"))))
+                Files.createDirectory(Paths.get("data"));
             File[] dataFiles = new File("data").listFiles();
 
             if(dataFiles != null) {
@@ -66,6 +69,9 @@ public class DataHandler {
     public static void save(Item item) {
 
         try {
+
+            if(Files.notExists(Paths.get("data")) || (! Files.isDirectory(Paths.get("data"))))
+                Files.createDirectory(Paths.get("data"));
 
             Path path = Paths.get("data/" + item.getId() + ".json");
             Files.write(path, gson.toJson(item).getBytes());
