@@ -208,40 +208,12 @@ public class HomeController implements Initializable {
             MenuItem copyMenuItem = new MenuItem("Copy");
             copyMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.SHORTCUT_DOWN));
             copyMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/copy.png").toString())));
-            copyMenuItem.setOnAction(actionEvent -> {
-                Clipboard systemClipboard = Clipboard.getSystemClipboard();
-                ClipboardContent clipboardContent = new ClipboardContent();
-                clipboardContent.putString(cell.getItem());
-                systemClipboard.setContent(clipboardContent);
-            });
+            copyMenuItem.setOnAction(actionEvent -> copyMenuAction());
 
             MenuItem saveMenuItem = new MenuItem("Save as");
             saveMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCombination.SHORTCUT_DOWN));
             saveMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/save.png").toString())));
-            saveMenuItem.setOnAction(actionEvent -> {
-                Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Save log file");
-                fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-                fileChooser.setInitialFileName("NVD-item-" + selectedItem.getId() + ".log");
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.log", "*.txt"));
-                File file = fileChooser.showSaveDialog(homeWindowPane.getScene().getWindow());
-                if(file != null) {
-                    StringBuilder sb = new StringBuilder();
-                    selectedItem.getLogList().forEach(line -> sb.append(line).append('\n'));
-                    try {
-                        if(! file.exists())
-                            Files.createFile(file.toPath());
-                        Files.write(file.toPath(), sb.toString().getBytes());
-                    } catch (Exception e) {
-                        homeWindowPane.setOpacity(0.30);
-                        new MessageDialog("Error Saving log file! \n" +
-                                "Restart program and try again.", MessageDialog.Type.ERROR,
-                                MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
-                        homeWindowPane.setOpacity(1);
-                    }
-                }
-            });
+            saveMenuItem.setOnAction(actionEvent -> saveMenuAction());
 
             MenuItem clearMenuItem = new MenuItem("Clear all");
             clearMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCombination.SHORTCUT_DOWN));
@@ -251,10 +223,18 @@ public class HomeController implements Initializable {
             contextMenu.getItems().addAll(copyMenuItem, saveMenuItem, clearMenuItem);
             cell.textProperty().bind(cell.itemProperty());
             cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
-                if (isNowEmpty)
+                if (isNowEmpty) {
                     cell.setContextMenu(null);
-                else
+                } else {
+
+                    if(cell.getItem().startsWith("ERROR"))
+                        cell.getStyleClass().add("error-list-cell");
+                    else if(cell.getItem().startsWith("WARNING"))
+                        cell.getStyleClass().add("warning-list-cell");
+
                     cell.setContextMenu(contextMenu);
+
+                }
             });
             return cell;
         });
@@ -445,6 +425,43 @@ public class HomeController implements Initializable {
                 }
             }
         }
+    }
+
+    private void copyMenuAction() {
+
+        String selectedLine = consoleListView.getSelectionModel().getSelectedItem();
+        Clipboard systemClipboard = Clipboard.getSystemClipboard();
+        ClipboardContent clipboardContent = new ClipboardContent();
+        clipboardContent.putString(selectedLine);
+        systemClipboard.setContent(clipboardContent);
+
+    }
+
+    private void saveMenuAction() {
+
+        Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save log file");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setInitialFileName("NVD-item-" + selectedItem.getId() + ".log");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.log", "*.txt"));
+        File file = fileChooser.showSaveDialog(homeWindowPane.getScene().getWindow());
+        if(file != null) {
+            StringBuilder sb = new StringBuilder();
+            selectedItem.getLogList().forEach(line -> sb.append(line).append('\n'));
+            try {
+                if(! file.exists())
+                    Files.createFile(file.toPath());
+                Files.write(file.toPath(), sb.toString().getBytes());
+            } catch (Exception e) {
+                homeWindowPane.setOpacity(0.30);
+                new MessageDialog("Error Saving log file! \n" +
+                        "Restart program and try again.", MessageDialog.Type.ERROR,
+                        MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
+                homeWindowPane.setOpacity(1);
+            }
+        }
+
     }
 
 

@@ -7,13 +7,29 @@
 
 /* ======== Logs ListView style ======== */
 
-.list-cell:odd {
+.list-view {
     -fx-background-color: white;
 }
 
-.list-cell:filled:selected {
-    -fx-background-color: #bae6f5;
+.list-view .list-cell {
+    -fx-background-color: white;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: #e9e9e9;
     -fx-text-fill: black;
+}
+
+.list-view:focused .list-cell:selected {
+    -fx-background-color: #bae6f5;
+}
+
+.list-view .error-list-cell, .list-view .error-list-cell:selected {
+    -fx-text-fill: crimson;
+}
+
+.list-view .warning-list-cell, .list-view .warning-list-cell:selected {
+    -fx-text-fill: chocolate;
 }
 
 
@@ -37,6 +53,7 @@
     -fx-border-color: #cdcdcd;
     -fx-border-style: dotted;
 }
+
 
 /* ======= Progress column style ======= */
 

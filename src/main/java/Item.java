@@ -432,10 +432,11 @@ public class Item {
 
                 List<String> cmd = commandBuilder();
                 System.out.println(cmd.toString().replace(",", ""));
-                ytdlProcess = new ProcessBuilder(cmd).start();
+                ytdlProcess = new ProcessBuilder(cmd).redirectErrorStream(true).start();
                 setStatus("Starting");
 
                 InputStream inputStream = ytdlProcess.getInputStream();
+                InputStream errorStream = ytdlProcess.getErrorStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*(~?\\d+\\.\\d+)([MKG]?i?B)\\s*at\\s*(\\d+\\.\\d+)([MKG]?i?B/s)\\s*ETA\\s*(.*)";
