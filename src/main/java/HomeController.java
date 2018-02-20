@@ -133,7 +133,7 @@ public class HomeController implements Initializable {
                         Item currentItem = getTableView().getItems().get(getIndex());
                         switch (currentItem.getStatus()) {
                             case "Stopped":
-                                setTextFill(Color.CRIMSON);
+                                setTextFill(Color.GRAY);
                                 setGraphic(new ImageView(new Image(getClass().getResource("status/stop.png").toString())));
                                 break;
                             case "Running":
@@ -151,6 +151,10 @@ public class HomeController implements Initializable {
                             case "Starting":
                                 setTextFill(Color.valueOf("#005491"));
                                 setGraphic(new ImageView(new Image(getClass().getResource("status/start.png").toString())));
+                                break;
+                            case "Error":
+                                setTextFill(Color.CRIMSON);
+                                setGraphic(new ImageView(new Image(getClass().getResource("status/error.png").toString())));
                                 break;
                         }
 
@@ -375,7 +379,7 @@ public class HomeController implements Initializable {
     private void waitMenuAction() {
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
 
-        if(selectedItem.getStatus().equals("Stopped") && queueIsRunningBefore(selectedItem))
+        if(queueIsRunningBefore(selectedItem) && (selectedItem.getStatus().equals("Stopped") || selectedItem.getStatus().equals("Error")))
             selectedItem.setStatus("Waiting");
     }
 
@@ -392,7 +396,7 @@ public class HomeController implements Initializable {
                 if(selectedItem.getStatus().equals("Starting") || selectedItem.getStatus().equals("Running")) {
                     if(itemsTableView.getItems().get(oldIndex).getStatus().equals("Stopped"))
                         itemsTableView.getItems().get(oldIndex).setStatus("Waiting");
-                } else if(selectedItem.getStatus().equals("Waiting") || selectedItem.getStatus().equals("Stopped")) {
+                } else if(selectedItem.getStatus().equals("Waiting") || selectedItem.getStatus().equals("Stopped") || selectedItem.getStatus().equals("Error")) {
                     if(queueIsRunningBefore(selectedItem))
                         itemsTableView.getItems().get(newIndex).setStatus("Waiting");
                     else
@@ -417,7 +421,7 @@ public class HomeController implements Initializable {
                         if(!queueIsRunningBefore(itemsTableView.getItems().get(oldIndex)))
                             itemsTableView.getItems().get(oldIndex).setStatus("Stopped");
                     }
-                } else if(selectedItem.getStatus().equals("Waiting") || selectedItem.getStatus().equals("Stopped")) {
+                } else if(selectedItem.getStatus().equals("Waiting") || selectedItem.getStatus().equals("Stopped") || selectedItem.getStatus().equals("Error")) {
                     if(queueIsRunningBefore(selectedItem))
                         itemsTableView.getItems().get(newIndex).setStatus("Waiting");
                     else
@@ -492,7 +496,8 @@ public class HomeController implements Initializable {
 
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         boolean isValidItem = selectedItem != null &&
-                (selectedItem.getStatus().equals("Stopped") || selectedItem.getStatus().equals("Waiting"));
+                (selectedItem.getStatus().equals("Stopped") || selectedItem.getStatus().equals("Waiting") ||
+                        selectedItem.getStatus().equals("Error"));
 
         if(isValidItem) {
             selectedItem.setStatus("Starting");
@@ -509,7 +514,7 @@ public class HomeController implements Initializable {
         Item selectedItem = itemsTableView.getSelectionModel().getSelectedItem();
         boolean isValidItem = selectedItem != null
                 && (selectedItem.getStatus().equals("Starting") || selectedItem.getStatus().equals("Running")
-                || selectedItem.getStatus().equals("Waiting"));
+                || selectedItem.getStatus().equals("Waiting") || selectedItem.getStatus().equals("Error"));
 
         if (isValidItem) {
             if(selectedItem.getIsAddedToQueue() && (selectedItem.getStatus().equals("Starting")
@@ -721,8 +726,9 @@ public class HomeController implements Initializable {
         if (file.exists()) {
 
             if (file.isDirectory()) {
-                if ((file.list()).length > 0) {
-                    for(String s : file.list())
+                String[] directoryFiles = file.list();
+                if (directoryFiles != null && directoryFiles.length > 0) {
+                    for(String s : directoryFiles)
                         deleteItemFiles(new File(path, s).getPath());
                 }
             }
@@ -753,7 +759,7 @@ public class HomeController implements Initializable {
 
         for(int i = queueItemList.indexOf(currentItem) + 1; i < queueItemList.size(); i++) {
 
-            if(queueItemList.get(i).getStatus().equals("Stopped") || queueItemList.get(i).getStatus().equals("Waiting"))
+            if(queueItemList.get(i).getStatus().equals("Stopped") || queueItemList.get(i).getStatus().equals("Waiting") || queueItemList.get(i).getStatus().equals("Error"))
                 queueItemList.get(i).setStatus(newStatus);
             else if(queueItemList.get(i).getStatus().equals("Starting") || queueItemList.get(i).getStatus().equals("Running"))
                 break;

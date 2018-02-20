@@ -43,6 +43,7 @@ public class Item {
     private StringProperty eta;
     private ObservableList<String> logList;
     private Process ytdlProcess;
+    private boolean errorFlag;
 
 
     public Item() {
@@ -73,6 +74,7 @@ public class Item {
         speed = new SimpleStringProperty("");
         eta = new SimpleStringProperty("");
         logList = FXCollections.observableArrayList();
+        errorFlag = false;
 
     }
 
@@ -422,6 +424,13 @@ public class Item {
         this.ytdlProcess = ytdlProcess;
     }
 
+    public boolean getErrorFlag() {
+        return errorFlag;
+    }
+
+    public void setErrorFlag(boolean errorFlag) {
+        this.errorFlag = errorFlag;
+    }
 
 
     public void startDownload() {
@@ -434,9 +443,9 @@ public class Item {
                 System.out.println(cmd.toString().replace(",", ""));
                 ytdlProcess = new ProcessBuilder(cmd).redirectErrorStream(true).start();
                 setStatus("Starting");
+                setErrorFlag(false);
 
                 InputStream inputStream = ytdlProcess.getInputStream();
-                InputStream errorStream = ytdlProcess.getErrorStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String downloadRegex = "\\[download\\]\\s*(\\d+\\.\\d+)%\\s*of\\s*(~?\\d+\\.\\d+)([MKG]?i?B)\\s*at\\s*(\\d+\\.\\d+)([MKG]?i?B/s)\\s*ETA\\s*(.*)";
@@ -473,7 +482,7 @@ public class Item {
                             setEta(downloadMatcher.group(6));
                             DataHandler.save(getThisItem());
 
-                        } else if (!line.equals("")) {
+                        } else if (! line.equals("")) {
 
                             logList.add(line);
 
@@ -487,7 +496,12 @@ public class Item {
                                 } else if (line.matches("\\[download\\]\\s*Finished\\s*downloading\\s*playlist:.*")) {
                                     setDone(100);
                                     setSize("");
+                                    setStatus("Finished");
+                                    DataHandler.save(getThisItem());
                                     finishDownload();
+                                //Check if there is an error and set Failed status
+                                } else if (line.startsWith("ERROR:")) {
+                                    setErrorFlag(true);
                                 }
                             } else {
                                 //parse the title of download item and add it to the database
@@ -499,16 +513,24 @@ public class Item {
                                 } else if(!getIsPlaylist() && fileFinishMatcher.find()) {
                                     setDone(100);
                                     setSize(fileFinishMatcher.group(1) + " " + fileFinishMatcher.group(2));
+                                    setStatus("Finished");
                                     DataHandler.save(getThisItem());
                                     finishDownload();
+                                //Check if there is an error and set Failed status
+                                } else if(line.startsWith("ERROR:")) {
+                                    setErrorFlag(true);
                                 }
                             }
 
-                        } else {
-                            // Do Nothing!
                         }
 
                     });
+
+                }
+
+                if(getErrorFlag()) {
+                    setStatus("Error");
+                    finishDownload();
                 }
 
                 return null;
@@ -531,7 +553,6 @@ public class Item {
 
     public void finishDownload() {
 
-        setStatus("Finished");
         ytdlProcess.destroy();
         setSpeed("");
         setEta("");
@@ -544,9 +565,10 @@ public class Item {
             Item nextQueueItem = getNextQueueItemTo(this);
             while(nextQueueItem != null && (nextQueueItem.getStatus().equals("Stopped") || nextQueueItem.getStatus().equals("Finished")))
                 nextQueueItem = getNextQueueItemTo(this);
-            if(nextQueueItem != null && nextQueueItem.getStatus().equals("Waiting"))
+            if(nextQueueItem != null && (nextQueueItem.getStatus().equals("Waiting") || nextQueueItem.getStatus().equals("Failed")))
                 nextQueueItem.startDownload();
         }
+
     }
 
 
