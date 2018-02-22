@@ -34,7 +34,7 @@ public class DataHandler {
 
                         if(item != null) {
 
-                            if (item.getDone() == 100.0)
+                            if (item.getDone() == 100.0 && item.getStatus().equals("Finished"))
                                 item.setStatus("Finished");
                             else
                                 item.setStatus("Stopped");

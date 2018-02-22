@@ -36,7 +36,7 @@ public class Item {
     @Expose private IntegerProperty playlistEndIndex;
     @Expose private StringProperty playlistItems;
     @Expose private BooleanProperty needAllPlaylistItems;
-    private StringProperty status;
+    @Expose private StringProperty status;
     @Expose private DoubleProperty done;
     @Expose private StringProperty size;
     private StringProperty speed;
@@ -496,9 +496,6 @@ public class Item {
                                 } else if (line.matches("\\[download\\]\\s*Finished\\s*downloading\\s*playlist:.*")) {
                                     setDone(100);
                                     setSize("");
-                                    setStatus("Finished");
-                                    DataHandler.save(getThisItem());
-                                    finishDownload();
                                 //Check if there is an error and set Failed status
                                 } else if (line.startsWith("ERROR:")) {
                                     setErrorFlag(true);
@@ -513,9 +510,6 @@ public class Item {
                                 } else if(!getIsPlaylist() && fileFinishMatcher.find()) {
                                     setDone(100);
                                     setSize(fileFinishMatcher.group(1) + " " + fileFinishMatcher.group(2));
-                                    setStatus("Finished");
-                                    DataHandler.save(getThisItem());
-                                    finishDownload();
                                 //Check if there is an error and set Failed status
                                 } else if(line.startsWith("ERROR:")) {
                                     setErrorFlag(true);
@@ -530,8 +524,12 @@ public class Item {
 
                 if(getErrorFlag()) {
                     setStatus("Error");
-                    finishDownload();
+                } else {
+                    if(getDone() == 100.0)
+                        setStatus("Finished");
                 }
+                DataHandler.save(getThisItem());
+                finishDownload();
 
                 return null;
             }
