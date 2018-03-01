@@ -502,12 +502,13 @@ public class Item {
                                 }
                             } else {
                                 //parse the title of download item and add it to the database
-                                if (line.matches("\\[download\\]\\s*(Destination:\\s*)?" + getLocation() + "[/\\\\]?.+")) {
-                                    String title = line.split(getLocation() + "[/\\\\]?")[1].split("\\s*has already been downloaded")[0];
+                                String regexLocationString = System.getProperty("os.name").toLowerCase().contains("win")? getLocation().replace("\\", "\\\\") : getLocation();
+                                if (line.matches("\\[download\\]\\s*(Destination:\\s*)?" + regexLocationString + "[/\\\\]?.+")) {
+                                    String title = line.split(regexLocationString + "[/\\\\]?")[1].split("\\s*has already been downloaded")[0];
                                     setTitle(title);
                                     DataHandler.save(getThisItem());
                                 //Check If download is completed and set Finished status
-                                } else if(!getIsPlaylist() && fileFinishMatcher.find()) {
+                                } else if(fileFinishMatcher.find()) {
                                     setDone(100);
                                     setSize(fileFinishMatcher.group(1) + " " + fileFinishMatcher.group(2));
                                 //Check if there is an error and set Failed status
@@ -522,14 +523,18 @@ public class Item {
 
                 }
 
-                if(getErrorFlag()) {
-                    setStatus("Error");
+                if(getStatus().equals("Stopped")) {
+                    DataHandler.save(getThisItem());
                 } else {
-                    if(getDone() == 100.0)
-                        setStatus("Finished");
+                    if(getErrorFlag()) {
+                        setStatus("Error");
+                    } else {
+                        if(getDone() == 100.0)
+                            setStatus("Finished");
+                    }
+                    DataHandler.save(getThisItem());
+                    finishDownload();
                 }
-                DataHandler.save(getThisItem());
-                finishDownload();
 
                 return null;
             }
@@ -608,19 +613,31 @@ public class Item {
             cmdList.add("--yes-playlist");
             if (customName.get().equals("")) {
                 cmdList.add("-o");
+                if(System.getProperty("os.name").toLowerCase().contains("win"))
+                    cmdList.add(location.getValue() + "\\%(playlist_title)s\\%(playlist_index)s - %(title)s.%(ext)s");
+                else
                 cmdList.add(location.getValue() + "/%(playlist_title)s/%(playlist_index)s - %(title)s.%(ext)s");
             } else {
                 cmdList.add("-o");
-                cmdList.add(location.getValue() + "/" + customName.getValue() + "/%(playlist_index)s - %(title)s.%(ext)s");
+                if(System.getProperty("os.name").toLowerCase().contains("win"))
+                    cmdList.add(location.getValue() + "\\" + customName.getValue() + "\\%(playlist_index)s - %(title)s.%(ext)s");
+                else
+                    cmdList.add(location.getValue() + "/" + customName.getValue() + "/%(playlist_index)s - %(title)s.%(ext)s");
             }
         } else {
             cmdList.add("--no-playlist");
             if (customName.get().equals("")) {
                 cmdList.add("-o");
-                cmdList.add(location.getValue() + "/" + "%(title)s.%(ext)s");
+                if(System.getProperty("os.name").toLowerCase().contains("win"))
+                    cmdList.add(location.getValue() + "\\" + "%(title)s.%(ext)s");
+                else
+                    cmdList.add(location.getValue() + "/" + "%(title)s.%(ext)s");
             } else {
                 cmdList.add("-o");
-                cmdList.add(location.getValue() + "/" + customName.getValue() + ".%(ext)s");
+                if(System.getProperty("os.name").toLowerCase().contains("win"))
+                    cmdList.add(location.getValue() + "\\" + customName.getValue() + ".%(ext)s");
+                else
+                    cmdList.add(location.getValue() + "/" + customName.getValue() + ".%(ext)s");
             }
         }
 

@@ -88,7 +88,11 @@ public class NewDownloadController implements Initializable{
         if(clipboardText != null && clipboardText.matches(urlRegex))
             urlTextField.setText(clipboardText);
 
-        locationTextField.setText(System.getProperty("user.home") + "/Downloads");
+        if(System.getProperty("os.name").toLowerCase().contains("win"))
+            locationTextField.setText(System.getProperty("user.home") + "\\Downloads");
+        else
+            locationTextField.setText(System.getProperty("user.home") + "/Downloads");
+
         subtitleLanguageChoiceBox.setItems(FXCollections.observableArrayList("Arabic", "English", "French", "Italian", "spanish", "German", "Russian"));
         subtitleLanguageChoiceBox.setValue("English");
         embeddedSubtitleChkBox.selectedProperty().not().and(autoGenSubtitleChkBox.selectedProperty().not()).addListener((observable, oldValue, newValue) -> subtitleLanguagePane.setDisable(newValue));

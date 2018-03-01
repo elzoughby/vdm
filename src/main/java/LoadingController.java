@@ -14,23 +14,19 @@ import java.util.ResourceBundle;
 public class LoadingController implements Initializable {
 
     @FXML
-    private StackPane LoadingPane;
+    private StackPane loadingPane;
 
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
-
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-
-        DataHandler.load();
-        Platform.runLater(this::close);
-        super.finalize();
+        loadingPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                DataHandler.load();
+                Platform.runLater(this::close);
+            }
+        });
 
     }
 
@@ -46,7 +42,7 @@ public class LoadingController implements Initializable {
             fadeIn.setCycleCount(1);
             fadeIn.play();
 
-            LoadingPane.getScene().setRoot(newRoot);
+            loadingPane.getScene().setRoot(newRoot);
 
         } catch (Exception e) {
             new MessageDialog("Error Loading the Home Window! \n" +

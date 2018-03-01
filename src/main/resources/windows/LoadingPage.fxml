@@ -3,7 +3,7 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="LoadingPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="800.0"
+<StackPane fx:id="loadingPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="800.0"
            style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoadingController">
     <ProgressIndicator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                        prefHeight="35.0" prefWidth="35.0"/>
