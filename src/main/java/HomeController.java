@@ -359,11 +359,11 @@ public class HomeController implements Initializable {
             try {
 
                 if (os.contains("win")) {
-                    Runtime.getRuntime().exec("explorer \"" + location + "\"");
+                    new ProcessBuilder("explorer", location).start();
                 } else if (os.contains("mac")) {
-                    Runtime.getRuntime().exec("open \"" + location + "\"");
+                    new ProcessBuilder("open", location).start();
                 } else {
-                    Runtime.getRuntime().exec("xdg-open \"" + location + "\"");
+                    new ProcessBuilder("xdg-open", location).start();
                 }
 
             } catch (Exception e) {

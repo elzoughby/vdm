@@ -1,6 +1,7 @@
 .idea/kotlinc.xml
 .idea/workspace.xml
 .idea/uiDesigner.xml
+.settings
 out/
 target/
 data/
