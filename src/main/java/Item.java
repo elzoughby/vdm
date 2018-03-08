@@ -68,11 +68,11 @@ public class Item {
         isPlaylist = new SimpleBooleanProperty();
         playlistStartIndex = new SimpleIntegerProperty();
         playlistEndIndex = new SimpleIntegerProperty();
-        playlistItems = new SimpleStringProperty();
+        playlistItems = new SimpleStringProperty("");
         needAllPlaylistItems = new SimpleBooleanProperty();
         userName = new SimpleStringProperty("");
         password = new SimpleStringProperty("");
-        status = new SimpleStringProperty();
+        status = new SimpleStringProperty("");
         done = new SimpleDoubleProperty(0);
         size = new SimpleStringProperty("");
         speed = new SimpleStringProperty("");
@@ -592,7 +592,7 @@ public class Item {
         setEta("");
 
         if(getShutdownAfterFinish()) {
-            shutdownAfter(30);
+            shutdownAfter(60);
         }
 
         if(getIsAddedToQueue()) {
@@ -691,17 +691,16 @@ public class Item {
     private void shutdownAfter(int seconds) {
 
         Timer timer = new Timer();
-        Platform.runLater(() -> timer.schedule(new TimerTask() {
-
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
-
                 Main.saveAndExit();
+
                 try {
 
                     String os = System.getProperty("os.name").toLowerCase();
 
-                    if (os.startsWith("win"))
+                    if (os.contains("win"))
                         Runtime.getRuntime().exec("shutdown.exe -s -t 0");
                     else
                         Runtime.getRuntime().exec("shutdown -h now");
@@ -711,21 +710,23 @@ public class Item {
                     new MessageDialog("Error executing shutdown command!\n" +
                             "Restart program and try again.", MessageDialog.Type.ERROR,
                             MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).show();
-
                 }
+
                 System.exit(0);
             }
+        }, seconds * 1000);
 
-        }, seconds * 1000));
-
-        MessageDialog messageDialog = new MessageDialog("Attention, Computer will shutdown after " +
-                seconds + " seconds !\nSave your work, or click cancel to stop.", MessageDialog.Type.INFO, MessageDialog.Buttons.OK_AND_CANCEL);
-        messageDialog.getOkButton().setOnAction(actionEvent -> messageDialog.close());
-        messageDialog.getCancelButton().setOnAction(actionEvent -> {
-            timer.cancel();
-            messageDialog.close();
+        Platform.runLater(() -> {
+            MessageDialog messageDialog = new MessageDialog("Attention, Computer will shutdown after " +
+                    seconds + " seconds !\nSave your work, or click cancel to stop.", MessageDialog.Type.INFO, MessageDialog.Buttons.OK_AND_CANCEL);
+            messageDialog.getOkButton().setOnAction(actionEvent -> messageDialog.close());
+            messageDialog.getCancelButton().setOnAction(actionEvent -> {
+                timer.cancel();
+                messageDialog.close();
+            });
+            messageDialog.show();
         });
-        messageDialog.show();
+
 
     }
 

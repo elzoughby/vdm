@@ -672,7 +672,7 @@ public class HomeController implements Initializable {
         pauseMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.SHORTCUT_DOWN));
         pauseMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/pause.png").toString())));
 
-        MenuItem waitMenuItem = new MenuItem("Wait");
+        MenuItem waitMenuItem = new MenuItem("Set Waiting");
         waitMenuItem.setDisable(true);
         waitMenuItem.setOnAction(event -> waitMenuAction());
         waitMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN));
