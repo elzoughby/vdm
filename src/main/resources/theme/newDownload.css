@@ -207,14 +207,18 @@
 }
 
 
-.url-text-field-error {
+.text-field-error {
     -fx-background-color: crimson, white;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-background-radius: 0;
 }
 
-.url-text-field-error:focused {
-    -fx-background-color: darkturquoise, white;
+.text-field-error:focused {
+    -fx-background-color: crimson, white;
+}
+
+.text-field-error:disabled {
+    -fx-background-color: #dcdcdc, #f8f8f8;
 }
 
 
@@ -354,5 +358,18 @@
 
 .spinner .increment-arrow-button:pressed, .spinner .decrement-arrow-button:pressed {
     -fx-background-color: #e1e1e1;
+}
+
+.spinner-error {
+    -fx-border-color: crimson;
+    -fx-border-radius: 0;
+    -fx-border-width: 1px;
+    -fx-mark-color: #878787;
+}
+
+.spinner-error:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-color: crimson;
 }
 

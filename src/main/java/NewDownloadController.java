@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
@@ -37,7 +38,9 @@ public class NewDownloadController implements Initializable{
     @FXML
     private ChoiceBox<String> subtitleLanguageChoiceBox;
     @FXML
-    private TitledPane playlistPane;
+    private CheckBox isPlaylistChkBox;
+    @FXML
+    private VBox playlistPane;
     @FXML
     private RadioButton allItemsRadioBtn;
     @FXML
@@ -72,16 +75,8 @@ public class NewDownloadController implements Initializable{
         Clipboard systemClipboard = Clipboard.getSystemClipboard();
 
         urlTextField.textProperty().addListener((obs, oldText, newText) -> {
-            if(newText.matches(urlRegex)) {
-                urlTextField.setStyle(null);
-            } else {
-                urlTextField.setStyle("-fx-background-color: crimson, white;");
-            }
-
             if(newText.contains("playlist?list="))
-                playlistPane.setDisable(false);
-            else
-                playlistPane.setDisable(true);
+                isPlaylistChkBox.setSelected(true);
         });
 
         String clipboardText = systemClipboard.getString();
@@ -131,29 +126,39 @@ public class NewDownloadController implements Initializable{
     @FXML
     private void startBtnAction() {
 
-        Item item = createItem();
-        item.setIsAddedToQueue(false);
-        HomeController.getItemList().add(item);
-        DataHandler.save(item);
-        item.startDownload();
-        cancelAndSetQueueBtn(false);
+        if(isValidInfo()) {
+            Item item = createItem();
+            ////////////////////////////////////
+            System.out.println(item.toString());
+            ////////////////////////////////////
+            item.setIsAddedToQueue(false);
+            HomeController.getItemList().add(item);
+            DataHandler.save(item);
+            item.startDownload();
+            cancelAndSetQueueBtn(false);
+        }
 
     }
 
     @FXML
     private void scheduleBtnAction() {
 
-        Item item = createItem();
-        item.setIsAddedToQueue(true);
+        if(isValidInfo()) {
+            Item item = createItem();
+            ////////////////////////////////////
+            System.out.println(item.toString());
+            ////////////////////////////////////
+            item.setIsAddedToQueue(true);
 
-        if(queueIsRunningBefore(item))
-            item.setStatus("Waiting");
-        else
-            item.setStatus("Stopped");
+            if(queueIsRunningBefore(item))
+                item.setStatus("Waiting");
+            else
+                item.setStatus("Stopped");
 
-        HomeController.getQueueItemList().add(item);
-        DataHandler.save(item);
-        cancelAndSetQueueBtn(true);
+            HomeController.getQueueItemList().add(item);
+            DataHandler.save(item);
+            cancelAndSetQueueBtn(true);
+        }
 
     }
 
@@ -162,6 +167,101 @@ public class NewDownloadController implements Initializable{
         cancelAndSetQueueBtn(isQueueBtnSelected);
     }
 
+    private boolean isValidInfo() {
+
+        boolean result = true;
+        String urlRegex = "(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
+
+        // Check if the url is valid
+        if(urlTextField.getText().matches(urlRegex)) {
+            urlTextField.getStyleClass().clear();
+            urlTextField.getStyleClass().add("text-field");
+        } else {
+            urlTextField.getStyleClass().add("text-field-error");
+            result = false;
+        }
+
+        // Check if the save location is not empty
+        if(locationTextField.getText().equals("")) {
+            locationTextField.getStyleClass().add("text-field-error");
+            result = false;
+        } else {
+            locationTextField.getStyleClass().clear();
+            locationTextField.getStyleClass().add("text-field");
+        }
+
+        // Check if the custom name is not empty
+        if(customNameChkBox.isSelected()) {
+            if(customNameTextField.getText().equals("")) {
+                customNameTextField.getStyleClass().add("text-field-error");
+                result = false;
+            } else {
+                customNameTextField.getStyleClass().clear();
+                customNameTextField.getStyleClass().add("text-field");
+            }
+        }
+
+        // Check if the specific playlist items are written correctly
+        if(isPlaylistChkBox.isSelected()) {
+            if(indexRangeRadioBtn.isSelected()) {
+                if(startIndexTextField.getText().matches("[1-9]*")) {
+                    startIndexTextField.getStyleClass().clear();
+                    startIndexTextField.getStyleClass().add("text-field");
+                } else {
+                    startIndexTextField.getStyleClass().add("text-field-error");
+                    result = false;
+                }
+
+                if(endIndexTextField.getText().matches("[1-9]*")) {
+                    endIndexTextField.getStyleClass().clear();
+                    endIndexTextField.getStyleClass().add("text-field");
+                } else {
+                    endIndexTextField.getStyleClass().add("text-field-error");
+                    result = false;
+                }
+            }
+
+            if(specificItemsRadioBtn.isSelected()) {
+                if(playlistItemsTextField.getText().matches("[0-9,]+")) {
+                    playlistItemsTextField.getStyleClass().clear();
+                    playlistItemsTextField.getStyleClass().add("text-field");
+                } else {
+                    playlistItemsTextField.getStyleClass().add("text-field-error");
+                    result = false;
+                }
+            }
+        }
+
+        // Check if the username and password are not empty
+        if(needLoginCheckBox.isSelected()) {
+            if(userNameTextField.getText().equals("")) {
+                userNameTextField.getStyleClass().add("text-field-error");
+                result = false;
+            } else {
+                userNameTextField.getStyleClass().clear();
+                userNameTextField.getStyleClass().add("text-field");
+            }
+
+            if(passwordTextField.getText().equals("")) {
+                passwordTextField.getStyleClass().add("text-field-error");
+                result = false;
+            } else {
+                passwordTextField.getStyleClass().clear();
+                passwordTextField.getStyleClass().add("text-field");
+            }
+        }
+
+        // Check if the speed limit is valid
+        if(limitSpinner.getEditor().getText().matches("[0-9]+")) {
+            limitSpinner.getStyleClass().clear();
+            limitSpinner.getStyleClass().add("spinner");
+        } else {
+            limitSpinner.getStyleClass().add("spinner-error");
+            result = false;
+        }
+
+        return result;
+    }
 
     private Item createItem() {
 
@@ -174,16 +274,28 @@ public class NewDownloadController implements Initializable{
         if(customNameChkBox.isSelected())
             item.setCustomName(customNameTextField.getText());
 
-        if(!playlistPane.isDisable()) {
+        if(isPlaylistChkBox.isSelected()) {
             item.setIsPlaylist(true);
             item.setNeedAllPlaylistItems(false);
-            if(allItemsRadioBtn.isSelected())
+            if(allItemsRadioBtn.isSelected()) {
                 item.setNeedAllPlaylistItems(true);
-            else if(indexRangeRadioBtn.isSelected()) {
-                item.setPlaylistStartIndex(Integer.parseInt(startIndexTextField.getText()));
-                item.setPlaylistEndIndex(Integer.parseInt(endIndexTextField.getText()));
-            } else
+            } else if(indexRangeRadioBtn.isSelected()) {
+
+                if(startIndexTextField.getText().equals("")) {
+                    item.setPlaylistStartIndex(0);
+                } else {
+                    item.setPlaylistStartIndex(Integer.parseInt(startIndexTextField.getText()));
+                }
+
+                if(endIndexTextField.getText().equals("")) {
+                    item.setPlaylistEndIndex(-1);
+                } else {
+                    item.setPlaylistEndIndex(Integer.parseInt(endIndexTextField.getText()));
+                }
+
+            } else {
                 item.setPlaylistItems(playlistItemsTextField.getText());
+            }
         }
 
         item.setIsVideo(true);
@@ -218,6 +330,12 @@ public class NewDownloadController implements Initializable{
         item.setNeedEmbeddedSubtitle(embeddedSubtitleChkBox.isSelected());
         item.setSubtitleLanguage(subtitleLanguageChoiceBox.getValue());
         item.setNeedAutoGeneratedSubtitle(autoGenSubtitleChkBox.isSelected());
+
+        if(needLoginCheckBox.isSelected()) {
+            item.setUserName(userNameTextField.getText());
+            item.setPassword(passwordTextField.getText());
+        }
+
         item.setSpeedLimit(Integer.parseInt(limitSpinner.getEditor().getText()));
         item.setShutdownAfterFinish(shutdownCheckBox.isSelected());
 
