@@ -222,6 +222,15 @@
 }
 
 
+.text-input:readonly {
+    -fx-text-fill: gray;
+}
+
+.text-input:readonly:focused {
+    -fx-background-color: #a5a5a5, white;
+}
+
+
 /* =========== Button style =========== */
 
 .button {

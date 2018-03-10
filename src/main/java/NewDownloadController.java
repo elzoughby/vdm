@@ -17,54 +17,180 @@ import java.util.ResourceBundle;
 
 public class NewDownloadController implements Initializable{
 
-    @FXML
-    private BorderPane newDownloadWindowPane;
-    @FXML
-    private TextField urlTextField;
-    @FXML
-    private TextField locationTextField;
-    @FXML
-    private CheckBox customNameChkBox;
-    @FXML
-    private TextField customNameTextField;
-    @FXML
-    private ChoiceBox<String> qualityComboBox;
-    @FXML
-    private CheckBox embeddedSubtitleChkBox;
-    @FXML
-    private CheckBox autoGenSubtitleChkBox;
-    @FXML
-    private HBox subtitleLanguagePane;
-    @FXML
-    private ChoiceBox<String> subtitleLanguageChoiceBox;
-    @FXML
-    private CheckBox isPlaylistChkBox;
-    @FXML
-    private VBox playlistPane;
-    @FXML
-    private RadioButton allItemsRadioBtn;
-    @FXML
-    private RadioButton indexRangeRadioBtn;
-    @FXML
-    private TextField startIndexTextField;
-    @FXML
-    private TextField endIndexTextField;
-    @FXML
-    private RadioButton specificItemsRadioBtn;
-    @FXML
-    private TextField playlistItemsTextField;
-    @FXML
-    private CheckBox needLoginCheckBox;
-    @FXML
-    private TextField userNameTextField;
-    @FXML
-    private TextField passwordTextField;
-    @FXML
-    private Spinner<Integer> limitSpinner;
-    @FXML
-    private CheckBox shutdownCheckBox;
+    @FXML private BorderPane newDownloadWindowPane;
+    @FXML private ToolBar toolbar;
+    @FXML private Button startBtn;
+    @FXML private Button scheduleBtn;
+    @FXML private VBox scrollPaneVBox;
+    @FXML private TextField urlTextField;
+    @FXML private TitledPane artifactsTitledPane;
+    @FXML private HBox artifactsSaveLocationHBox;
+    @FXML private TextField locationTextField;
+    @FXML private Button browseBtn;
+    @FXML private CheckBox customNameChkBox;
+    @FXML private TextField customNameTextField;
+    @FXML private TitledPane websiteTitledPane;
+    @FXML private ChoiceBox<String> qualityComboBox;
+    @FXML private CheckBox embeddedSubtitleChkBox;
+    @FXML private CheckBox autoGenSubtitleChkBox;
+    @FXML private HBox subtitleLanguagePane;
+    @FXML private ChoiceBox<String> subtitleLanguageChoiceBox;
+    @FXML private TitledPane playlistTitledPane;
+    @FXML private CheckBox isPlaylistChkBox;
+    @FXML private VBox playlistPane;
+    @FXML private RadioButton allItemsRadioBtn;
+    @FXML private RadioButton indexRangeRadioBtn;
+    @FXML private TextField startIndexTextField;
+    @FXML private TextField endIndexTextField;
+    @FXML private RadioButton specificItemsRadioBtn;
+    @FXML private TextField playlistItemsTextField;
+    @FXML private TitledPane authenticationTitledPane;
+    @FXML private CheckBox needLoginCheckBox;
+    @FXML private TextField userNameTextField;
+    @FXML private TextField passwordTextField;
+    @FXML private TitledPane othersTitledPane;
+    @FXML private Spinner<Integer> limitSpinner;
+    @FXML private CheckBox shutdownCheckBox;
 
     private boolean isQueueBtnSelected;
+
+
+
+    public BorderPane getNewDownloadWindowPane() {
+        return newDownloadWindowPane;
+    }
+
+    public ToolBar getToolbar() {
+        return toolbar;
+    }
+
+    public Button getStartBtn() {
+        return startBtn;
+    }
+
+    public Button getScheduleBtn() {
+        return scheduleBtn;
+    }
+
+    public VBox getScrollPaneVBox() {
+        return scrollPaneVBox;
+    }
+
+    public TextField getUrlTextField() {
+        return urlTextField;
+    }
+
+    public TitledPane getArtifactsTitledPane() {
+        return artifactsTitledPane;
+    }
+
+    public HBox getArtifactsSaveLocationHBox() {
+        return artifactsSaveLocationHBox;
+    }
+
+    public TextField getLocationTextField() {
+        return locationTextField;
+    }
+
+    public Button getBrowseBtn() {
+        return browseBtn;
+    }
+
+    public CheckBox getCustomNameChkBox() {
+        return customNameChkBox;
+    }
+
+    public TextField getCustomNameTextField() {
+        return customNameTextField;
+    }
+
+    public TitledPane getWebsiteTitledPane() {
+        return websiteTitledPane;
+    }
+
+    public ChoiceBox<String> getQualityComboBox() {
+        return qualityComboBox;
+    }
+
+    public CheckBox getEmbeddedSubtitleChkBox() {
+        return embeddedSubtitleChkBox;
+    }
+
+    public CheckBox getAutoGenSubtitleChkBox() {
+        return autoGenSubtitleChkBox;
+    }
+
+    public HBox getSubtitleLanguagePane() {
+        return subtitleLanguagePane;
+    }
+
+    public ChoiceBox<String> getSubtitleLanguageChoiceBox() {
+        return subtitleLanguageChoiceBox;
+    }
+
+    public TitledPane getPlaylistTitledPane() {
+        return playlistTitledPane;
+    }
+
+    public CheckBox getIsPlaylistChkBox() {
+        return isPlaylistChkBox;
+    }
+
+    public VBox getPlaylistPane() {
+        return playlistPane;
+    }
+
+    public RadioButton getAllItemsRadioBtn() {
+        return allItemsRadioBtn;
+    }
+
+    public RadioButton getIndexRangeRadioBtn() {
+        return indexRangeRadioBtn;
+    }
+
+    public TextField getStartIndexTextField() {
+        return startIndexTextField;
+    }
+
+    public TextField getEndIndexTextField() {
+        return endIndexTextField;
+    }
+
+    public RadioButton getSpecificItemsRadioBtn() {
+        return specificItemsRadioBtn;
+    }
+
+    public TextField getPlaylistItemsTextField() {
+        return playlistItemsTextField;
+    }
+
+    public TitledPane getAuthenticationTitledPane() {
+        return authenticationTitledPane;
+    }
+
+    public CheckBox getNeedLoginCheckBox() {
+        return needLoginCheckBox;
+    }
+
+    public TextField getUserNameTextField() {
+        return userNameTextField;
+    }
+
+    public TextField getPasswordTextField() {
+        return passwordTextField;
+    }
+
+    public TitledPane getOthersTitledPane() {
+        return othersTitledPane;
+    }
+
+    public Spinner<Integer> getLimitSpinner() {
+        return limitSpinner;
+    }
+
+    public CheckBox getShutdownCheckBox() {
+        return shutdownCheckBox;
+    }
 
 
 
@@ -95,12 +221,18 @@ public class NewDownloadController implements Initializable{
         qualityComboBox.setValue("Best");
 
         newDownloadWindowPane.setOnKeyPressed((KeyEvent keyEvent) -> {
-            if(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN).match(keyEvent))
-                startBtnAction();
-            else if(new KeyCodeCombination(KeyCode.Q, KeyCombination.SHORTCUT_DOWN).match(keyEvent))
-                scheduleBtnAction();
-            else if(new KeyCodeCombination(KeyCode.ESCAPE).match(keyEvent))
+            if(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN).match(keyEvent)) {
+                if(startBtn.isVisible())
+                    startBtnAction();
+                keyEvent.consume();
+            } else if(new KeyCodeCombination(KeyCode.Q, KeyCombination.SHORTCUT_DOWN).match(keyEvent)) {
+                if(scheduleBtn.isVisible())
+                    scheduleBtnAction();
+                keyEvent.consume();
+            } else if(new KeyCodeCombination(KeyCode.ESCAPE).match(keyEvent)) {
                 cancelBtnAction();
+                keyEvent.consume();
+            }
         });
 
     }
@@ -222,7 +354,7 @@ public class NewDownloadController implements Initializable{
             }
 
             if(specificItemsRadioBtn.isSelected()) {
-                if(playlistItemsTextField.getText().matches("[0-9,]+")) {
+                if(playlistItemsTextField.getText().replaceAll("\\s","").matches("[0-9,]+")) {
                     playlistItemsTextField.getStyleClass().clear();
                     playlistItemsTextField.getStyleClass().add("text-field");
                 } else {
@@ -294,7 +426,7 @@ public class NewDownloadController implements Initializable{
                 }
 
             } else {
-                item.setPlaylistItems(playlistItemsTextField.getText());
+                item.setPlaylistItems(playlistItemsTextField.getText().replaceAll("\\s",""));
             }
         }
 
