@@ -39,7 +39,7 @@
 
 .button-remove {
     -fx-background-image:  url(imgs/delete.png) ;
-    -fx-background-size: 23px,23px ;
+    -fx-background-size: 22px,22px ;
 }
 
 .button-info {
@@ -57,14 +57,14 @@
     -fx-background-size: 22px,22px ;
 }
 
-.button-help {
-    -fx-background-image:  url(imgs/help.png) ;
-    -fx-background-size: 22px,22px ;
+.button-about {
+    -fx-background-image:  url(imgs/about.png) ;
+    -fx-background-size: 27px,27px ;
 }
 
 .button-log {
     -fx-background-image:  url(imgs/log.png) ;
-    -fx-background-size: 22px,22px ;
+    -fx-background-size: 21px,21px ;
 }
 
 

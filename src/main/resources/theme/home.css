@@ -58,7 +58,7 @@
 /* ======= Progress column style ======= */
 
 .progress-bar > .bar{
-    -fx-background-color: #edc500;
+    -fx-background-color: #f7db00;
     -fx-background-insets: 1 1 2 1;
     -fx-background-radius: 0px;
     -fx-border-radius: 0px;

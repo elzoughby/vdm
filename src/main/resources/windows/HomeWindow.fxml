@@ -60,14 +60,14 @@
                         <Tooltip text="Show/Hide log   [F7]" />
                     </tooltip>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#settingBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-setting" stylesheets="@../theme/toolbar.css">
+                <Button mnemonicParsing="false" onAction="#aboutBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-about" stylesheets="@../theme/toolbar.css">
                     <tooltip>
-                        <Tooltip text="Settings   [F10]" />
+                        <Tooltip text="About   [F1]" />
                     </tooltip>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#helpBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-help" stylesheets="@../theme/toolbar.css">
+                <Button mnemonicParsing="false" onAction="#settingBtnAction" prefHeight="30.0" prefWidth="30.0" styleClass="button-setting" stylesheets="@../theme/toolbar.css" visible="false">
                     <tooltip>
-                        <Tooltip text="Help   [F1]" />
+                        <Tooltip text="Settings   [F10]" />
                     </tooltip>
                 </Button>
             </items>

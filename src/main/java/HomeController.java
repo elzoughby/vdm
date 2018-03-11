@@ -269,7 +269,7 @@ public class HomeController implements Initializable {
             else if(new KeyCodeCombination(KeyCode.F10).match(keyEvent))
                 settingBtnAction();
             else if(new KeyCodeCombination(KeyCode.F1).match(keyEvent))
-                helpBtnAction();
+                aboutBtnAction();
         });
 
         // save and restore SplitPane divider position
@@ -692,26 +692,10 @@ public class HomeController implements Initializable {
     @FXML
     private void settingBtnAction() {
 
-        try {
-
-            Parent root = FXMLLoader.load(getClass().getResource("windows/SettingWindow.fxml"));
-            Stage settingStage = new Stage();
-            settingStage.setScene(new Scene(root));
-            settingStage.setTitle("Setting");
-            settingStage.show();
-
-        } catch (Exception e) {
-            homeWindowPane.setOpacity(0.30);
-            new MessageDialog("Error Loading Settings Window! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
-                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
-            homeWindowPane.setOpacity(1);
-        }
-
     }
 
     @FXML
-    private void helpBtnAction() {
+    private void aboutBtnAction() {
 
         MessageDialog messageDialog = new MessageDialog("Ooh, you need help in this simple program?\n" +
                 "Sorry, no help in this version. help yourself", MessageDialog.Type.INFO, MessageDialog.Buttons.OK);
