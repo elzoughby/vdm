@@ -1,3 +1,7 @@
+import dorkbox.systemTray.Menu;
+import dorkbox.systemTray.MenuItem;
+import dorkbox.systemTray.Separator;
+import dorkbox.systemTray.SystemTray;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +11,9 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.prefs.Preferences;
 
 
@@ -16,6 +23,7 @@ public class Main extends Application {
     private static final String STAGE_HEIGHT = "height";
     private static final String STAGE_WIDTH = "width";
     private Preferences programData = Preferences.userRoot().node(MAIN_WINDOW_NODE);
+    private Stage appStage;
 
     public static void main(String[] args) {
         launch(args);
@@ -23,6 +31,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        // stores a reference to the stage.
+        this.appStage = primaryStage;
 
         try {
 
@@ -38,6 +49,10 @@ public class Main extends Application {
             primaryStage.heightProperty().addListener((observableValue, oldValue, newValue) -> programData.putDouble(STAGE_HEIGHT, newValue.doubleValue()));
             primaryStage.setOnCloseRequest(this::close);
             primaryStage.show();
+
+            // instructs the javafx system not to exit implicitly when the last application window is shut.
+            Platform.setImplicitExit(false);
+            initSystemTray();
 
         } catch (Exception e) {
             new MessageDialog("Error loading the LoadingPage window! \n" +
@@ -70,6 +85,66 @@ public class Main extends Application {
         for(Item i : HomeController.getQueueItemList())
             i.stopDownload();
         Platform.exit();
+
+    }
+
+    private void initSystemTray() {
+
+        SystemTray systemTray = SystemTray.get();
+        if(systemTray == null) {
+            throw new RuntimeException("Unable to load SystemTray!");
+        }
+        systemTray.setTooltip("Nazel Video Downloader");
+        systemTray.setImage(Main.class.getResource("icon/icon.png"));
+        systemTray.setStatus("No Running Downloads");
+
+        Menu trayMenu = systemTray.getMenu();
+        trayMenu.add(new Separator());
+
+        systemTray.getMenu().add(new MenuItem("New Download", e -> {
+            Platform.runLater(() -> {
+
+                try {
+
+                    FXMLLoader newDownloadWindowLoader = new FXMLLoader(getClass().getResource("windows/NewDownloadWindow.fxml"));
+                    newDownloadWindowLoader.load();
+                    Parent root = newDownloadWindowLoader.getRoot();
+
+                    appStage.show();
+                    appStage.toFront();
+                    appStage.getScene().setRoot(root);
+
+                } catch (Exception ex) {
+                    new MessageDialog("Couldn't load the New Download page!\n" +
+                            "Restart the program and try again.", MessageDialog.Type.ERROR,
+                            MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
+                }
+
+            });
+        })).setShortcut('n');
+
+        systemTray.getMenu().add(new MenuItem("Start Queue", e -> {
+
+        })).setShortcut('s');
+
+        systemTray.getMenu().add(new MenuItem("Stop Queue", e -> {
+
+        })).setShortcut('e');
+
+        systemTray.getMenu().add(new MenuItem("Pause All", e -> {
+
+        })).setShortcut('p');
+
+        trayMenu.add(new Separator());
+
+        systemTray.getMenu().add(new MenuItem("About", e -> {
+
+        })).setShortcut('a');
+
+        systemTray.getMenu().add(new MenuItem("Quit", e -> {
+            systemTray.shutdown();
+            System.exit(0);
+        })).setShortcut('q');
 
     }
 
