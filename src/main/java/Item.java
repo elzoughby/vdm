@@ -578,11 +578,13 @@ public class Item {
     }
 
     public void stopDownload() {
-        setStatus("Stopped");
-        if(ytdlProcess != null)
-            ytdlProcess.destroy();
-        setSpeed("");
-        setEta("");
+        if(! getStatus().equals("Finished")) {
+            setStatus("Stopped");
+            if (ytdlProcess != null)
+                ytdlProcess.destroy();
+            setSpeed("");
+            setEta("");
+        }
     }
 
     public void finishDownload() {
