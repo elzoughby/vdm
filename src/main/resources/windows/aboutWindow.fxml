@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox fx:id="aboutWindowVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="480.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: darkturquoise; -fx-border-width: 1px;" stylesheets="@../theme/message.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AboutController">
+<VBox fx:id="aboutWindowVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="480.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: darkturquoise; -fx-border-width: 1px;" stylesheets="@../theme/message.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AboutController">
    <children>
       <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
          <image>

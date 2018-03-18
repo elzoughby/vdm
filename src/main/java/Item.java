@@ -474,6 +474,7 @@ public class Item {
                 System.out.println(cmd.toString().replace(",", ""));
                 ytdlProcess = new ProcessBuilder(cmd).redirectErrorStream(true).start();
                 setStatus("Starting");
+                TrayHandler.incrementNumOfRunningDownloads();
                 setErrorFlag(false);
 
                 InputStream inputStream = ytdlProcess.getInputStream();
@@ -566,6 +567,7 @@ public class Item {
                     DataHandler.save(getThisItem());
                     finishDownload();
                 }
+                TrayHandler.decrementNumOfRunningDownloads();
 
                 return null;
             }
