@@ -16,7 +16,7 @@
         </option>
         <option name="title" value="Nazel Video Downloader" />
         <option name="vendor" value="Nazeloon" />
-        <option name="version" value="0.8.2" />
+        <option name="version" value="0.8.7" />
         <option name="width" value="800" />
       </options>
     </properties>
@@ -25,8 +25,19 @@
         <element id="module-output" name="NazelVideoDownloader" />
       </element>
       <element id="file-copy" path="$PROJECT_DIR$/youtube-dl" />
-      <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.2" />
-      <element id="library" level="project" name="Maven: org.hildan.fxgson:fx-gson:3.1.0" />
+      <element id="directory" name="lib">
+        <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.1.6" />
+        <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.1.6" />
+        <element id="library" level="project" name="Maven: com.dorkbox:ShellExecutor:1.1" />
+        <element id="library" level="project" name="Maven: com.dorkbox:SystemTray:3.12" />
+        <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.2" />
+        <element id="library" level="project" name="Maven: net.java.dev.jna:jna-platform:4.3.0" />
+        <element id="library" level="project" name="Maven: net.java.dev.jna:jna:4.3.0" />
+        <element id="library" level="project" name="Maven: org.hildan.fxgson:fx-gson:3.1.0" />
+        <element id="library" level="project" name="Maven: org.javassist:javassist:3.21.0-GA" />
+        <element id="library" level="project" name="Maven: org.jetbrains:annotations:15.0" />
+        <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.9" />
+      </element>
     </root>
   </artifact>
 </component>
