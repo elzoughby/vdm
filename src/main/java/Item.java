@@ -560,9 +560,12 @@ public class Item {
                 } else {
                     if(getErrorFlag()) {
                         setStatus("Error");
+                        TrayHandler.showDownloadErrorNotification(getThisItem());
                     } else {
-                        if(getDone() == 100.0)
+                        if(getDone() == 100.0) {
                             setStatus("Finished");
+                            TrayHandler.showDownloadFinishNotification(getThisItem());
+                        }
                     }
                     DataHandler.save(getThisItem());
                     finishDownload();

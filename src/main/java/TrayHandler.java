@@ -5,7 +5,12 @@ import dorkbox.systemTray.SystemTray;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
+import org.controlsfx.control.action.Action;
 
 
 public class TrayHandler {
@@ -153,6 +158,44 @@ public class TrayHandler {
 
     }
 
+    public static void showDownloadFinishNotification(Item item) {
+
+        Platform.runLater(() -> {
+            Notifications notification = Notifications.create();
+            notification.title("Download Complete");
+            if(item.getTitle().length() > 35)
+                notification.text("Finished downloading \n" + item.getTitle().substring(0, 35).concat("..."));
+            else
+                notification.text("Finished downloading \n" + item.getTitle());
+            ImageView imageView = new ImageView(new Image(TrayHandler.class.getResource("theme/imgs/done.png").toString()));
+            imageView.setFitHeight(65);
+            imageView.setFitWidth(65);
+            notification.graphic(imageView);
+            notification.hideAfter(Duration.seconds(5));
+            notification.show();
+        });
+
+    }
+
+    public static void showDownloadErrorNotification(Item item) {
+
+        Platform.runLater(() -> {
+            Notifications notification = Notifications.create();
+            notification.title("Download Error");
+            if(item.getTitle().length() > 35)
+                notification.text("Error in downloading \n" + item.getTitle().substring(0, 35).concat("..."));
+            else
+                notification.text("Error in downloading \n" + item.getTitle());
+            Image image = new Image(TrayHandler.class.getResource("theme/imgs/cancel.png").toString());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitHeight(60);
+            imageView.setFitWidth(60);
+            notification.graphic(imageView);
+            notification.hideAfter(Duration.seconds(5));
+            notification.show();
+        });
+
+    }
 
 
 }
