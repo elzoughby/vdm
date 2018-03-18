@@ -89,7 +89,7 @@
 
 .scroll-bar:vertical .thumb {
     -fx-background-color: derive(black,110%);
-    -fx-background-insets: -2, 0, 0;
+    -fx-background-insets: -1, 0, 0;
     -fx-background-radius: 2em;
 }
 
@@ -159,3 +159,47 @@
 .text-field:disabled {
     -fx-background-color: #dcdcdc, #f8f8f8;
 }
+
+
+/* ========== TabPane style ========== */
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-insets: 5 0 0 0;
+    -fx-opacity: 0;
+}
+
+.tab-pane:top *.tab-header-area {
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 5 2 0 87;
+}
+
+.tab-pane {
+    -fx-tab-min-width:90px;
+}
+
+.tab {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0 2 0 2,0,0;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #e6e6e6;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #c3e6f5;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #737373;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #336069;
+}
+

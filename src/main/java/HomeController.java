@@ -1,5 +1,7 @@
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,8 +17,11 @@ import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -697,10 +702,7 @@ public class HomeController implements Initializable {
     @FXML
     private void aboutBtnAction() {
 
-        MessageDialog messageDialog = new MessageDialog("Ooh, you need help in this simple program?\n" +
-                "Sorry, no help in this version. help yourself", MessageDialog.Type.INFO, MessageDialog.Buttons.OK);
-        messageDialog.getOkButton().setOnAction(event -> messageDialog.close());
-        messageDialog.showAndWait();
+        AboutController.showAboutDialog();
 
     }
 

@@ -7,7 +7,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -149,9 +152,7 @@ public class Main extends Application {
         pauseAllMenuItem.setShortcut('p');
 
         MenuItem aboutMenuItem = new MenuItem("About");
-        aboutMenuItem.setCallback(e -> {
-
-        });
+        aboutMenuItem.setCallback(e -> Platform.runLater(AboutController::showAboutDialog));
         aboutMenuItem.setImage(Main.class.getResource("theme/imgs/about.png"));
         aboutMenuItem.setShortcut('a');
 

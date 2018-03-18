@@ -30,7 +30,8 @@ public class MessageDialog implements Initializable {
     public enum Type {
         ERROR,
         INFO,
-        OPTION
+        OPTION,
+        CUSTOM
     }
     public enum Buttons {
         OK,
@@ -99,6 +100,8 @@ public class MessageDialog implements Initializable {
             case INFO:
             case OPTION:
                 messageImageView.setImage(new Image(getClass().getResource("theme/imgs/warning.png").toString()));
+                break;
+            case CUSTOM:
                 break;
         }
 
@@ -172,6 +175,11 @@ public class MessageDialog implements Initializable {
         addTitledPane(detailsTitledPane);
 
         return this;
+    }
+
+    public void setImage(String path) {
+        if(messageType == Type.CUSTOM)
+            messageImageView.setImage(new Image(path));
     }
 
     public void addTitledPane(TitledPane titledPane) {
