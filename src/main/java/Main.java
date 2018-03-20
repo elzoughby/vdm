@@ -58,12 +58,15 @@ public class Main extends Application {
             primaryStage.setHeight(programData.getDouble(STAGE_HEIGHT, 500));
             primaryStage.widthProperty().addListener((observableValue, oldValue, newValue) -> programData.putDouble(STAGE_WIDTH, newValue.doubleValue()));
             primaryStage.heightProperty().addListener((observableValue, oldValue, newValue) -> programData.putDouble(STAGE_HEIGHT, newValue.doubleValue()));
-            primaryStage.setOnCloseRequest(event -> appStage.hide());
-            primaryStage.show();
+            primaryStage.setOnCloseRequest(event -> appStage.close());
 
             // instructs the javafx system not to exit implicitly when the last application window is shut.
             Platform.setImplicitExit(false);
             TrayHandler.initSystemTray();
+            TrayHandler.initNotifications();
+            TrayHandler.startClipboardMonitor();
+
+            primaryStage.show();
 
         } catch (Exception e) {
             new MessageDialog("Error loading the LoadingPage window! \n" +

@@ -4,21 +4,67 @@ import dorkbox.systemTray.Separator;
 import dorkbox.systemTray.SystemTray;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
-import org.controlsfx.control.action.Action;
 
 
 public class TrayHandler {
 
     private static SystemTray systemTray;
     private static Stage appStage = Main.getAppStage();
+    private static Stage notificationStage;
     private static int numOfRunningDownloads = 0;
 
+
+    private static void showHomeWindow() {
+
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/HomeWindow.fxml"));
+                newDownloadWindowLoader.load();
+                Parent root = newDownloadWindowLoader.getRoot();
+                appStage.getScene().setRoot(root);
+            } catch (Exception ex) {
+                new MessageDialog("Error returning to the home window! \n" +
+                        "Restart program and try again.", MessageDialog.Type.ERROR,
+                        MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
+            } finally {
+                appStage.show();
+                appStage.toFront();
+            }
+        });
+
+    }
+
+    private static void showNewDownloadWindow() {
+
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/NewDownloadWindow.fxml"));
+                newDownloadWindowLoader.load();
+                Parent root = newDownloadWindowLoader.getRoot();
+                appStage.getScene().setRoot(root);
+                appStage.show();
+                appStage.toFront();
+            } catch (Exception ex) {
+                new MessageDialog("Couldn't load the New Download page!\n" +
+                        "Restart the program and try again.", MessageDialog.Type.ERROR,
+                        MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
+            }
+        });
+
+    }
 
     public static int getNumOfRunningDownloads() {
         return numOfRunningDownloads;
@@ -61,37 +107,12 @@ public class TrayHandler {
         systemTray.setStatus("No Running Downloads");
 
         MenuItem showWindowMenuItem = new MenuItem("Show Window");
-        showWindowMenuItem.setCallback(e -> Platform.runLater(() -> {
-            try {
-                FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/HomeWindow.fxml"));
-                newDownloadWindowLoader.load();
-                Parent root = newDownloadWindowLoader.getRoot();
-                appStage.getScene().setRoot(root);
-            } catch (Exception ex) {
-                System.err.println("Error returning to Home Window");
-            } finally {
-                appStage.show();
-                appStage.toFront();
-            }
-        }));
+        showWindowMenuItem.setCallback(e -> showHomeWindow());
         showWindowMenuItem.setImage(Main.class.getResource("icon/icon.png"));
         showWindowMenuItem.setShortcut('w');
 
         MenuItem newDownloadMenuItem = new MenuItem("New Download");
-        newDownloadMenuItem.setCallback(e -> Platform.runLater(() -> {
-            try {
-                FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/NewDownloadWindow.fxml"));
-                newDownloadWindowLoader.load();
-                Parent root = newDownloadWindowLoader.getRoot();
-                appStage.getScene().setRoot(root);
-                appStage.show();
-                appStage.toFront();
-            } catch (Exception ex) {
-                new MessageDialog("Couldn't load the New Download page!\n" +
-                        "Restart the program and try again.", MessageDialog.Type.ERROR,
-                        MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
-            }
-        }));
+        newDownloadMenuItem.setCallback(e -> showNewDownloadWindow());
         newDownloadMenuItem.setImage(TrayHandler.class.getResource("theme/imgs/add.png"));
         newDownloadMenuItem.setShortcut('n');
 
@@ -158,44 +179,97 @@ public class TrayHandler {
 
     }
 
+    public static void initNotifications() {
+
+        final int STAGE_WIDTH = 1;
+        final int STAGE_HEIGHT = 1;
+
+        notificationStage = new Stage();
+        notificationStage.setScene(new Scene(new Pane()));
+        notificationStage.getScene().setFill(Color.TRANSPARENT);
+        notificationStage.initStyle(StageStyle.UTILITY);
+        notificationStage.setOpacity(0);
+        notificationStage.setMaxWidth(STAGE_WIDTH);
+        notificationStage.setMinWidth(STAGE_WIDTH);
+        notificationStage.setMaxHeight(STAGE_HEIGHT);
+        notificationStage.setMinHeight(STAGE_HEIGHT);
+        notificationStage.setResizable(false);
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        notificationStage.setX(primaryScreenBounds.getMinX() + primaryScreenBounds.getWidth());
+        notificationStage.setY(primaryScreenBounds.getMinY() + primaryScreenBounds.getHeight());
+        notificationStage.show();
+
+    }
+
     public static void showDownloadFinishNotification(Item item) {
 
-        Platform.runLater(() -> {
-            Notifications notification = Notifications.create();
-            notification.title("Download Complete");
-            if(item.getTitle().length() > 35)
-                notification.text("Finished downloading \n" + item.getTitle().substring(0, 35).concat("..."));
-            else
-                notification.text("Finished downloading \n" + item.getTitle());
-            ImageView imageView = new ImageView(new Image(TrayHandler.class.getResource("theme/imgs/done.png").toString()));
-            imageView.setFitHeight(65);
-            imageView.setFitWidth(65);
-            notification.graphic(imageView);
-            notification.hideAfter(Duration.seconds(5));
-            notification.show();
-        });
+        Notifications notification = Notifications.create();
+        notification.title("Download Complete");
+        String title = item.getTitle().length() <= 40? item.getTitle() : item.getTitle().substring(0, 40).concat("...");
+        notification.text("Finished downloading \n" + title);
+        ImageView imageView = new ImageView(new Image(TrayHandler.class.getResource("theme/imgs/done.png").toString()));
+        imageView.setFitHeight(64);
+        imageView.setFitWidth(64);
+        notification.graphic(imageView);
+        notification.hideAfter(Duration.seconds(4));
+        notification.owner(notificationStage);
+        notification.onAction(actionEvent -> showHomeWindow());
+        Platform.runLater(notification::show);
 
     }
 
     public static void showDownloadErrorNotification(Item item) {
 
-        Platform.runLater(() -> {
-            Notifications notification = Notifications.create();
-            notification.title("Download Error");
-            if(item.getTitle().length() > 35)
-                notification.text("Error in downloading \n" + item.getTitle().substring(0, 35).concat("..."));
-            else
-                notification.text("Error in downloading \n" + item.getTitle());
-            Image image = new Image(TrayHandler.class.getResource("theme/imgs/cancel.png").toString());
-            ImageView imageView = new ImageView(image);
-            imageView.setFitHeight(60);
-            imageView.setFitWidth(60);
-            notification.graphic(imageView);
-            notification.hideAfter(Duration.seconds(5));
-            notification.show();
-        });
+        Notifications notification = Notifications.create();
+        notification.title("Download Error");
+        String title = item.getTitle().length() <= 40? item.getTitle() : item.getTitle().substring(0, 40).concat("...");
+        notification.text("Error in downloading \n" + title);
+        Image image = new Image(TrayHandler.class.getResource("theme/imgs/cancel.png").toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(64);
+        imageView.setFitWidth(64);
+        notification.graphic(imageView);
+        notification.hideAfter(Duration.seconds(3));
+        notification.owner(notificationStage);
+        notification.onAction(actionEvent -> showHomeWindow());
+        Platform.runLater(notification::show);
 
     }
 
+    public static void showNewDownloadNotification(String url) {
+
+        Notifications notification = Notifications.create();
+        notification.title("New URL detected");
+        String copiedLink = url.length() <= 40? url : url.substring(0, 40).concat("...");
+        notification.text(copiedLink + "\nclick to start a new download");
+        ImageView imageView = new ImageView(new Image(TrayHandler.class.getResource("theme/imgs/link.png").toString()));
+        imageView.setFitHeight(64);
+        imageView.setFitWidth(64);
+        notification.graphic(imageView);
+        notification.hideAfter(Duration.seconds(4));
+        notification.owner(notificationStage);
+        notification.onAction(actionEvent -> showNewDownloadWindow());
+        Platform.runLater(notification::show);
+
+    }
+
+    public static void startClipboardMonitor() {
+
+        final Clipboard systemClipboard = Clipboard.getSystemClipboard();
+
+        new com.sun.glass.ui.ClipboardAssistance(com.sun.glass.ui.Clipboard.SYSTEM) {
+            @Override
+            public void contentChanged() {
+                if(systemClipboard.hasString()) {
+                    String clipboardText = systemClipboard.getString();
+                    String urlRegex = "(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
+                    if(clipboardText.matches(urlRegex)) {
+                        showNewDownloadNotification(clipboardText);
+                    }
+                }
+            }
+        };
+
+    }
 
 }
