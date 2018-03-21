@@ -85,7 +85,7 @@ public class Item {
     @Override
     public String toString() {
 
-        return new StringBuilder("Item{")
+        return new StringBuilder("Item {")
                 .append("id=").append(id.get())
                 .append(", url=").append(url.get())
                 .append(", location=").append(location.get())
@@ -471,7 +471,7 @@ public class Item {
             protected Void call() throws Exception {
 
                 List<String> cmd = commandBuilder();
-                System.out.println(cmd.toString().replace(",", ""));
+                //System.out.println(cmd.toString().replace(",", ""));
                 ytdlProcess = new ProcessBuilder(cmd).redirectErrorStream(true).start();
                 setStatus("Starting");
                 TrayHandler.incrementNumOfRunningDownloads();
@@ -683,7 +683,7 @@ public class Item {
             cmdList.add("-u");
             cmdList.add(userName.get());
             cmdList.add("-p");
-            cmdList.add(password.get());
+            cmdList.add(AES.decrypt(password.get()));
         }
 
         cmdList.add(url.getValue());

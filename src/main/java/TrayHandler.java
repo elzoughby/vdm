@@ -198,6 +198,7 @@ public class TrayHandler {
         notificationStage.setX(primaryScreenBounds.getMinX() + primaryScreenBounds.getWidth());
         notificationStage.setY(primaryScreenBounds.getMinY() + primaryScreenBounds.getHeight());
         notificationStage.show();
+        notificationStage.toBack();
 
     }
 

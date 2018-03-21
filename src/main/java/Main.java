@@ -60,12 +60,13 @@ public class Main extends Application {
             primaryStage.heightProperty().addListener((observableValue, oldValue, newValue) -> programData.putDouble(STAGE_HEIGHT, newValue.doubleValue()));
             primaryStage.setOnCloseRequest(event -> appStage.close());
 
-            // instructs the javafx system not to exit implicitly when the last application window is shut.
-            Platform.setImplicitExit(false);
             TrayHandler.initSystemTray();
             TrayHandler.initNotifications();
             TrayHandler.startClipboardMonitor();
+            AES.initKey();
 
+            // instructs the javafx system not to exit implicitly when the last application window is shut.
+            Platform.setImplicitExit(false);
             primaryStage.show();
 
         } catch (Exception e) {

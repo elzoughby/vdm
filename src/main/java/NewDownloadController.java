@@ -465,7 +465,7 @@ public class NewDownloadController implements Initializable{
 
         if(needLoginCheckBox.isSelected()) {
             item.setUserName(userNameTextField.getText());
-            item.setPassword(passwordTextField.getText());
+            item.setPassword(AES.encrypt(passwordTextField.getText()));
         }
 
         item.setSpeedLimit(Integer.parseInt(limitSpinner.getEditor().getText()));
