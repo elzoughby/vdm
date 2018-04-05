@@ -35,9 +35,9 @@ public class AboutController implements Initializable {
             Scene scene = new Scene(root);
             aboutStage = new Stage();
             aboutStage.setTitle("About");
-            aboutStage.setMinWidth(480);
-            aboutStage.setMaxWidth(480);
-            aboutStage.setWidth(480);
+            aboutStage.setMinWidth(450);
+            aboutStage.setMaxWidth(450);
+            aboutStage.setWidth(450);
             aboutStage.setMinHeight(480);
             aboutStage.setMaxHeight(480);
             aboutStage.setHeight(480);

@@ -31,17 +31,17 @@ public class TrayHandler {
 
         Platform.runLater(() -> {
             try {
-                FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/HomeWindow.fxml"));
-                newDownloadWindowLoader.load();
-                Parent root = newDownloadWindowLoader.getRoot();
-                appStage.getScene().setRoot(root);
+                if(! appStage.isShowing()) {
+                    FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/HomeWindow.fxml"));
+                    Parent root = newDownloadWindowLoader.load();
+                    appStage.getScene().setRoot(root);
+                }
+                appStage.show();
+                appStage.toFront();
             } catch (Exception ex) {
                 new MessageDialog("Error returning to the home window! \n" +
                         "Restart program and try again.", MessageDialog.Type.ERROR,
                         MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
-            } finally {
-                appStage.show();
-                appStage.toFront();
             }
         });
 
@@ -51,10 +51,14 @@ public class TrayHandler {
 
         Platform.runLater(() -> {
             try {
-                FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/NewDownloadWindow.fxml"));
-                newDownloadWindowLoader.load();
-                Parent root = newDownloadWindowLoader.getRoot();
-                appStage.getScene().setRoot(root);
+                if(! appStage.getScene().getRoot().getId().equals("newDownloadPane")) {
+                    FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/NewDownloadWindow.fxml"));
+                    Parent root = newDownloadWindowLoader.load();
+                    NewDownloadController controller = newDownloadWindowLoader.getController();
+                    appStage.getScene().setRoot(root);
+                    appStage.show();
+                    controller.showUrlDialog();
+                }
                 appStage.show();
                 appStage.toFront();
             } catch (Exception ex) {

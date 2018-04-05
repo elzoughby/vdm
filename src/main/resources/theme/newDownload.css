@@ -382,3 +382,16 @@
     -fx-border-color: crimson;
 }
 
+
+/* ============ ProgressIndicator style ============ */
+
+.progress-indicator {
+    -fx-progress-color: darkturquoise;
+}
+
+.progress-indicator:indeterminate > .spinner {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
+}

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="370.0" prefWidth="650.0" spacing="25.0"
+      style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, gray, 40, 0, 0, 0); -fx-background-insets: 40; -fx-background-radius: 10px; -fx-border-color: darkturquoise; -fx-border-insets: 40; -fx-border-radius: 10px;"
+      stylesheets="@../theme/newDownload.css" xmlns:fx="http://javafx.com/fxml/1">
+    <effect>
+        <DropShadow/>
+    </effect>
+    <children>
+        <HBox alignment="CENTER" prefHeight="6.0" prefWidth="530.0" spacing="10.0">
+            <children>
+                <Label text="URL" textFill="#545454">
+                    <font>
+                        <Font name="System Bold" size="13.0"/>
+                    </font>
+                </Label>
+                <TextField fx:id="urlTextFieldOnUrlDialog" prefHeight="28.0" prefWidth="421.0" HBox.hgrow="ALWAYS"/>
+            </children>
+            <VBox.margin>
+                <Insets left="25.0" right="25.0" top="20.0"/>
+            </VBox.margin>
+        </HBox>
+        <TitledPane fx:id="authenticationTitledPaneOnUrlDialog" animated="false" collapsible="false" prefHeight="8.0"
+                    prefWidth="694.0" styleClass="authentication-titled-pane" text="Authentication">
+            <content>
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                    </padding>
+                    <children>
+                        <CheckBox fx:id="needLoginCheckBoxOnUrlDialog" mnemonicParsing="false"
+                                  text="Need login to download">
+                            <VBox.margin>
+                                <Insets bottom="5.0"/>
+                            </VBox.margin>
+                        </CheckBox>
+                        <HBox alignment="CENTER_LEFT" disable="${!needLoginCheckBoxOnUrlDialog.selected}" prefHeight="100.0"
+                              prefWidth="200.0" spacing="10.0" VBox.vgrow="NEVER">
+                            <children>
+                                <Label text="Username"/>
+                                <TextField fx:id="userNameTextFieldOnUrlDialog" prefHeight="28.0" prefWidth="169.0"
+                                           HBox.hgrow="NEVER">
+                                    <HBox.margin>
+                                        <Insets right="40.0"/>
+                                    </HBox.margin>
+                                </TextField>
+                                <Label text="Password">
+                                    <HBox.margin>
+                                        <Insets right="5.0"/>
+                                    </HBox.margin>
+                                </Label>
+                                <PasswordField fx:id="passwordTextFieldOnUrlDialog" prefHeight="26.0" prefWidth="108.0"
+                                               HBox.hgrow="NEVER">
+                                    <font>
+                                        <Font size="11.0"/>
+                                    </font>
+                                </PasswordField>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0"/>
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+            </content>
+            <VBox.margin>
+                <Insets left="25.0" right="25.0"/>
+            </VBox.margin>
+        </TitledPane>
+        <HBox alignment="CENTER" prefHeight="6.0" prefWidth="650.0" spacing="20.0">
+            <children>
+                <Button fx:id="cancelBtnOnUrlDialog" alignment="CENTER" cancelButton="true" graphicTextGap="10.0"
+                        minHeight="-Infinity" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" text="Cancel"
+                        textAlignment="CENTER">
+                    <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0">
+                            <image>
+                                <Image url="@../theme/imgs/cancel.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="addBtnOnUrlDialog" alignment="CENTER" defaultButton="true" graphicTextGap="10.0"
+                        minHeight="-Infinity" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" text="Add"
+                        textAlignment="CENTER">
+                    <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0">
+                            <image>
+                                <Image url="@../theme/imgs/add.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+            <VBox.margin>
+                <Insets bottom="20.0" left="25.0" right="25.0"/>
+            </VBox.margin>
+        </HBox>
+    </children>
+</VBox>

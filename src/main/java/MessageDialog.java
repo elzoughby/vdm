@@ -11,9 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -95,12 +93,13 @@ public class MessageDialog implements Initializable {
         switch(messageType) {
             case ERROR:
                 messageImageView.setImage(new Image(getClass().getResource("theme/imgs/error.png").toString()));
+                messageDialogPane.setStyle(messageDialogPane.getStyle().concat(" -fx-border-color: crimson;"));
                 break;
             case INFO:
             case OPTION:
                 messageImageView.setImage(new Image(getClass().getResource("theme/imgs/warning.png").toString()));
-                break;
             case CUSTOM:
+                messageDialogPane.setStyle(messageDialogPane.getStyle().concat(" -fx-border-color: darkturquoise;"));
                 break;
         }
 

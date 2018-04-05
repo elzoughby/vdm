@@ -5,6 +5,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.scene.image.Image;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -21,6 +22,8 @@ public class Item {
     @Expose private StringProperty location;
     @Expose private StringProperty title;
     @Expose private StringProperty customName;
+    @Expose private StringProperty description;
+    @Expose private StringProperty thumbnailUrl;
     @Expose private IntegerProperty speedLimit;
     @Expose private BooleanProperty shutdownAfterFinish;
     @Expose private BooleanProperty isAddedToQueue;
@@ -55,6 +58,8 @@ public class Item {
         location = new SimpleStringProperty("");
         title = new SimpleStringProperty("");
         customName = new SimpleStringProperty("");
+        description = new SimpleStringProperty("");
+        thumbnailUrl = new SimpleStringProperty("");
         speedLimit = new SimpleIntegerProperty(0);
         shutdownAfterFinish = new SimpleBooleanProperty(false);
         isAddedToQueue = new SimpleBooleanProperty(false);
@@ -91,6 +96,8 @@ public class Item {
                 .append(", location=").append(location.get())
                 .append(", title=").append(title.get())
                 .append(", customName=").append(customName.get())
+                .append(", description=").append(description.get())
+                .append("thumbnailUrl=").append(thumbnailUrl.get())
                 .append(", speedLimit=").append(speedLimit.get())
                 .append(", shutdownAfterFinish=").append(shutdownAfterFinish.get())
                 .append(", isAddedToQueue=").append(isAddedToQueue.get())
@@ -173,6 +180,30 @@ public class Item {
 
     public void setCustomName(String customName) {
         this.customName.set(customName);
+    }
+
+    public String getDescription() {
+        return description.get();
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl.get();
+    }
+
+    public StringProperty thumbnailUrlProperty() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl.set(thumbnailUrl);
     }
 
     public int getSpeedLimit() {

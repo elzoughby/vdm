@@ -1,28 +1,48 @@
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.*;
 
 
 public class NewDownloadController implements Initializable{
 
-    @FXML private BorderPane newDownloadWindowPane;
+    @FXML private BorderPane newDownloadPane;
     @FXML private ToolBar toolbar;
     @FXML private Button startBtn;
     @FXML private Button scheduleBtn;
     @FXML private VBox scrollPaneVBox;
-    @FXML private TextField urlTextField;
+    @FXML private ImageView thumbnailImageView;
+    @FXML private Label titleLabel;
+    @FXML private Label urlLabel;
+    @FXML private Label descriptionLabel;
     @FXML private TitledPane artifactsTitledPane;
     @FXML private HBox artifactsSaveLocationHBox;
     @FXML private TextField locationTextField;
@@ -30,7 +50,9 @@ public class NewDownloadController implements Initializable{
     @FXML private CheckBox customNameChkBox;
     @FXML private TextField customNameTextField;
     @FXML private TitledPane websiteTitledPane;
-    @FXML private ChoiceBox<String> qualityComboBox;
+    @FXML private ChoiceBox<Quality> videoQualityChoiceBox;
+    @FXML private ChoiceBox<Quality> audioQualityChoiceBox;
+    @FXML private ChoiceBox<String> formatChoiceBox;
     @FXML private CheckBox embeddedSubtitleChkBox;
     @FXML private CheckBox autoGenSubtitleChkBox;
     @FXML private HBox subtitleLanguagePane;
@@ -53,11 +75,13 @@ public class NewDownloadController implements Initializable{
     @FXML private CheckBox shutdownCheckBox;
 
     private boolean isQueueBtnSelected;
+    private Stage appStage;
+    private Stage urlDialogStage;
 
 
 
-    public BorderPane getNewDownloadWindowPane() {
-        return newDownloadWindowPane;
+    public BorderPane getNewDownloadPane() {
+        return newDownloadPane;
     }
 
     public ToolBar getToolbar() {
@@ -76,8 +100,20 @@ public class NewDownloadController implements Initializable{
         return scrollPaneVBox;
     }
 
-    public TextField getUrlTextField() {
-        return urlTextField;
+    public ImageView getThumbnailImageView() {
+        return thumbnailImageView;
+    }
+
+    public Label getTitleLabel() {
+        return titleLabel;
+    }
+
+    public Label getUrlLabel() {
+        return urlLabel;
+    }
+
+    public Label getDescriptionLabel() {
+        return descriptionLabel;
     }
 
     public TitledPane getArtifactsTitledPane() {
@@ -108,8 +144,16 @@ public class NewDownloadController implements Initializable{
         return websiteTitledPane;
     }
 
-    public ChoiceBox<String> getQualityComboBox() {
-        return qualityComboBox;
+    public ChoiceBox<Quality> getVideoQualityChoiceBox() {
+        return videoQualityChoiceBox;
+    }
+
+    public ChoiceBox<Quality> getAudioQualityChoiceBox() {
+        return audioQualityChoiceBox;
+    }
+
+    public ChoiceBox<String> getFormatChoiceBox() {
+        return formatChoiceBox;
     }
 
     public CheckBox getEmbeddedSubtitleChkBox() {
@@ -197,17 +241,13 @@ public class NewDownloadController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        String urlRegex = "(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
-        Clipboard systemClipboard = Clipboard.getSystemClipboard();
+        // stores a reference to the stage
+        appStage = Main.getAppStage();
 
-        urlTextField.textProperty().addListener((obs, oldText, newText) -> {
+        urlLabel.textProperty().addListener((obs, oldText, newText) -> {
             if(newText.contains("playlist?list="))
                 isPlaylistChkBox.setSelected(true);
         });
-
-        String clipboardText = systemClipboard.getString();
-        if(clipboardText != null && clipboardText.matches(urlRegex))
-            urlTextField.setText(clipboardText);
 
         if(System.getProperty("os.name").toLowerCase().contains("win"))
             locationTextField.setText(System.getProperty("user.home") + "\\Downloads");
@@ -217,10 +257,10 @@ public class NewDownloadController implements Initializable{
         subtitleLanguageChoiceBox.setItems(FXCollections.observableArrayList("Arabic", "English", "French", "Italian", "spanish", "German", "Russian"));
         subtitleLanguageChoiceBox.setValue("English");
         embeddedSubtitleChkBox.selectedProperty().not().and(autoGenSubtitleChkBox.selectedProperty().not()).addListener((observable, oldValue, newValue) -> subtitleLanguagePane.setDisable(newValue));
-        qualityComboBox.setItems(FXCollections.observableArrayList("Best", "1080p - mp4 video", "720p - mp4 video", "480p - mp4 video", "360p - mp4 video", "240p - mp4 video", "144p - mp4 video", "48K - m4a audio only"));
-        qualityComboBox.setValue("Best");
+        //qualityComboBox.setItems(FXCollections.observableArrayList("Best", "1080p - mp4 video", "720p - mp4 video", "480p - mp4 video", "360p - mp4 video", "240p - mp4 video", "144p - mp4 video", "48K - m4a audio only"));
+        //qualityComboBox.setValue("Best");
 
-        newDownloadWindowPane.setOnKeyPressed((KeyEvent keyEvent) -> {
+        newDownloadPane.setOnKeyPressed((KeyEvent keyEvent) -> {
             if(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN).match(keyEvent)) {
                 if(startBtn.isVisible())
                     startBtnAction();
@@ -235,10 +275,275 @@ public class NewDownloadController implements Initializable{
             }
         });
 
+        // center the urlDialogStage in the appStage
+        appStage.xProperty().addListener((observableValue, oldValue, newValue) -> {
+            if(urlDialogStage != null && urlDialogStage.isShowing())
+                urlDialogStage.setX(newValue.doubleValue() + appStage.getWidth()/2d - urlDialogStage.getWidth()/2d);
+        });
+        appStage.yProperty().addListener((observableValue, oldValue, newValue) -> {
+            if(urlDialogStage != null && urlDialogStage.isShowing())
+                urlDialogStage.setY(newValue.doubleValue() + appStage.getHeight()/2d - urlDialogStage.getHeight()/2d);
+        });
+
     }
 
     public void setQueueBtnSelected(boolean selected) {
         isQueueBtnSelected = selected;
+    }
+
+    public void showUrlDialog() {
+
+        final double URL_DIALOG_WIDTH = 650;
+        final double URL_DIALOG_HEIGHT = 370;
+
+        Effect blurEffect = new BoxBlur(10, 10, 3);
+        newDownloadPane.setEffect(blurEffect);
+
+        try {
+
+            String urlRegex = "(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
+            Clipboard systemClipboard = Clipboard.getSystemClipboard();
+            String clipboardText = systemClipboard.getString();
+
+            FXMLLoader urlDialogLoader = new FXMLLoader(getClass().getResource("windows/URLDialog.fxml"));
+            VBox vBox = urlDialogLoader.load();
+            Scene urlDialogScene = new Scene(vBox, URL_DIALOG_WIDTH, URL_DIALOG_HEIGHT, Color.TRANSPARENT);
+            urlDialogStage = new Stage();
+            urlDialogStage.setScene(urlDialogScene);
+
+            TextField urlTextFieldOnUrlDialog = (TextField) urlDialogLoader.getNamespace().get("urlTextFieldOnUrlDialog");
+            Button addBtnOnUrlDialog = (Button) urlDialogLoader.getNamespace().get("addBtnOnUrlDialog");
+            Button cancelBtnOnUrlDialog = (Button) urlDialogLoader.getNamespace().get("cancelBtnOnUrlDialog");
+            CheckBox needLoginCheckBoxOnUrlDialog = (CheckBox) urlDialogLoader.getNamespace().get("needLoginCheckBoxOnUrlDialog");
+            TextField userNameTextFieldOnUrlDialog = (TextField) urlDialogLoader.getNamespace().get("userNameTextFieldOnUrlDialog");
+            TextField passwordTextFieldOnUrlDialog = (TextField) urlDialogLoader.getNamespace().get("passwordTextFieldOnUrlDialog");
+
+            if(clipboardText != null && clipboardText.matches(urlRegex))
+                urlTextFieldOnUrlDialog.setText(clipboardText);
+
+            addBtnOnUrlDialog.setOnAction((ActionEvent actionEvent) -> {
+
+                boolean validUserInputs = true;
+
+                if(urlTextFieldOnUrlDialog.getText().matches(urlRegex)) {
+                    urlTextFieldOnUrlDialog.getStyleClass().add("text-field");
+                    urlLabel.setText(urlTextFieldOnUrlDialog.getText());
+                } else {
+                    urlTextFieldOnUrlDialog.getStyleClass().add("text-field-error");
+                    validUserInputs = false;
+                }
+
+                if(needLoginCheckBoxOnUrlDialog.isSelected()) {
+
+                    needLoginCheckBox.setSelected(true);
+
+                    if(userNameTextFieldOnUrlDialog.getText().equals("")) {
+                        userNameTextFieldOnUrlDialog.getStyleClass().add("text-field-error");
+                        validUserInputs = false;
+                    } else {
+                        userNameTextFieldOnUrlDialog.getStyleClass().add("text-field");
+                        userNameTextField.setText(userNameTextFieldOnUrlDialog.getText());
+                    }
+
+                    if(passwordTextFieldOnUrlDialog.getText().equals("")) {
+                        passwordTextFieldOnUrlDialog.getStyleClass().add("text-field-error");
+                        validUserInputs = false;
+                    } else {
+                        passwordTextFieldOnUrlDialog.getStyleClass().add("text-field");
+                        passwordTextField.setText(passwordTextFieldOnUrlDialog.getText());
+                    }
+
+                }
+
+                if(! validUserInputs)
+                    return;
+
+                vBox.getChildren().clear();
+                vBox.setAlignment(Pos.CENTER);
+                vBox.setStyle(vBox.getStyle().replace("darkturquoise", "transparent"));
+                ProgressIndicator progressIndicator = new ProgressIndicator();
+                progressIndicator.setPrefHeight(48);
+                progressIndicator.setPrefWidth(48);
+                vBox.getChildren().add(progressIndicator);
+                urlDialogStage.setWidth(200);
+                urlDialogStage.setHeight(200);
+                urlDialogStage.setX(appStage.getX() + appStage.getWidth()/2d - urlDialogStage.getWidth()/2d);
+                urlDialogStage.setY(appStage.getY() + appStage.getHeight()/2d - urlDialogStage.getHeight()/2d);
+
+                List<String> argsList = new ArrayList<>();
+                argsList.add("python");
+                argsList.add("youtube-dl");
+                if(needLoginCheckBox.isSelected()) {
+                    argsList.add("-u");
+                    argsList.add(userNameTextField.getText());
+                    argsList.add("-p");
+                    argsList.add(passwordTextField.getText());
+                }
+                CountDownLatch latch = new CountDownLatch(3);
+
+                // for parsing the download thumbnail image
+                Task<Void> thumbnailLoader = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+
+                        List<String> cmdList = new ArrayList<>(argsList);
+                        cmdList.add("--get-thumbnail");
+                        cmdList.add(urlLabel.getText());
+
+                        Process ytdlProcess = new ProcessBuilder(cmdList).redirectErrorStream(true).start();
+
+                        InputStream inputStream = ytdlProcess.getInputStream();
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                        String thumbnailUrl = bufferedReader.readLine();
+                        ytdlProcess.destroy();
+                        if(thumbnailUrl.matches(urlRegex)) {
+                            Platform.runLater(() -> {
+                                thumbnailImageView.setImage(new Image(thumbnailUrl, true));
+                                thumbnailImageView.setAccessibleText(thumbnailUrl);
+                            });
+                        }
+
+                        synchronized (latch) {
+                            latch.countDown();
+                            System.out.println("thumbnail done  -> " + latch.getCount());
+                            if(latch.getCount() == 0)
+                                Platform.runLater(() -> closeUrlDialog());
+                        }
+
+                        return null;
+                    }
+
+                };
+
+                // for parsing the download title and description
+                Task<Void> titleParser = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+
+                        List<String> cmdList = new ArrayList<>(argsList);
+                        cmdList.add("-o");
+                        cmdList.add("temp/%(title)s");
+                        cmdList.add(urlLabel.getText());
+
+                        Process ytdlProcess = new ProcessBuilder(cmdList).redirectErrorStream(true).start();
+
+                        InputStream inputStream = ytdlProcess.getInputStream();
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                        // parse the download description
+                        String line = bufferedReader.readLine();
+                        if(line.matches("\\[.+\\].+")) {
+                            String description = line.split("\\[")[1].split("\\]")[0].replace(':', ' ');
+                            Platform.runLater(() -> descriptionLabel.setText(description));
+                            System.out.println("description = " + description);
+                        }
+
+                        //parse the download title
+                        while((line = bufferedReader.readLine()) != null) {
+
+                            if(line.startsWith("[download]") && line.contains(":")) {
+                                ytdlProcess.destroy();
+                                String title = line.split(":")[1].split("\\.f\\d{1,4}")[0].replace("temp/", "");
+                                Platform.runLater(() -> titleLabel.setText(title));
+                                System.out.println("title = " + title);
+                                break;
+                            }
+
+                        }
+
+                        synchronized (latch) {
+                            latch.countDown();
+                            System.out.println("title done -> " + latch.getCount());
+                            if(latch.getCount() == 0)
+                                Platform.runLater(() -> closeUrlDialog());
+                        }
+
+                        return null;
+                    }
+
+                };
+
+                // for parsing the download qualities
+                Task<Void> qualityParser = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+
+                        List<String> cmdList = new ArrayList<>(argsList);
+                        cmdList.add("-F");
+                        cmdList.add(urlLabel.getText());
+
+                        Process ytdlProcess = new ProcessBuilder(cmdList).start();
+
+                        InputStream inputStream = ytdlProcess.getInputStream();
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                        String line = bufferedReader.readLine();
+
+                        while(line != null && !line.startsWith("format code")) {
+                            System.out.println(line);
+                            line = bufferedReader.readLine();
+                        }
+
+                        //parsing the qualities and formats
+                        while(line != null && !(line = bufferedReader.readLine()).startsWith("[")) {
+                            System.out.println(line);
+                            // parse the quality line
+                        }
+
+                        System.out.println("line = " + line);
+
+                        ytdlProcess.destroy();
+
+                        synchronized (latch) {
+                            latch.countDown();
+                            System.out.println("quality done -> " + latch.getCount());
+                            if(latch.getCount() == 0)
+                                Platform.runLater(() -> closeUrlDialog());
+                        }
+
+                        return null;
+                    }
+
+                };
+
+                Thread thumbnailLoaderThread = new Thread(thumbnailLoader);
+                Thread qualityParserThread = new Thread(qualityParser);
+                Thread titleParserThread = new Thread(titleParser);
+                thumbnailLoaderThread.start();
+                qualityParserThread.start();
+                titleParserThread.start();
+
+            });
+            cancelBtnOnUrlDialog.setOnAction(actionEvent -> {
+                urlDialogStage.close();
+                cancelBtnAction();
+            });
+
+            urlDialogStage.setResizable(false);
+            urlDialogStage.initStyle(StageStyle.TRANSPARENT);
+            urlDialogStage.initModality(Modality.APPLICATION_MODAL);
+            urlDialogStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));
+            urlDialogStage.setOnCloseRequest(Event::consume);
+            urlDialogStage.setOpacity(0.75);
+            urlDialogStage.setX(appStage.getX() + appStage.getWidth()/2d - URL_DIALOG_WIDTH/2d);
+            urlDialogStage.setY(appStage.getY() + appStage.getHeight()/2d - URL_DIALOG_HEIGHT/2d);
+            urlDialogStage.show();
+            urlDialogStage.toFront();
+
+        } catch (Exception ex) {
+            new MessageDialog("Error Loading the Home Window! \n" +
+                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
+        }
+
+    }
+
+    public void closeUrlDialog() {
+
+        if(urlDialogStage != null) {
+            urlDialogStage.close();
+            newDownloadPane.setEffect(null);
+        }
+
     }
 
 
@@ -249,7 +554,7 @@ public class NewDownloadController implements Initializable{
         directoryChooser.setInitialDirectory(new File(locationTextField.getText()));
         directoryChooser.setTitle("Choose save location");
 
-        File selectedDirectory = directoryChooser.showDialog(newDownloadWindowPane.getScene().getWindow());
+        File selectedDirectory = directoryChooser.showDialog(newDownloadPane.getScene().getWindow());
         if(selectedDirectory != null)
             locationTextField.setText(selectedDirectory.getPath());
 
@@ -302,23 +607,12 @@ public class NewDownloadController implements Initializable{
     private boolean isValidInfo() {
 
         boolean result = true;
-        String urlRegex = "(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
-
-        // Check if the url is valid
-        if(urlTextField.getText().matches(urlRegex)) {
-            urlTextField.getStyleClass().clear();
-            urlTextField.getStyleClass().add("text-field");
-        } else {
-            urlTextField.getStyleClass().add("text-field-error");
-            result = false;
-        }
 
         // Check if the save location is not empty
         if(locationTextField.getText().equals("")) {
             locationTextField.getStyleClass().add("text-field-error");
             result = false;
         } else {
-            locationTextField.getStyleClass().clear();
             locationTextField.getStyleClass().add("text-field");
         }
 
@@ -328,7 +622,6 @@ public class NewDownloadController implements Initializable{
                 customNameTextField.getStyleClass().add("text-field-error");
                 result = false;
             } else {
-                customNameTextField.getStyleClass().clear();
                 customNameTextField.getStyleClass().add("text-field");
             }
         }
@@ -337,7 +630,6 @@ public class NewDownloadController implements Initializable{
         if(isPlaylistChkBox.isSelected()) {
             if(indexRangeRadioBtn.isSelected()) {
                 if(startIndexTextField.getText().matches("[1-9]*")) {
-                    startIndexTextField.getStyleClass().clear();
                     startIndexTextField.getStyleClass().add("text-field");
                 } else {
                     startIndexTextField.getStyleClass().add("text-field-error");
@@ -345,7 +637,6 @@ public class NewDownloadController implements Initializable{
                 }
 
                 if(endIndexTextField.getText().matches("[1-9]*")) {
-                    endIndexTextField.getStyleClass().clear();
                     endIndexTextField.getStyleClass().add("text-field");
                 } else {
                     endIndexTextField.getStyleClass().add("text-field-error");
@@ -355,7 +646,6 @@ public class NewDownloadController implements Initializable{
 
             if(specificItemsRadioBtn.isSelected()) {
                 if(playlistItemsTextField.getText().replaceAll("\\s","").matches("[0-9,]+")) {
-                    playlistItemsTextField.getStyleClass().clear();
                     playlistItemsTextField.getStyleClass().add("text-field");
                 } else {
                     playlistItemsTextField.getStyleClass().add("text-field-error");
@@ -370,7 +660,6 @@ public class NewDownloadController implements Initializable{
                 userNameTextField.getStyleClass().add("text-field-error");
                 result = false;
             } else {
-                userNameTextField.getStyleClass().clear();
                 userNameTextField.getStyleClass().add("text-field");
             }
 
@@ -378,14 +667,12 @@ public class NewDownloadController implements Initializable{
                 passwordTextField.getStyleClass().add("text-field-error");
                 result = false;
             } else {
-                passwordTextField.getStyleClass().clear();
                 passwordTextField.getStyleClass().add("text-field");
             }
         }
 
         // Check if the speed limit is valid
         if(limitSpinner.getEditor().getText().matches("[0-9]+")) {
-            limitSpinner.getStyleClass().clear();
             limitSpinner.getStyleClass().add("spinner");
         } else {
             limitSpinner.getStyleClass().add("spinner-error");
@@ -400,8 +687,10 @@ public class NewDownloadController implements Initializable{
         Item item = new Item();
 
         item.setId(DataHandler.getNextId());
-        item.setUrl(urlTextField.getText());
-        item.setTitle(urlTextField.getText());
+        item.setUrl(urlLabel.getText());
+        item.setTitle(urlLabel.getText());
+        item.setDescription(descriptionLabel.getText());
+        item.setThumbnailUrl(thumbnailImageView.getAccessibleText());
         item.setLocation(locationTextField.getText().replaceAll("[/\\\\]$",""));
         if(customNameChkBox.isSelected())
             item.setCustomName(customNameTextField.getText());
@@ -432,32 +721,32 @@ public class NewDownloadController implements Initializable{
 
         item.setIsVideo(true);
         item.setFormat("mp4");
-        String selectedQuality = qualityComboBox.getSelectionModel().getSelectedItem();
-
-        if (selectedQuality.equals("1080p - mp4 video")) {
-            item.setVideoQuality(137);
-            item.setAudioQuality(141);
-        } else if (selectedQuality.equals("720p - mp4 video")) {
-            item.setVideoQuality(22);
-            item.setAudioQuality(0);
-        } else if (selectedQuality.equals("480p - mp4 video")) {
-            item.setVideoQuality(135);
-            item.setAudioQuality(140);
-        } else if (selectedQuality.equals("360p - mp4 video")) {
-            item.setVideoQuality(18);
-            item.setAudioQuality(0);
-        } else if (selectedQuality.equals("240p - mp4 video")) {
-            item.setVideoQuality(133);
-            item.setAudioQuality(139);
-        } else if (selectedQuality.equals("144p - mp4 video")) {
-            item.setVideoQuality(17);
-            item.setAudioQuality(0);
-        } else if (selectedQuality.equals("48K - m4a audio only")) {
-            item.setFormat("mp3");
-            item.setIsVideo(false);
-            item.setVideoQuality(0);
-            item.setAudioQuality(139);
-        }
+//        String selectedQuality = qualityComboBox.getSelectionModel().getSelectedItem();
+//
+//        if (selectedQuality.equals("1080p - mp4 video")) {
+//            item.setVideoQuality(137);
+//            item.setAudioQuality(141);
+//        } else if (selectedQuality.equals("720p - mp4 video")) {
+//            item.setVideoQuality(22);
+//            item.setAudioQuality(0);
+//        } else if (selectedQuality.equals("480p - mp4 video")) {
+//            item.setVideoQuality(135);
+//            item.setAudioQuality(140);
+//        } else if (selectedQuality.equals("360p - mp4 video")) {
+//            item.setVideoQuality(18);
+//            item.setAudioQuality(0);
+//        } else if (selectedQuality.equals("240p - mp4 video")) {
+//            item.setVideoQuality(133);
+//            item.setAudioQuality(139);
+//        } else if (selectedQuality.equals("144p - mp4 video")) {
+//            item.setVideoQuality(17);
+//            item.setAudioQuality(0);
+//        } else if (selectedQuality.equals("48K - m4a audio only")) {
+//            item.setFormat("mp3");
+//            item.setIsVideo(false);
+//            item.setVideoQuality(0);
+//            item.setAudioQuality(139);
+//        }
 
         item.setNeedEmbeddedSubtitle(embeddedSubtitleChkBox.isSelected());
         item.setSubtitleLanguage(subtitleLanguageChoiceBox.getValue());
@@ -482,14 +771,14 @@ public class NewDownloadController implements Initializable{
             homeWindowLoader.load();
             ((HomeController) homeWindowLoader.getController()).getQueueBtn().setSelected(queueBtnSelected);
             Parent root = homeWindowLoader.getRoot();
-            newDownloadWindowPane.getScene().setRoot(root);
+            newDownloadPane.getScene().setRoot(root);
 
         } catch (Exception e) {
-            newDownloadWindowPane.setOpacity(0.30);
+            newDownloadPane.setOpacity(0.30);
             new MessageDialog("Error Loading the Home Window! \n" +
                     "Restart program and try again.", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
-            newDownloadWindowPane.setOpacity(1);
+            newDownloadPane.setOpacity(1);
         }
 
     }
