@@ -1,3 +1,4 @@
+import dorkbox.util.Desktop;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -45,7 +46,7 @@ public class NewDownloadController implements Initializable{
     @FXML private VBox scrollPaneVBox;
     @FXML private ImageView thumbnailImageView;
     @FXML private Label titleLabel;
-    @FXML private Label urlLabel;
+    @FXML private Hyperlink urlLabel;
     @FXML private Label descriptionLabel;
     @FXML private TitledPane artifactsTitledPane;
     @FXML private HBox artifactsSaveLocationHBox;
@@ -113,7 +114,7 @@ public class NewDownloadController implements Initializable{
         return titleLabel;
     }
 
-    public Label getUrlLabel() {
+    public Hyperlink getUrlLabel() {
         return urlLabel;
     }
 
@@ -724,6 +725,16 @@ public class NewDownloadController implements Initializable{
 
     }
 
+
+    @FXML
+    private void urlLabelAction() {
+        try {
+            Desktop.browseURL(urlLabel.getText());
+        } catch (IOException e) {
+            new MessageDialog("Error opening default web browser" +
+                    "Try again or report the issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE).show();
+        }
+    }
 
     @FXML
     private void browseBtnAction() {
