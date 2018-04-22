@@ -1,3 +1,5 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
@@ -23,10 +25,12 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.*;
@@ -49,10 +53,11 @@ public class NewDownloadController implements Initializable{
     @FXML private Button browseBtn;
     @FXML private CheckBox customNameChkBox;
     @FXML private TextField customNameTextField;
-    @FXML private TitledPane websiteTitledPane;
+    @FXML private TitledPane qualityTitledPane;
     @FXML private ChoiceBox<Quality> videoQualityChoiceBox;
     @FXML private ChoiceBox<Quality> audioQualityChoiceBox;
     @FXML private ChoiceBox<String> formatChoiceBox;
+    @FXML private TitledPane websiteTitledPane;
     @FXML private CheckBox embeddedSubtitleChkBox;
     @FXML private CheckBox autoGenSubtitleChkBox;
     @FXML private HBox subtitleLanguagePane;
@@ -140,8 +145,8 @@ public class NewDownloadController implements Initializable{
         return customNameTextField;
     }
 
-    public TitledPane getWebsiteTitledPane() {
-        return websiteTitledPane;
+    public TitledPane getQualityTitledPane() {
+        return qualityTitledPane;
     }
 
     public ChoiceBox<Quality> getVideoQualityChoiceBox() {
@@ -154,6 +159,10 @@ public class NewDownloadController implements Initializable{
 
     public ChoiceBox<String> getFormatChoiceBox() {
         return formatChoiceBox;
+    }
+
+    public TitledPane getWebsiteTitledPane() {
+        return websiteTitledPane;
     }
 
     public CheckBox getEmbeddedSubtitleChkBox() {
@@ -321,6 +330,10 @@ public class NewDownloadController implements Initializable{
             if(clipboardText != null && clipboardText.matches(urlRegex))
                 urlTextFieldOnUrlDialog.setText(clipboardText);
 
+            List<String> containerFormats = new ArrayList<>(Arrays.asList("mp4", "mkv", "webm", "flv", "ogg"));
+            List<Quality> audioQualities = new ArrayList<>();
+            List<Quality> videoQualities = new ArrayList<>();
+
             addBtnOnUrlDialog.setOnAction((ActionEvent actionEvent) -> {
 
                 boolean validUserInputs = true;
@@ -380,142 +393,307 @@ public class NewDownloadController implements Initializable{
                     argsList.add(passwordTextField.getText());
                 }
                 CountDownLatch latch = new CountDownLatch(3);
+                Timeline timeline = new Timeline();
 
-                // for parsing the download thumbnail image
-                Task<Void> thumbnailLoader = new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
+                try {
 
-                        List<String> cmdList = new ArrayList<>(argsList);
-                        cmdList.add("--get-thumbnail");
-                        cmdList.add(urlLabel.getText());
+                    // for parsing the download thumbnail image
+                    List<String> thumbnailCmd = new ArrayList<>(argsList);
+                    thumbnailCmd.add("--get-thumbnail");
+                    thumbnailCmd.add(urlLabel.getText());
+                    Process thumbnailProcess = new ProcessBuilder(thumbnailCmd).redirectErrorStream(true).start();
 
-                        Process ytdlProcess = new ProcessBuilder(cmdList).redirectErrorStream(true).start();
+                    Task<Void> thumbnailLoader = new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
 
-                        InputStream inputStream = ytdlProcess.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                        String thumbnailUrl = bufferedReader.readLine();
-                        ytdlProcess.destroy();
-                        if(thumbnailUrl.matches(urlRegex)) {
-                            Platform.runLater(() -> {
-                                thumbnailImageView.setImage(new Image(thumbnailUrl, true));
-                                thumbnailImageView.setAccessibleText(thumbnailUrl);
-                            });
-                        }
-
-                        synchronized (latch) {
-                            latch.countDown();
-                            System.out.println("thumbnail done  -> " + latch.getCount());
-                            if(latch.getCount() == 0)
-                                Platform.runLater(() -> closeUrlDialog());
-                        }
-
-                        return null;
-                    }
-
-                };
-
-                // for parsing the download title and description
-                Task<Void> titleParser = new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-
-                        List<String> cmdList = new ArrayList<>(argsList);
-                        cmdList.add("-o");
-                        cmdList.add("temp/%(title)s");
-                        cmdList.add(urlLabel.getText());
-
-                        Process ytdlProcess = new ProcessBuilder(cmdList).redirectErrorStream(true).start();
-
-                        InputStream inputStream = ytdlProcess.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-                        // parse the download description
-                        String line = bufferedReader.readLine();
-                        if(line.matches("\\[.+\\].+")) {
-                            String description = line.split("\\[")[1].split("\\]")[0].replace(':', ' ');
-                            Platform.runLater(() -> descriptionLabel.setText(description));
-                            System.out.println("description = " + description);
-                        }
-
-                        //parse the download title
-                        while((line = bufferedReader.readLine()) != null) {
-
-                            if(line.startsWith("[download]") && line.contains(":")) {
-                                ytdlProcess.destroy();
-                                String title = line.split(":")[1].split("\\.f\\d{1,4}")[0].replace("temp/", "");
-                                Platform.runLater(() -> titleLabel.setText(title));
-                                System.out.println("title = " + title);
-                                break;
+                            InputStream inputStream = thumbnailProcess.getInputStream();
+                            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                            String line = null;
+                            while(thumbnailProcess.isAlive() && line == null) {
+                                line = bufferedReader.readLine();
+                            }
+                            thumbnailProcess.destroy();
+                            bufferedReader.close();
+                            inputStream.close();
+                            String thumbnailUrl = line;
+                            if(thumbnailUrl!= null && thumbnailUrl.matches(urlRegex)) {
+                                Platform.runLater(() -> {
+                                    thumbnailImageView.setImage(new Image(thumbnailUrl, true));
+                                    thumbnailImageView.setAccessibleText(thumbnailUrl);
+                                });
                             }
 
+                            synchronized (latch) {
+                                latch.countDown();
+                                System.out.println("thumbnail done  -> " + latch.getCount());
+                                if(latch.getCount() == 0) {
+                                    Platform.runLater(() -> closeUrlDialog());
+                                    timeline.stop();
+                                }
+                            }
+
+                            return null;
                         }
 
-                        synchronized (latch) {
-                            latch.countDown();
-                            System.out.println("title done -> " + latch.getCount());
-                            if(latch.getCount() == 0)
-                                Platform.runLater(() -> closeUrlDialog());
+                    };
+
+                    Thread thumbnailLoaderThread = new Thread(thumbnailLoader);
+                    thumbnailLoaderThread.start();
+
+
+                    // for parsing the download title and description
+                    List<String> titleCmd = new ArrayList<>(argsList);
+                    titleCmd.add("-o");
+                    titleCmd.add("temp/%(title)s");
+                    titleCmd.add(urlLabel.getText());
+                    Process titleProcess = new ProcessBuilder(titleCmd).redirectErrorStream(true).start();
+
+                    Task<Void> titleParser = new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
+
+                            InputStream inputStream = titleProcess.getInputStream();
+                            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                            // parse the download description
+                            String line = bufferedReader.readLine();
+                            if(line.matches("\\[.+\\].+")) {
+                                String description = line.split("\\[")[1].split("\\]")[0].replace(':', ' ');
+                                Platform.runLater(() -> descriptionLabel.setText(description));
+                                System.out.println("description = " + description);
+                            }
+
+                            //parse the download title
+                            while(titleProcess.isAlive() && (line = bufferedReader.readLine()) != null) {
+
+                                if(line.startsWith("[download]") && line.contains(":")) {
+                                    titleProcess.destroy();
+                                    bufferedReader.close();
+                                    inputStream.close();
+                                    String title = line.split(":")[1].split("\\.f\\d{1,4}")[0].replace("temp/", "");
+                                    Platform.runLater(() -> titleLabel.setText(title));
+                                    System.out.println("title = " + title);
+                                    break;
+                                }
+
+                            }
+
+                            synchronized (latch) {
+                                latch.countDown();
+                                System.out.println("title done -> " + latch.getCount());
+                                if(latch.getCount() == 0) {
+                                    Platform.runLater(() -> closeUrlDialog());
+                                    timeline.stop();
+                                }
+                            }
+
+                            return null;
                         }
 
-                        return null;
-                    }
+                    };
 
-                };
+                    Thread titleParserThread = new Thread(titleParser);
+                    titleParserThread.start();
 
-                // for parsing the download qualities
-                Task<Void> qualityParser = new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
 
-                        List<String> cmdList = new ArrayList<>(argsList);
-                        cmdList.add("-F");
-                        cmdList.add(urlLabel.getText());
+                    // for parsing the download qualities
+                    List<String> qualityCmd = new ArrayList<>(argsList);
+                    qualityCmd.add("-F");
+                    qualityCmd.add(urlLabel.getText());
+                    Process qualityProcess = new ProcessBuilder(qualityCmd).start();
 
-                        Process ytdlProcess = new ProcessBuilder(cmdList).start();
+                    Task<Void> qualityParser = new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
 
-                        InputStream inputStream = ytdlProcess.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                        String line = bufferedReader.readLine();
+                            InputStream inputStream = qualityProcess.getInputStream();
+                            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                            String line = bufferedReader.readLine();
 
-                        while(line != null && !line.startsWith("format code")) {
-                            System.out.println(line);
-                            line = bufferedReader.readLine();
+                            while(qualityProcess.isAlive() && line != null && !line.startsWith("format code")) {
+                                line = bufferedReader.readLine();
+                            }
+
+                            StringBuilder qualityLines = new StringBuilder();
+                            int c = bufferedReader.read();
+                            while(qualityProcess.isAlive() && c != -1 && c != (int)'[') {
+                                qualityLines.append((char) c);
+                                c = bufferedReader.read();
+                            }
+
+                            qualityProcess.destroy();
+                            bufferedReader.close();
+                            inputStream.close();
+
+                            String[] qualityLinesArray = qualityLines.toString().split("[\n\r]+");
+                            for(String qualityLine : qualityLinesArray) {
+                                System.out.println(qualityLine);
+
+                                Quality quality = Quality.parseAndCreate(qualityLine);
+                                if(quality != null) {
+                                    if (quality.getType() == Quality.Type.AUDIO_ONLY) {
+                                        audioQualities.add(quality);
+                                    } else {
+                                        videoQualities.add(quality);
+                                    }
+                                }
+                            }
+
+
+                            Platform.runLater(() -> {
+
+                                videoQualityChoiceBox.getItems().addAll(videoQualities);
+                                audioQualityChoiceBox.getItems().addAll(audioQualities);
+
+                                if(videoQualities.size() > 0) {
+                                    if(audioQualities.size() > 0) {
+                                        videoQualityChoiceBox.getItems().add(new Quality("None"));
+                                        audioQualityChoiceBox.getItems().add(new Quality("None"));
+                                    }
+                                    videoQualityChoiceBox.getItems().add(0, new Quality("Default"));
+                                    audioQualityChoiceBox.getItems().add(0, new Quality("Default"));
+                                } else {
+                                    if(audioQualities.size() > 0)
+                                        videoQualityChoiceBox.getItems().add(new Quality("None"));
+                                    else
+                                        videoQualityChoiceBox.getItems().add(0, new Quality("Default"));
+                                    audioQualityChoiceBox.getItems().add(0, new Quality("Default"));
+                                }
+
+                                videoQualityChoiceBox.getSelectionModel().select(0);
+                                audioQualityChoiceBox.getSelectionModel().select(0);
+
+                            });
+
+                            synchronized (latch) {
+                                latch.countDown();
+                                System.out.println("quality done -> " + latch.getCount());
+                                if(latch.getCount() == 0) {
+                                    Platform.runLater(() -> closeUrlDialog());
+                                    timeline.stop();
+                                }
+                            }
+
+                            return null;
                         }
 
-                        //parsing the qualities and formats
-                        while(line != null && !(line = bufferedReader.readLine()).startsWith("[")) {
-                            System.out.println(line);
-                            // parse the quality line
-                        }
+                    };
 
-                        System.out.println("line = " + line);
+                    Thread qualityParserThread = new Thread(qualityParser);
+                    qualityParserThread.start();
 
-                        ytdlProcess.destroy();
 
-                        synchronized (latch) {
-                            latch.countDown();
-                            System.out.println("quality done -> " + latch.getCount());
-                            if(latch.getCount() == 0)
-                                Platform.runLater(() -> closeUrlDialog());
-                        }
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(60), ae -> {
+                        if(thumbnailProcess.isAlive())
+                            thumbnailProcess.destroy();
+                        if(titleProcess.isAlive())
+                            titleProcess.destroy();
+                        if(qualityProcess.isAlive())
+                            qualityProcess.destroy();
 
-                        return null;
-                    }
+                        Platform.runLater(() -> {
+                            if(videoQualityChoiceBox.getItems().size() == 0 && audioQualityChoiceBox.getItems().size() == 0) {
+                                videoQualityChoiceBox.getItems().add(0, new Quality("Default"));
+                                audioQualityChoiceBox.getItems().add(0, new Quality("Default"));
+                                videoQualityChoiceBox.getSelectionModel().select(0);
+                                audioQualityChoiceBox.getSelectionModel().select(0);
+                            }
+                        });
 
-                };
+                        closeUrlDialog();
+                        System.out.println("Request timeout...");
+                    }));
+                    timeline.play();
 
-                Thread thumbnailLoaderThread = new Thread(thumbnailLoader);
-                Thread qualityParserThread = new Thread(qualityParser);
-                Thread titleParserThread = new Thread(titleParser);
-                thumbnailLoaderThread.start();
-                qualityParserThread.start();
-                titleParserThread.start();
+                } catch (Exception e) {
+                    new MessageDialog("Error getting the download info\n" +
+                            "Try again or report this bug", MessageDialog.Type.ERROR,
+                            MessageDialog.Buttons.CLOSE).show();
+                }
 
             });
             cancelBtnOnUrlDialog.setOnAction(actionEvent -> {
                 urlDialogStage.close();
                 cancelBtnAction();
+            });
+
+            formatChoiceBox.getItems().add(0, "Default");
+            formatChoiceBox.getSelectionModel().select(0);
+            videoQualityChoiceBox.getSelectionModel().selectedItemProperty().addListener((observableValue, wasSelectedQuality, nowSelectedQuality) -> {
+                if(videoQualities.size() > 0) {
+
+                    if(nowSelectedQuality != null) {
+
+                        if(nowSelectedQuality.getText().equals("Default")) {
+                            audioQualityChoiceBox.getItems().clear();
+                            audioQualityChoiceBox.getItems().add(0, new Quality("Default"));
+                            audioQualityChoiceBox.getSelectionModel().select(0);
+                            formatChoiceBox.getItems().clear();
+                            formatChoiceBox.getItems().add(0, "Default");
+                            formatChoiceBox.getSelectionModel().select(0);
+                        } else if(nowSelectedQuality.getType() == Quality.Type.FULL_VIDEO) {
+                            audioQualityChoiceBox.getItems().clear();
+                            audioQualityChoiceBox.getItems().addAll(audioQualities);
+                            audioQualityChoiceBox.getItems().add(0, new Quality("Default"));
+                            audioQualityChoiceBox.getSelectionModel().select(0);
+                            formatChoiceBox.getItems().clear();
+                            formatChoiceBox.getItems().add(nowSelectedQuality.getExtension());
+                            formatChoiceBox.getSelectionModel().select(0);
+                        } else if(nowSelectedQuality.getType() == Quality.Type.VIDEO_ONLY) {
+                            audioQualityChoiceBox.getItems().clear();
+                            if(audioQualities.size() > 0) {
+                                audioQualityChoiceBox.getItems().addAll(audioQualities);
+                                formatChoiceBox.getItems().clear();
+                                formatChoiceBox.getItems().addAll(containerFormats);
+                                formatChoiceBox.getSelectionModel().select(0);
+                            } else {
+                                formatChoiceBox.getItems().clear();
+                                formatChoiceBox.getItems().add(nowSelectedQuality.getExtension());
+                                formatChoiceBox.getSelectionModel().select(0);
+                            }
+                            audioQualityChoiceBox.getItems().add(new Quality("None"));
+                            audioQualityChoiceBox.getSelectionModel().select(0);
+                        } else if(nowSelectedQuality.getText().equals("None") && audioQualities.size() > 0) {
+                            audioQualityChoiceBox.getItems().clear();
+                            audioQualityChoiceBox.getItems().addAll(audioQualities);
+                            audioQualityChoiceBox.getSelectionModel().select(0);
+                        }
+
+                    }
+                }
+
+            });
+            audioQualityChoiceBox.getSelectionModel().selectedItemProperty().addListener((observableValue, wasSelectedQuality, nowSelectedQuality) -> {
+
+                if(nowSelectedQuality != null) {
+
+                    if(nowSelectedQuality.getText().equals("Default")) {
+                        formatChoiceBox.getItems().clear();
+                        if(videoQualityChoiceBox.getSelectionModel().getSelectedItem().getType() == Quality.Type.FULL_VIDEO)
+                            formatChoiceBox.getItems().add(videoQualityChoiceBox.getSelectionModel().getSelectedItem().getExtension());
+                        else
+                            formatChoiceBox.getItems().add(0, "Default");
+                        formatChoiceBox.getSelectionModel().select(0);
+                    } else if(nowSelectedQuality.getText().equals("None")) {
+                        formatChoiceBox.getItems().clear();
+                        formatChoiceBox.getItems().add(videoQualityChoiceBox.getSelectionModel().getSelectedItem().getExtension());
+                        formatChoiceBox.getSelectionModel().select(0);
+                    } else if(nowSelectedQuality.getType() == Quality.Type.AUDIO_ONLY) {
+                        if(videoQualityChoiceBox.getSelectionModel().getSelectedItem().getText().equals("None")) {
+                            formatChoiceBox.getItems().clear();
+                            formatChoiceBox.getItems().add(nowSelectedQuality.getExtension());
+                            formatChoiceBox.getSelectionModel().select(0);
+                        } else if(videoQualityChoiceBox.getSelectionModel().getSelectedItem().getType() == Quality.Type.VIDEO_ONLY
+                                || videoQualityChoiceBox.getSelectionModel().getSelectedItem().getType() == Quality.Type.FULL_VIDEO) {
+                            formatChoiceBox.getItems().clear();
+                            formatChoiceBox.getItems().addAll(containerFormats);
+                            formatChoiceBox.getSelectionModel().select(0);
+                        }
+                    }
+
+                }
+
             });
 
             urlDialogStage.setResizable(false);
@@ -688,7 +866,7 @@ public class NewDownloadController implements Initializable{
 
         item.setId(DataHandler.getNextId());
         item.setUrl(urlLabel.getText());
-        item.setTitle(urlLabel.getText());
+        item.setTitle(titleLabel.getText());
         item.setDescription(descriptionLabel.getText());
         item.setThumbnailUrl(thumbnailImageView.getAccessibleText());
         item.setLocation(locationTextField.getText().replaceAll("[/\\\\]$",""));
@@ -719,34 +897,15 @@ public class NewDownloadController implements Initializable{
             }
         }
 
-        item.setIsVideo(true);
-        item.setFormat("mp4");
-//        String selectedQuality = qualityComboBox.getSelectionModel().getSelectedItem();
-//
-//        if (selectedQuality.equals("1080p - mp4 video")) {
-//            item.setVideoQuality(137);
-//            item.setAudioQuality(141);
-//        } else if (selectedQuality.equals("720p - mp4 video")) {
-//            item.setVideoQuality(22);
-//            item.setAudioQuality(0);
-//        } else if (selectedQuality.equals("480p - mp4 video")) {
-//            item.setVideoQuality(135);
-//            item.setAudioQuality(140);
-//        } else if (selectedQuality.equals("360p - mp4 video")) {
-//            item.setVideoQuality(18);
-//            item.setAudioQuality(0);
-//        } else if (selectedQuality.equals("240p - mp4 video")) {
-//            item.setVideoQuality(133);
-//            item.setAudioQuality(139);
-//        } else if (selectedQuality.equals("144p - mp4 video")) {
-//            item.setVideoQuality(17);
-//            item.setAudioQuality(0);
-//        } else if (selectedQuality.equals("48K - m4a audio only")) {
-//            item.setFormat("mp3");
-//            item.setIsVideo(false);
-//            item.setVideoQuality(0);
-//            item.setAudioQuality(139);
-//        }
+        item.setVideoQuality(videoQualityChoiceBox.getSelectionModel().getSelectedItem());
+        item.setAudioQuality(audioQualityChoiceBox.getSelectionModel().getSelectedItem());
+
+        if(item.getVideoQuality().getText().equals("None"))
+            item.setIsVideo(false);
+        else
+            item.setIsVideo(true);
+
+        item.setFormat(formatChoiceBox.getSelectionModel().getSelectedItem());
 
         item.setNeedEmbeddedSubtitle(embeddedSubtitleChkBox.isSelected());
         item.setSubtitleLanguage(subtitleLanguageChoiceBox.getValue());

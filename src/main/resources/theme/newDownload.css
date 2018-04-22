@@ -93,20 +93,44 @@
     -fx-border-width: 0px;
 }
 
-.website-titled-pane {
+.quality-titled-pane {
     -fx-background-color: white;
     -fx-border-color: rgba(105, 235, 35, 0.16);
     -fx-border-width: 1px;
 }
 
-.website-titled-pane > .title {
+.quality-titled-pane > .title {
     -fx-background-color: rgba(105, 235, 35, 0.16);
     -fx-background-radius: 0px;
     -fx-padding: 4;
 }
 
-.website-titled-pane:focused > .title > .arrow-button .arrow {
+.quality-titled-pane:focused > .title > .arrow-button .arrow {
     -fx-background-color: limegreen;
+    -fx-background-insets: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.quality-titled-pane > *.content {
+    -fx-background-color: white;
+    -fx-border-width: 0px;
+}
+
+.website-titled-pane {
+    -fx-background-color: white;
+    -fx-border-color: rgba(233, 235, 0, 0.2);
+    -fx-border-width: 1px;
+}
+
+.website-titled-pane > .title {
+    -fx-background-color: rgba(233, 235, 0, 0.2);
+    -fx-background-radius: 0px;
+    -fx-padding: 4;
+}
+
+.website-titled-pane:focused > .title > .arrow-button .arrow {
+    -fx-background-color: #e6c000;
     -fx-background-insets: 0;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
@@ -119,18 +143,18 @@
 
 .playlist-titled-pane {
     -fx-background-color: white;
-    -fx-border-color: rgba(233, 235, 0, 0.2);
+    -fx-border-color: rgba(235, 67, 84, 0.13);
     -fx-border-width: 1px;
 }
 
 .playlist-titled-pane > .title {
-    -fx-background-color: rgba(233, 235, 0, 0.2);
+    -fx-background-color: rgba(235, 67, 84, 0.13);
     -fx-background-radius: 0px;
     -fx-padding: 4;
 }
 
 .playlist-titled-pane:focused > .title > .arrow-button .arrow {
-    -fx-background-color: #e6c000;
+    -fx-background-color: crimson;
     -fx-background-insets: 0;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
@@ -143,18 +167,18 @@
 
 .authentication-titled-pane {
     -fx-background-color: white;
-    -fx-border-color: rgba(235, 67, 84, 0.13);
+    -fx-border-color: rgba(133, 3, 255, 0.15);
     -fx-border-width: 1px;
 }
 
 .authentication-titled-pane > .title {
-    -fx-background-color: rgba(235, 67, 84, 0.13);
+    -fx-background-color: rgba(133, 3, 255, 0.15);
     -fx-background-radius: 0px;
     -fx-padding: 4;
 }
 
 .authentication-titled-pane:focused > .title > .arrow-button .arrow {
-    -fx-background-color: crimson;
+    -fx-background-color: darkorchid;
     -fx-background-insets: 0;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
@@ -167,18 +191,19 @@
 
 .other-titled-pane {
     -fx-background-color: white;
-    -fx-border-color: rgba(146, 82, 235, 0.2);
+    -fx-border-color: rgba(96, 167, 235, 0.16);
     -fx-border-width: 1px;
 }
 
 .other-titled-pane > .title {
-    -fx-background-color: rgba(146, 82, 235, 0.2);
-    -fx-background-radius: 0px;
+    -fx-background-color: rgba(96, 167, 235, 0.16);
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
     -fx-padding: 4;
 }
 
 .other-titled-pane:focused > .title > .arrow-button .arrow {
-    -fx-background-color: darkorchid;
+    -fx-background-color: darkturquoise;
     -fx-background-insets: 0;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
@@ -186,7 +211,7 @@
 
 .other-titled-pane > *.content {
     -fx-background-color: white;
-    -fx-border-width: 0px;
+    -fx-border-width: 0;
 }
 
 
