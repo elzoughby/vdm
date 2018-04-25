@@ -795,7 +795,7 @@ public class HomeController implements Initializable {
         return rowContextMenu;
     }
 
-    private boolean deleteItemFiles(String path) {
+    public static boolean deleteItemFiles(String path) {
 
         File file = new File(path);
 

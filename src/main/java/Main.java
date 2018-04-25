@@ -28,6 +28,7 @@ public class Main extends Application {
 
     public static void saveAndExit() {
         stopAllDownloads();
+        HomeController.deleteItemFiles("temp");
         Platform.exit();
         System.exit(0);
     }
