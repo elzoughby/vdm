@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<StackPane fx:id="loadingPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="800.0"
-           style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoadingController">
-    <ProgressIndicator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                       prefHeight="35.0" prefWidth="35.0"/>
-</StackPane>
+<VBox fx:id="loadingPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" spacing="30.0" style="-fx-background-color: white;"
+      stylesheets="@../theme/newDownload.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoadingController">
+    <children>
+        <ProgressIndicator prefHeight="40.0" prefWidth="40.0"/>
+        <Label fx:id="statusLabel" text="Loading" textAlignment="CENTER" textFill="#616161">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Label>
+    </children>
+</VBox>

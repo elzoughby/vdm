@@ -38,6 +38,7 @@
         <element id="library" level="project" name="Maven: org.jetbrains:annotations:15.0" />
         <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.9" />
         <element id="library" level="project" name="Maven: org.controlsfx:controlsfx:8.40.14" />
+        <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.11.3" />
       </element>
     </root>
   </artifact>
