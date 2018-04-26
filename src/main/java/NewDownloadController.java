@@ -83,7 +83,8 @@ public class NewDownloadController implements Initializable{
     private boolean isQueueBtnSelected;
     private Stage appStage;
     private Stage urlDialogStage;
-
+    private List<String> playlistTypes = new ArrayList<>(Arrays.asList("playlist", "list", "set", "album",
+            "course", "user", "chanel", "group"));
 
 
     public BorderPane getNewDownloadPane() {
@@ -254,9 +255,14 @@ public class NewDownloadController implements Initializable{
         // stores a reference to the stage
         appStage = Main.getAppStage();
 
-        urlLabel.textProperty().addListener((obs, oldText, newText) -> {
-            if(newText.contains("playlist?list="))
-                isPlaylistChkBox.setSelected(true);
+        // specify if the download item is a playlist or not
+        descriptionLabel.textProperty().addListener((obs, oldText, newText) -> {
+            for(String type : playlistTypes) {
+                if(newText.contains(type)) {
+                    isPlaylistChkBox.setSelected(true);
+                    break;
+                }
+            }
         });
 
         if(System.getProperty("os.name").toLowerCase().contains("win"))
@@ -267,8 +273,6 @@ public class NewDownloadController implements Initializable{
         subtitleLanguageChoiceBox.setItems(FXCollections.observableArrayList("Arabic", "English", "French", "Italian", "spanish", "German", "Russian"));
         subtitleLanguageChoiceBox.setValue("English");
         embeddedSubtitleChkBox.selectedProperty().not().and(autoGenSubtitleChkBox.selectedProperty().not()).addListener((observable, oldValue, newValue) -> subtitleLanguagePane.setDisable(newValue));
-        //qualityComboBox.setItems(FXCollections.observableArrayList("Best", "1080p - mp4 video", "720p - mp4 video", "480p - mp4 video", "360p - mp4 video", "240p - mp4 video", "144p - mp4 video", "48K - m4a audio only"));
-        //qualityComboBox.setValue("Best");
 
         newDownloadPane.setOnKeyPressed((KeyEvent keyEvent) -> {
             if(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN).match(keyEvent)) {
@@ -427,7 +431,6 @@ public class NewDownloadController implements Initializable{
 
                             synchronized (latch) {
                                 latch.countDown();
-                                System.out.println("thumbnail done  -> " + latch.getCount());
                                 if(latch.getCount() == 0) {
                                     Platform.runLater(() -> closeUrlDialog());
                                     timeline.stop();
@@ -462,7 +465,6 @@ public class NewDownloadController implements Initializable{
                             if(line.matches("\\[.+\\].+")) {
                                 String description = line.split("\\[")[1].split("\\]")[0].replace(':', ' ');
                                 Platform.runLater(() -> descriptionLabel.setText(description));
-                                System.out.println("description = " + description);
                             }
 
                             //parse the download title
@@ -474,7 +476,6 @@ public class NewDownloadController implements Initializable{
                                     inputStream.close();
                                     String title = line.split(":")[1].split("\\.f\\d{1,4}")[0].replace("temp/", "");
                                     Platform.runLater(() -> titleLabel.setText(title));
-                                    System.out.println("title = " + title);
                                     break;
                                 }
 
@@ -482,7 +483,6 @@ public class NewDownloadController implements Initializable{
 
                             synchronized (latch) {
                                 latch.countDown();
-                                System.out.println("title done -> " + latch.getCount());
                                 if(latch.getCount() == 0) {
                                     Platform.runLater(() -> closeUrlDialog());
                                     timeline.stop();
@@ -529,8 +529,6 @@ public class NewDownloadController implements Initializable{
 
                             String[] qualityLinesArray = qualityLines.toString().split("[\n\r]+");
                             for(String qualityLine : qualityLinesArray) {
-                                System.out.println(qualityLine);
-
                                 Quality quality = Quality.parseAndCreate(qualityLine);
                                 if(quality != null) {
                                     if (quality.getType() == Quality.Type.AUDIO_ONLY) {
@@ -569,7 +567,6 @@ public class NewDownloadController implements Initializable{
 
                             synchronized (latch) {
                                 latch.countDown();
-                                System.out.println("quality done -> " + latch.getCount());
                                 if(latch.getCount() == 0) {
                                     Platform.runLater(() -> closeUrlDialog());
                                     timeline.stop();

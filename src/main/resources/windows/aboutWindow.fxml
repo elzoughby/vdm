@@ -31,7 +31,7 @@
             <Insets />
          </VBox.margin>
       </Label>
-      <Label text="0.8.7" textFill="#545454">
+      <Label text="0.8.9" textFill="#545454">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
