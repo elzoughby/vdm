@@ -125,10 +125,11 @@
                                                 </Label>
                                                 <TextField fx:id="locationTextField" prefHeight="26.0" prefWidth="418.0"
                                                            HBox.hgrow="ALWAYS"/>
-                                                <Button fx:id="browseBtn" mnemonicParsing="false"
-                                                        onAction="#browseBtnAction" prefHeight="4.0" prefWidth="79.0"
-                                                        styleClass="button" stylesheets="@../theme/newDownload.css"
-                                                        text="Browse">
+                                                <Button fx:id="browseBtn" alignment="CENTER" minHeight="-Infinity"
+                                                        mnemonicParsing="false" onAction="#browseBtnAction"
+                                                        prefHeight="28.0" prefWidth="80.0" styleClass="button"
+                                                        stylesheets="@../theme/newDownload.css" text="Browse"
+                                                        textAlignment="CENTER">
                                                     <tooltip>
                                                         <Tooltip text="Browse"/>
                                                     </tooltip>

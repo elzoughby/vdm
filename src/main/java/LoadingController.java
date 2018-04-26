@@ -109,7 +109,7 @@ public class LoadingController implements Initializable {
             }
 
 
-            FadeTransition fadeIn = new FadeTransition(new Duration(1500), newRoot);
+            FadeTransition fadeIn = new FadeTransition(new Duration(1250), newRoot);
             fadeIn.setFromValue(0);
             fadeIn.setToValue(1);
             fadeIn.setCycleCount(1);
@@ -123,7 +123,7 @@ public class LoadingController implements Initializable {
 
         } catch (Exception e) {
             new MessageDialog("Error Loading the Home Window! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 

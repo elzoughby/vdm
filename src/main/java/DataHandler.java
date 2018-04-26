@@ -52,7 +52,7 @@ public class DataHandler {
 
         } catch (Exception e) {
             new MessageDialog("Error loading download items! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 
@@ -79,7 +79,7 @@ public class DataHandler {
         } catch (IOException e) {
             e.printStackTrace();
             new MessageDialog("Error saving item data! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getMessage()).showAndWait();
         }
 
@@ -96,7 +96,7 @@ public class DataHandler {
 
         } catch (Exception e) {
             new MessageDialog("Error deleting item from database! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getMessage()).showAndWait();
         }
 

@@ -366,7 +366,7 @@ public class HomeController implements Initializable {
 
             } catch (Exception e) {
                 new MessageDialog("Error opening save location! \n" +
-                        "Restart program and try again.", MessageDialog.Type.ERROR,
+                        "Try again later or report this issue", MessageDialog.Type.ERROR,
                         MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
             }
 
@@ -458,7 +458,7 @@ public class HomeController implements Initializable {
             } catch (Exception e) {
                 homeWindowPane.setOpacity(0.30);
                 new MessageDialog("Error Saving log file! \n" +
-                        "Restart program and try again.", MessageDialog.Type.ERROR,
+                        "Try again later or report this issue", MessageDialog.Type.ERROR,
                         MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
                 homeWindowPane.setOpacity(1);
             }
@@ -483,7 +483,7 @@ public class HomeController implements Initializable {
             e.printStackTrace();
             homeWindowPane.setOpacity(0.30);
             new MessageDialog("Error Loading NewDownload Window! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
             homeWindowPane.setOpacity(1);
         }
@@ -696,7 +696,7 @@ public class HomeController implements Initializable {
                 e.printStackTrace();
                 homeWindowPane.setOpacity(0.30);
                 new MessageDialog("Error Loading NewDownload Window! \n" +
-                        "Restart program and try again.", MessageDialog.Type.ERROR,
+                        "Try again later or report this issue", MessageDialog.Type.ERROR,
                         MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
                 homeWindowPane.setOpacity(1);
             }
@@ -761,12 +761,12 @@ public class HomeController implements Initializable {
 
         MenuItem upeMenuItem = new MenuItem("Up");
         upeMenuItem.setOnAction(event -> upMenuAction());
-        upeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.UP, KeyCombination.SHORTCUT_DOWN));
+        upeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.UP, KeyCombination.ALT_DOWN));
         upeMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/up.png").toString())));
 
         MenuItem downMenuItem = new MenuItem("Down");
         downMenuItem.setOnAction(event -> downMenuAction());
-        downMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.DOWN, KeyCombination.SHORTCUT_DOWN));
+        downMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.DOWN, KeyCombination.ALT_DOWN));
         downMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("menu/down.png").toString())));
 
         MenuItem queueMenuItem = new MenuItem("Add to Queue");
@@ -814,7 +814,7 @@ public class HomeController implements Initializable {
             // test if delete of file is success or not
             if (! result) {
                 new MessageDialog("File cannot be deleted! \n" +
-                        "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
+                        "Try again later or report this issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
                         .createErrorDialog("The file may be in use by another program").showAndWait();
             }
 
@@ -823,7 +823,7 @@ public class HomeController implements Initializable {
         } else {
 
             new MessageDialog("File delete failed, file does not exist! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
+                    "Try again later or report this issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
                     .createErrorDialog("file is not exist").showAndWait();
             return false;
 

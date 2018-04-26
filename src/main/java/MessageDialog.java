@@ -187,9 +187,11 @@ public class MessageDialog implements Initializable {
             titledPane.setAnimated(false);
             titledPane.expandedProperty().addListener((observable, wasExpanded, nowExpanded) -> {
                 if(nowExpanded) {
+                    messageDialogPane.setPrefHeight(ERROR_DIALOG_HEIGHT);
                     messageStage.setMaxHeight(ERROR_DIALOG_HEIGHT);
                     messageStage.setMinHeight(ERROR_DIALOG_HEIGHT);
                 } else {
+                    messageDialogPane.setPrefHeight(OPTION_DIALOG_HEIGHT);
                     messageStage.setMaxHeight(OPTION_DIALOG_HEIGHT);
                     messageStage.setMinHeight(OPTION_DIALOG_HEIGHT);
                 }
@@ -269,9 +271,11 @@ public class MessageDialog implements Initializable {
 
         if(messageOptionPane.getChildren().size() == 0) {
             messageDialogPane.getChildren().remove(messageOptionPane);
+            messageDialogPane.setPrefHeight(INFO_DIALOG_HEIGHT);
             messageStage.setMinHeight(INFO_DIALOG_HEIGHT);
             messageStage.setMaxHeight(INFO_DIALOG_HEIGHT);
         } else {
+            messageDialogPane.setPrefHeight(OPTION_DIALOG_HEIGHT);
             messageStage.setMinHeight(OPTION_DIALOG_HEIGHT);
             messageStage.setMaxHeight(OPTION_DIALOG_HEIGHT);
         }

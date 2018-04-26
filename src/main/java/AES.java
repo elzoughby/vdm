@@ -51,7 +51,7 @@ public class AES {
         } catch (Exception ex) {
             ex.printStackTrace();
             new MessageDialog("Error encrypting the entered password \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
         }
 
@@ -73,7 +73,7 @@ public class AES {
 
         } catch (Exception ex) {
             new MessageDialog("Error decrypting the password \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
         }
 

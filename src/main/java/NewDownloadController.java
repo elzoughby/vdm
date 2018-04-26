@@ -603,7 +603,7 @@ public class NewDownloadController implements Initializable{
 
                 } catch (Exception e) {
                     new MessageDialog("Error getting the download info\n" +
-                            "Try again or report this bug", MessageDialog.Type.ERROR,
+                            "Try again later or report this issue", MessageDialog.Type.ERROR,
                             MessageDialog.Buttons.CLOSE).show();
                 }
 
@@ -704,7 +704,7 @@ public class NewDownloadController implements Initializable{
 
         } catch (Exception ex) {
             new MessageDialog("Error Loading the Home Window! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
         }
 
@@ -726,7 +726,7 @@ public class NewDownloadController implements Initializable{
             Desktop.browseURL(urlLabel.getText());
         } catch (IOException e) {
             new MessageDialog("Error opening default web browser" +
-                    "Try again or report the issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE).show();
+                    "Try again later or report this issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE).show();
         }
     }
 
@@ -934,7 +934,7 @@ public class NewDownloadController implements Initializable{
         } catch (Exception e) {
             newDownloadPane.setOpacity(0.30);
             new MessageDialog("Error Loading the Home Window! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
             newDownloadPane.setOpacity(1);
         }

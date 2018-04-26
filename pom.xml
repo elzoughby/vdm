@@ -6,7 +6,7 @@
 
     <groupId>com.nazeldownloader</groupId>
     <artifactId>nazel</artifactId>
-    <version>8.9.0</version>
+    <version>0.9.1</version>
 
     <build>
         <plugins>

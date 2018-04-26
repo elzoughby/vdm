@@ -52,7 +52,7 @@ public class AboutController implements Initializable {
 
         } catch (Exception ex) {
             new MessageDialog("Error loading the about window! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
         }
 

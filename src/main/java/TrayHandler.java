@@ -43,7 +43,7 @@ public class TrayHandler {
                 appStage.toFront();
             } catch (Exception ex) {
                 new MessageDialog("Error returning to the home window! \n" +
-                        "Restart program and try again.", MessageDialog.Type.ERROR,
+                        "Try again later or report this issue", MessageDialog.Type.ERROR,
                         MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
             }
         });
@@ -70,7 +70,7 @@ public class TrayHandler {
                 appStage.toFront();
             } catch (Exception ex) {
                 new MessageDialog("Couldn't load the New Download page!\n" +
-                        "Restart the program and try again.", MessageDialog.Type.ERROR,
+                        "Try again later or report this issue", MessageDialog.Type.ERROR,
                         MessageDialog.Buttons.CLOSE).createErrorDialog(ex.getStackTrace()).showAndWait();
             }
         });

@@ -14,7 +14,7 @@ public class Main extends Application {
 
     private static Stage appStage;
     private static boolean startMinimized = false;
-    private static final String version = "0.9.0";
+    private static final String version = "0.9.1";
     private static final String MAIN_WINDOW_NODE = "Main";
     private static final String STAGE_HEIGHT = "height";
     private static final String STAGE_WIDTH = "width";
@@ -106,7 +106,7 @@ public class Main extends Application {
 
         } catch (Exception e) {
             new MessageDialog("Error loading the LoadingPage window! \n" +
-                    "Restart program and try again.", MessageDialog.Type.ERROR,
+                    "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
         }
 

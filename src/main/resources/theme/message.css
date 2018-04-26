@@ -7,6 +7,12 @@
     -fx-border-color: #dcdcdc;
     -fx-border-radius: 0;
     -fx-border-width: 1px;
+
+    -fx-pref-height: 28;
+    -fx-min-height: 28;
+    -fx-pref-width: 100;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
 }
 
 .button:hover {

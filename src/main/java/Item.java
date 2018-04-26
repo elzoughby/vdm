@@ -753,7 +753,7 @@ public class Item {
                 } catch(Exception e) {
 
                     new MessageDialog("Error executing shutdown command!\n" +
-                            "Restart program and try again.", MessageDialog.Type.ERROR,
+                            "Try again later or report this issue", MessageDialog.Type.ERROR,
                             MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).show();
                 }
 
