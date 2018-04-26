@@ -3,6 +3,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -23,6 +24,7 @@ public class AboutController implements Initializable {
     private static Stage aboutStage;
 
     @FXML private VBox aboutWindowVBox;
+    @FXML private Label versionLabel;
 
 
 
@@ -58,6 +60,8 @@ public class AboutController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        versionLabel.setText(Main.getVersion());
 
         aboutWindowVBox.setOnKeyPressed((KeyEvent keyEvent) -> {
             if(new KeyCodeCombination(KeyCode.ESCAPE).match(keyEvent))

@@ -659,9 +659,9 @@ public class HomeController implements Initializable {
                         infoWindowController.getPlaylistItemsTextField().setEditable(false);
                     } else if(selectedItem.getPlaylistStartIndex() != 0 || selectedItem.getPlaylistEndIndex() != -1) {
                         infoWindowController.getIndexRangeRadioBtn().setSelected(true);
-                        infoWindowController.getStartIndexTextField().setText(String.valueOf(selectedItem.getPlaylistStartIndex()));
+                        infoWindowController.getStartIndexTextField().setText(selectedItem.getPlaylistStartIndex() == 0? "" : String.valueOf(selectedItem.getPlaylistStartIndex()));
                         infoWindowController.getStartIndexTextField().setEditable(false);
-                        infoWindowController.getEndIndexTextField().setText(String.valueOf(selectedItem.getPlaylistEndIndex()));
+                        infoWindowController.getEndIndexTextField().setText(selectedItem.getPlaylistEndIndex() == -1? "" : String.valueOf(selectedItem.getPlaylistEndIndex()));
                         infoWindowController.getEndIndexTextField().setEditable(false);
                     } else {
                         infoWindowController.getAllItemsRadioBtn().setSelected(true);

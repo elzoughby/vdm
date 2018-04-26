@@ -30,10 +30,7 @@ import javafx.util.Duration;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.*;
 
 
@@ -344,7 +341,7 @@ public class NewDownloadController implements Initializable{
                 boolean validUserInputs = true;
 
                 if(urlTextFieldOnUrlDialog.getText().matches(urlRegex)) {
-                    urlTextFieldOnUrlDialog.getStyleClass().add("text-field");
+                    urlTextFieldOnUrlDialog.getStyleClass().removeAll(Collections.singleton("text-field-error"));
                     urlLabel.setText(urlTextFieldOnUrlDialog.getText());
                 } else {
                     urlTextFieldOnUrlDialog.getStyleClass().add("text-field-error");
@@ -359,7 +356,7 @@ public class NewDownloadController implements Initializable{
                         userNameTextFieldOnUrlDialog.getStyleClass().add("text-field-error");
                         validUserInputs = false;
                     } else {
-                        userNameTextFieldOnUrlDialog.getStyleClass().add("text-field");
+                        userNameTextFieldOnUrlDialog.getStyleClass().removeAll(Collections.singleton("text-field-error"));
                         userNameTextField.setText(userNameTextFieldOnUrlDialog.getText());
                     }
 
@@ -367,7 +364,7 @@ public class NewDownloadController implements Initializable{
                         passwordTextFieldOnUrlDialog.getStyleClass().add("text-field-error");
                         validUserInputs = false;
                     } else {
-                        passwordTextFieldOnUrlDialog.getStyleClass().add("text-field");
+                        passwordTextFieldOnUrlDialog.getStyleClass().removeAll(Collections.singleton("text-field-error"));
                         passwordTextField.setText(passwordTextFieldOnUrlDialog.getText());
                     }
 
@@ -737,8 +734,10 @@ public class NewDownloadController implements Initializable{
     private void browseBtnAction() {
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setInitialDirectory(new File(locationTextField.getText()));
         directoryChooser.setTitle("Choose save location");
+        File initDirectory = new File(locationTextField.getText());
+        if(initDirectory.exists() && initDirectory.isDirectory())
+            directoryChooser.setInitialDirectory(initDirectory);
 
         File selectedDirectory = directoryChooser.showDialog(newDownloadPane.getScene().getWindow());
         if(selectedDirectory != null)
@@ -751,9 +750,6 @@ public class NewDownloadController implements Initializable{
 
         if(isValidInfo()) {
             Item item = createItem();
-            ////////////////////////////////////
-            System.out.println(item.toString());
-            ////////////////////////////////////
             item.setIsAddedToQueue(false);
             HomeController.getItemList().add(item);
             DataHandler.save(item);
@@ -768,9 +764,6 @@ public class NewDownloadController implements Initializable{
 
         if(isValidInfo()) {
             Item item = createItem();
-            ////////////////////////////////////
-            System.out.println(item.toString());
-            ////////////////////////////////////
             item.setIsAddedToQueue(true);
 
             if(queueIsRunningBefore(item))
@@ -799,7 +792,7 @@ public class NewDownloadController implements Initializable{
             locationTextField.getStyleClass().add("text-field-error");
             result = false;
         } else {
-            locationTextField.getStyleClass().add("text-field");
+            locationTextField.getStyleClass().removeAll(Collections.singleton("text-field-error"));
         }
 
         // Check if the custom name is not empty
@@ -808,22 +801,22 @@ public class NewDownloadController implements Initializable{
                 customNameTextField.getStyleClass().add("text-field-error");
                 result = false;
             } else {
-                customNameTextField.getStyleClass().add("text-field");
+                customNameTextField.getStyleClass().removeAll(Collections.singleton("text-field-error"));
             }
         }
 
         // Check if the specific playlist items are written correctly
         if(isPlaylistChkBox.isSelected()) {
             if(indexRangeRadioBtn.isSelected()) {
-                if(startIndexTextField.getText().matches("[1-9]*")) {
-                    startIndexTextField.getStyleClass().add("text-field");
+                if(startIndexTextField.getText().matches("[0-9]*")) {
+                    startIndexTextField.getStyleClass().removeAll(Collections.singleton("text-field-error"));
                 } else {
                     startIndexTextField.getStyleClass().add("text-field-error");
                     result = false;
                 }
 
-                if(endIndexTextField.getText().matches("[1-9]*")) {
-                    endIndexTextField.getStyleClass().add("text-field");
+                if(endIndexTextField.getText().matches("[0-9]*")) {
+                    endIndexTextField.getStyleClass().removeAll(Collections.singleton("text-field-error"));
                 } else {
                     endIndexTextField.getStyleClass().add("text-field-error");
                     result = false;
@@ -832,7 +825,7 @@ public class NewDownloadController implements Initializable{
 
             if(specificItemsRadioBtn.isSelected()) {
                 if(playlistItemsTextField.getText().replaceAll("\\s","").matches("[0-9,]+")) {
-                    playlistItemsTextField.getStyleClass().add("text-field");
+                    playlistItemsTextField.getStyleClass().removeAll(Collections.singleton("text-field-error"));
                 } else {
                     playlistItemsTextField.getStyleClass().add("text-field-error");
                     result = false;
@@ -846,20 +839,20 @@ public class NewDownloadController implements Initializable{
                 userNameTextField.getStyleClass().add("text-field-error");
                 result = false;
             } else {
-                userNameTextField.getStyleClass().add("text-field");
+                userNameTextField.getStyleClass().removeAll(Collections.singleton("text-field-error"));
             }
 
             if(passwordTextField.getText().equals("")) {
                 passwordTextField.getStyleClass().add("text-field-error");
                 result = false;
             } else {
-                passwordTextField.getStyleClass().add("text-field");
+                passwordTextField.getStyleClass().removeAll(Collections.singleton("text-field-error"));
             }
         }
 
         // Check if the speed limit is valid
         if(limitSpinner.getEditor().getText().matches("[0-9]+")) {
-            limitSpinner.getStyleClass().add("spinner");
+            limitSpinner.getStyleClass().removeAll(Collections.singleton("spinner-error"));
         } else {
             limitSpinner.getStyleClass().add("spinner-error");
             result = false;
@@ -907,12 +900,10 @@ public class NewDownloadController implements Initializable{
 
         item.setVideoQuality(videoQualityChoiceBox.getSelectionModel().getSelectedItem());
         item.setAudioQuality(audioQualityChoiceBox.getSelectionModel().getSelectedItem());
-
         if(item.getVideoQuality().getText().equals("None"))
             item.setIsVideo(false);
         else
             item.setIsVideo(true);
-
         item.setFormat(formatChoiceBox.getSelectionModel().getSelectedItem());
 
         item.setNeedEmbeddedSubtitle(embeddedSubtitleChkBox.isSelected());
