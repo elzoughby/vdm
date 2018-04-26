@@ -25,6 +25,7 @@ public class TrayHandler {
     private static Stage appStage = Main.getAppStage();
     private static Stage notificationStage;
     private static int numOfRunningDownloads = 0;
+    private static boolean moveToNewDownload = false;
 
 
     private static void showHomeWindow() {
@@ -32,9 +33,11 @@ public class TrayHandler {
         Platform.runLater(() -> {
             try {
                 if(! appStage.isShowing()) {
-                    FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/HomeWindow.fxml"));
-                    Parent root = newDownloadWindowLoader.load();
-                    appStage.getScene().setRoot(root);
+                    if(! appStage.getScene().getRoot().getId().equals("loadingPane")) {
+                        FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/HomeWindow.fxml"));
+                        Parent root = newDownloadWindowLoader.load();
+                        appStage.getScene().setRoot(root);
+                    }
                 }
                 appStage.show();
                 appStage.toFront();
@@ -52,12 +55,16 @@ public class TrayHandler {
         Platform.runLater(() -> {
             try {
                 if(! appStage.getScene().getRoot().getId().equals("newDownloadPane")) {
-                    FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/NewDownloadWindow.fxml"));
-                    Parent root = newDownloadWindowLoader.load();
-                    NewDownloadController controller = newDownloadWindowLoader.getController();
-                    appStage.getScene().setRoot(root);
-                    appStage.show();
-                    controller.showUrlDialog();
+                    if(! appStage.getScene().getRoot().getId().equals("loadingPane")) {
+                        FXMLLoader newDownloadWindowLoader = new FXMLLoader(TrayHandler.class.getResource("windows/NewDownloadWindow.fxml"));
+                        Parent root = newDownloadWindowLoader.load();
+                        NewDownloadController controller = newDownloadWindowLoader.getController();
+                        appStage.getScene().setRoot(root);
+                        appStage.show();
+                        controller.showUrlDialog();
+                    } else {
+                        moveToNewDownload = true;
+                    }
                 }
                 appStage.show();
                 appStage.toFront();
@@ -99,6 +106,10 @@ public class TrayHandler {
             systemTray.setStatus("No Running Downloads");
         else
             systemTray.setStatus(String.valueOf(numOfRunningDownloads) + " Running Downloads");
+    }
+
+    public static boolean isMoveToNewDownload() {
+        return moveToNewDownload;
     }
 
     public static void initSystemTray() {

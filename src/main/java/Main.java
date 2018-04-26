@@ -6,12 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.prefs.Preferences;
 
 
 public class Main extends Application {
 
     private static Stage appStage;
+    private static boolean startMinimized = false;
     private static final String MAIN_WINDOW_NODE = "Main";
     private static final String STAGE_HEIGHT = "height";
     private static final String STAGE_WIDTH = "width";
@@ -19,7 +21,25 @@ public class Main extends Application {
 
 
     public static void main(String args[]) {
-        launch(args);
+
+        boolean errorFlag = false;
+
+        if(args.length == 1)
+            if(args[0].equals("-m"))
+                startMinimized = true;
+            else
+                errorFlag = true;
+        else if(args.length == 0)
+            startMinimized = false;
+        else
+            errorFlag = true;
+
+
+        if(errorFlag)
+            System.err.println("invalid arguments");
+        else
+            launch(args);
+
     }
 
     public static Stage getAppStage() {
@@ -28,7 +48,15 @@ public class Main extends Application {
 
     public static void saveAndExit() {
         stopAllDownloads();
-        HomeController.deleteItemFiles("temp");
+
+        // Delete temp files
+        File tempDirectory = new File("temp");
+        if(tempDirectory.exists() && tempDirectory.isDirectory()) {
+            File[] tempFiles = tempDirectory.listFiles();
+            for (File tempFile : tempFiles)
+                tempFile.delete();
+        }
+
         Platform.exit();
         System.exit(0);
     }
@@ -49,7 +77,8 @@ public class Main extends Application {
 
         try {
 
-            Parent root = FXMLLoader.load(getClass().getResource("windows/LoadingPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("windows/LoadingPage.fxml"));
+            Parent root = loader.load();
             primaryStage.setTitle("Nazel Video Downloader");
             primaryStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));
             primaryStage.setScene(new Scene(root));
@@ -68,7 +97,8 @@ public class Main extends Application {
 
             // instructs the javafx system not to exit implicitly when the last application window is shut.
             Platform.setImplicitExit(false);
-            primaryStage.show();
+            if(! startMinimized)
+                primaryStage.show();
 
         } catch (Exception e) {
             new MessageDialog("Error loading the LoadingPage window! \n" +

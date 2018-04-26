@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -31,20 +32,22 @@ public class LoadingController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Platform.runLater(() -> appStage.setOnCloseRequest(Event::consume));
+
+        appStage.setOnCloseRequest(Event::consume);
+
     }
 
     @Override
     protected void finalize() {
 
         // Load previous download items data
-        Platform.runLater(() -> statusLabel.setText("loading data"));
+        Platform.runLater(() -> statusLabel.setText("Loading data"));
         DataHandler.load();
 
         try {
 
             // getting the online youtube-dl version
-            Platform.runLater(() -> statusLabel.setText("checking fro updates"));
+            Platform.runLater(() -> statusLabel.setText("checking for updates"));
             Document document = Jsoup.connect("http://yt-dl.org/").get();
             Elements divs = document.select("div");
             Element latestVersionDiv = divs.get(1);
@@ -68,7 +71,11 @@ public class LoadingController implements Initializable {
                 Curl.curl("-L http://yt-dl.org/downloads/latest/youtube-dl -o youtube-dl.tmp");
 
                 File file = new File("youtube-dl");
-                if(file.delete()) {
+                if(file.exists()) {
+                    if(file.delete()) {
+                        tempFile.renameTo(file);
+                    }
+                } else {
                     tempFile.renameTo(file);
                 }
 
@@ -90,15 +97,29 @@ public class LoadingController implements Initializable {
 
         try {
 
-            Parent newRoot = FXMLLoader.load(getClass().getResource("windows/HomeWindow.fxml"));
+            Parent newRoot = null;
+            FXMLLoader loader = null;
 
-            FadeTransition fadeIn = new FadeTransition(new Duration(500), newRoot);
+            if(TrayHandler.isMoveToNewDownload()) {
+                loader = new FXMLLoader(getClass().getResource("windows/NewDownloadWindow.fxml"));
+                newRoot = loader.load();
+            } else {
+                loader = new FXMLLoader(getClass().getResource("windows/HomeWindow.fxml"));
+                newRoot = loader.load();
+            }
+
+
+            FadeTransition fadeIn = new FadeTransition(new Duration(1500), newRoot);
             fadeIn.setFromValue(0);
             fadeIn.setToValue(1);
             fadeIn.setCycleCount(1);
             fadeIn.play();
 
-            loadingPane.getScene().setRoot(newRoot);
+            appStage.getScene().setRoot(newRoot);
+            if(TrayHandler.isMoveToNewDownload()) {
+                NewDownloadController controller = loader.getController();
+                controller.showUrlDialog();
+            }
 
         } catch (Exception e) {
             new MessageDialog("Error Loading the Home Window! \n" +
