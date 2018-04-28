@@ -61,7 +61,7 @@ public class AboutController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        versionLabel.setText(Main.getVersion());
+        versionLabel.setText(Main.VERSION);
 
         aboutWindowVBox.setOnKeyPressed((KeyEvent keyEvent) -> {
             if(new KeyCodeCombination(KeyCode.ESCAPE).match(keyEvent))

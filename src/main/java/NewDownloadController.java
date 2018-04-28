@@ -444,9 +444,10 @@ public class NewDownloadController implements Initializable{
 
 
                     // for parsing the download title and description
+                    String tempPath = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + "nazel";
                     List<String> titleCmd = new ArrayList<>(argsList);
                     titleCmd.add("-o");
-                    titleCmd.add("temp/%(title)s");
+                    titleCmd.add(tempPath + System.getProperty("file.separator") + "%(title)s");
                     titleCmd.add(urlLabel.getText());
                     Process titleProcess = new ProcessBuilder(titleCmd).redirectErrorStream(true).start();
 
@@ -471,7 +472,7 @@ public class NewDownloadController implements Initializable{
                                     titleProcess.destroy();
                                     bufferedReader.close();
                                     inputStream.close();
-                                    String title = line.split(":")[1].split("\\.f\\d{1,4}")[0].replace("temp/", "");
+                                    String title = line.split(":")[1].split("\\.f\\d{1,4}")[0].replace(tempPath + System.getProperty("file.separator"), "");
                                     Platform.runLater(() -> titleLabel.setText(title));
                                     break;
                                 }

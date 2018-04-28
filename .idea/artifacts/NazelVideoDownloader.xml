@@ -24,7 +24,6 @@
       <element id="archive" name="NazelVideoDownloader.jar">
         <element id="module-output" name="NazelVideoDownloader" />
       </element>
-      <element id="file-copy" path="$PROJECT_DIR$/youtube-dl" />
       <element id="directory" name="lib">
         <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.1.6" />
         <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.1.6" />

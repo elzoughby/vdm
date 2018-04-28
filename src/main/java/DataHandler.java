@@ -12,18 +12,31 @@ public class DataHandler {
 
     private static final String DATABASE_NODE = "DataHandler";
     private static final String NEXT_ID = "nextID";
-
+    private static String dataDirectory;
     private static Preferences programData = Preferences.userRoot().node(DATABASE_NODE);
     private static Gson gson = FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+    static {
+        if(System.getProperty("os.name").toLowerCase().contains("win"))
+            dataDirectory = System.getenv("AppData") + System.getProperty("file.separator") + "nazel" +
+                    System.getProperty("file.separator") + "data";
+        else if(System.getProperty("os.name").toLowerCase().contains("mac"))
+            dataDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "Library" +
+                    System.getProperty("file.separator") + "Preferences" + System.getProperty("file.separator") +
+                    "nazel" + System.getProperty("file.separator") + "data";
+        else
+            dataDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + ".nazel" +
+                    System.getProperty("file.separator") + "data";
+    }
 
 
     public static void load() {
 
         try {
 
-            if(Files.notExists(Paths.get("data")) || (! Files.isDirectory(Paths.get("data"))))
-                Files.createDirectory(Paths.get("data"));
-            File[] dataFiles = new File("data").listFiles();
+            if(Files.notExists(Paths.get(dataDirectory)) || (! Files.isDirectory(Paths.get(dataDirectory))))
+                Files.createDirectory(Paths.get(dataDirectory));
+            File[] dataFiles = new File(dataDirectory).listFiles();
 
             if(dataFiles != null) {
 
@@ -70,10 +83,10 @@ public class DataHandler {
 
         try {
 
-            if(Files.notExists(Paths.get("data")) || (! Files.isDirectory(Paths.get("data"))))
-                Files.createDirectory(Paths.get("data"));
+            if(Files.notExists(Paths.get(dataDirectory)) || (! Files.isDirectory(Paths.get(dataDirectory))))
+                Files.createDirectory(Paths.get(dataDirectory));
 
-            Path path = Paths.get("data/" + item.getId() + ".json");
+            Path path = Paths.get(dataDirectory + System.getProperty("file.separator") + item.getId() + ".json");
             Files.write(path, gson.toJson(item).getBytes());
 
         } catch (IOException e) {
@@ -89,7 +102,7 @@ public class DataHandler {
 
         try {
 
-            String path = "data/" + item.getId() + ".json";
+            String path = dataDirectory + System.getProperty("file.separator") + item.getId() + ".json";
             File file = new File(path);
             if(! file.delete())
                 throw new Exception("file" + item.getId() + ".json could not be deleted");

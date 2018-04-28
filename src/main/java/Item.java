@@ -16,6 +16,19 @@ import java.util.regex.Pattern;
 
 public class Item {
 
+
+    private static String ytdlDirectory;
+
+    static {
+        if(System.getProperty("os.name").toLowerCase().contains("win"))
+            ytdlDirectory = System.getenv("AppData") + System.getProperty("file.separator") + "nazel";
+        else if(System.getProperty("os.name").toLowerCase().contains("mac"))
+            ytdlDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "Library" +
+                    System.getProperty("file.separator") + "Preferences" + System.getProperty("file.separator") + "nazel";
+        else
+            ytdlDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + ".nazel";
+    }
+
     @Expose private IntegerProperty id;
     @Expose private StringProperty url;
     @Expose private StringProperty location;
@@ -637,7 +650,7 @@ public class Item {
 
     private List<String> commandBuilder() {
 
-        List<String> cmdList = new ArrayList<>(Arrays.asList("python", "youtube-dl", "-i", "-c", "--no-part"));
+        List<String> cmdList = new ArrayList<>(Arrays.asList("python", ytdlDirectory + System.getProperty("file.separator") + "youtube-dl", "-i", "-c", "--no-part"));
 
         if (getSpeedLimit() != 0) {
             cmdList.add("-r");
@@ -674,16 +687,10 @@ public class Item {
             cmdList.add("--yes-playlist");
             if (customName.get().equals("")) {
                 cmdList.add("-o");
-                if(System.getProperty("os.name").toLowerCase().contains("win"))
-                    cmdList.add(location.getValue() + "\\%(playlist_title)s\\%(playlist_index)s - %(title)s.%(ext)s");
-                else
-                    cmdList.add(location.getValue() + "/%(playlist_title)s/%(playlist_index)s - %(title)s.%(ext)s");
+                cmdList.add(location.getValue() + System.getProperty("file.separator") + "%(playlist_title)s" + System.getProperty("file.separator") + "%(playlist_index)s - %(title)s.%(ext)s");
             } else {
                 cmdList.add("-o");
-                if(System.getProperty("os.name").toLowerCase().contains("win"))
-                    cmdList.add(location.getValue() + "\\" + customName.getValue() + "\\%(playlist_index)s - %(title)s.%(ext)s");
-                else
-                    cmdList.add(location.getValue() + "/" + customName.getValue() + "/%(playlist_index)s - %(title)s.%(ext)s");
+                cmdList.add(location.getValue() + System.getProperty("file.separator") + customName.getValue() + System.getProperty("file.separator") +"%(playlist_index)s - %(title)s.%(ext)s");
             }
 
             if(! playlistItems.get().equals("")) {
@@ -704,16 +711,10 @@ public class Item {
             cmdList.add("--no-playlist");
             if (customName.get().equals("")) {
                 cmdList.add("-o");
-                if(System.getProperty("os.name").toLowerCase().contains("win"))
-                    cmdList.add(location.getValue() + "\\" + "%(title)s.%(ext)s");
-                else
-                    cmdList.add(location.getValue() + "/" + "%(title)s.%(ext)s");
+                cmdList.add(location.getValue() + System.getProperty("file.separator") + "%(title)s.%(ext)s");
             } else {
                 cmdList.add("-o");
-                if(System.getProperty("os.name").toLowerCase().contains("win"))
-                    cmdList.add(location.getValue() + "\\" + customName.getValue() + ".%(ext)s");
-                else
-                    cmdList.add(location.getValue() + "/" + customName.getValue() + ".%(ext)s");
+                cmdList.add(location.getValue() + System.getProperty("file.separator") + customName.getValue() + ".%(ext)s");
             }
         }
 

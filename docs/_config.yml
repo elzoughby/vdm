@@ -15,6 +15,6 @@ gplus_username:  nazel
 
 # Google-analytics
 google-analytics:
-  id: ""
+  id: "UA-85733887-2"
 
 exclude: ['package.json', 'src' , 'node_modules']

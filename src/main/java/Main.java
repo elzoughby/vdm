@@ -14,7 +14,7 @@ public class Main extends Application {
 
     private static Stage appStage;
     private static boolean startMinimized = false;
-    private static final String version = "0.9.1";
+    public static final String VERSION = "0.9.1";
     private static final String MAIN_WINDOW_NODE = "Main";
     private static final String STAGE_HEIGHT = "height";
     private static final String STAGE_WIDTH = "width";
@@ -47,15 +47,11 @@ public class Main extends Application {
         return appStage;
     }
 
-    public static String getVersion() {
-        return version;
-    }
-
     public static void saveAndExit() {
         stopAllDownloads();
 
         // Delete temp files
-        File tempDirectory = new File("temp");
+        File tempDirectory = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + "nazel");
         if(tempDirectory.exists() && tempDirectory.isDirectory()) {
             File[] tempFiles = tempDirectory.listFiles();
             for (File tempFile : tempFiles)
