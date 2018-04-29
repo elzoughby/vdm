@@ -2,16 +2,9 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
-import java.util.Date;
-import java.util.prefs.Preferences;
 
 
 public class AES {
-
-    private static final String AES_NODE = "AES";
-    private static final String AES_KEY = "key";
-    private static final String AES_VECTOR = "vector";
-    private static Preferences programData = Preferences.userRoot().node(AES_NODE);
 
     private static String key;
     private static String initVector;
@@ -19,19 +12,11 @@ public class AES {
 
     public static void initKey() {
 
-        String s1 = programData.get(AES_KEY, null);
-        if(s1 == null) {
-            s1 = new Date().toString();
-            programData.put(AES_KEY, s1);
-        }
-        key = (s1 + "zox the smart fox").substring(0, 32);
+        String date = (String) DataHandler.getAppPreferences().get("AES.date");
+        key = (date + "zox the smart fox").substring(0, 32);
 
-        String s2 = programData.get(AES_VECTOR, null);
-        if(s2 == null) {
-            s2 = String.valueOf(System.nanoTime());
-            programData.put(AES_VECTOR, s2);
-        }
-        initVector = (s2 + "zeek the foxy geek").substring(0, 16);
+        String nanoTime = String.valueOf((long) DataHandler.getAppPreferences().get("AES.nanoTime"));
+        initVector = (nanoTime + "zeek the foxy geek").substring(0, 16);
 
     }
 

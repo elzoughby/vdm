@@ -36,6 +36,11 @@ import java.util.concurrent.*;
 
 public class NewDownloadController implements Initializable{
 
+    private static final String APP_DATA_DIRECTORY = DataHandler.getAppDataDirectory();
+    private static final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + "nazel";
+    private static final String YTDL_PATH = APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl";
+
+
     @FXML private BorderPane newDownloadPane;
     @FXML private ToolBar toolbar;
     @FXML private Button startBtn;
@@ -387,7 +392,7 @@ public class NewDownloadController implements Initializable{
 
                 List<String> argsList = new ArrayList<>();
                 argsList.add("python");
-                argsList.add("youtube-dl");
+                argsList.add(YTDL_PATH);
                 if(needLoginCheckBox.isSelected()) {
                     argsList.add("-u");
                     argsList.add(userNameTextField.getText());
@@ -444,10 +449,9 @@ public class NewDownloadController implements Initializable{
 
 
                     // for parsing the download title and description
-                    String tempPath = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + "nazel";
                     List<String> titleCmd = new ArrayList<>(argsList);
                     titleCmd.add("-o");
-                    titleCmd.add(tempPath + System.getProperty("file.separator") + "%(title)s");
+                    titleCmd.add(TEMP_DIRECTORY + System.getProperty("file.separator") + "%(title)s");
                     titleCmd.add(urlLabel.getText());
                     Process titleProcess = new ProcessBuilder(titleCmd).redirectErrorStream(true).start();
 
@@ -472,7 +476,7 @@ public class NewDownloadController implements Initializable{
                                     titleProcess.destroy();
                                     bufferedReader.close();
                                     inputStream.close();
-                                    String title = line.split(":")[1].split("\\.f\\d{1,4}")[0].replace(tempPath + System.getProperty("file.separator"), "");
+                                    String title = line.split(":")[1].split("\\.f\\d{1,4}")[0].replace(TEMP_DIRECTORY + System.getProperty("file.separator"), "");
                                     Platform.runLater(() -> titleLabel.setText(title));
                                     break;
                                 }

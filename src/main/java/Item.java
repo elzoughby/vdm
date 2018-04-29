@@ -17,19 +17,11 @@ import java.util.regex.Pattern;
 public class Item {
 
 
-    private static String ytdlDirectory;
+    private static final String APP_DATA_DIRECTORY = DataHandler.getAppDataDirectory();
+    private static final String YTDL_PATH = APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl";
 
-    static {
-        if(System.getProperty("os.name").toLowerCase().contains("win"))
-            ytdlDirectory = System.getenv("AppData") + System.getProperty("file.separator") + "nazel";
-        else if(System.getProperty("os.name").toLowerCase().contains("mac"))
-            ytdlDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "Library" +
-                    System.getProperty("file.separator") + "Preferences" + System.getProperty("file.separator") + "nazel";
-        else
-            ytdlDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + ".nazel";
-    }
 
-    @Expose private IntegerProperty id;
+    @Expose private LongProperty id;
     @Expose private StringProperty url;
     @Expose private StringProperty location;
     @Expose private StringProperty title;
@@ -65,7 +57,7 @@ public class Item {
 
     public Item() {
 
-        id = new SimpleIntegerProperty();
+        id = new SimpleLongProperty();
         url = new SimpleStringProperty();
         location = new SimpleStringProperty("");
         title = new SimpleStringProperty("");
@@ -134,15 +126,15 @@ public class Item {
 
     }
 
-    public int getId() {
+    public long getId() {
         return id.get();
     }
 
-    public IntegerProperty idProperty() {
+    public LongProperty idProperty() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id.set(id);
     }
 
@@ -650,7 +642,7 @@ public class Item {
 
     private List<String> commandBuilder() {
 
-        List<String> cmdList = new ArrayList<>(Arrays.asList("python", ytdlDirectory + System.getProperty("file.separator") + "youtube-dl", "-i", "-c", "--no-part"));
+        List<String> cmdList = new ArrayList<>(Arrays.asList("python", YTDL_PATH, "-i", "-c", "--no-part"));
 
         if (getSpeedLimit() != 0) {
             cmdList.add("-r");

@@ -23,7 +23,6 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.prefs.Preferences;
 
 
 public class HomeController implements Initializable {
@@ -55,13 +54,7 @@ public class HomeController implements Initializable {
     }
 
 
-    private static final String HOME_PAGE_NODE = "Home";
-    private static final String DIVIDER_POSITION = "dividerPosition";
-    private static final String HIDE_LOG = "hideLog";
-    private Preferences programData = Preferences.userRoot().node(HOME_PAGE_NODE);
-
     private static ObservableList<Item> itemList = FXCollections.observableArrayList();
-
     private static ObservableList<Item> queueItemList = FXCollections.observableArrayList();
 
     @FXML
@@ -271,12 +264,14 @@ public class HomeController implements Initializable {
         });
 
         // save and restore SplitPane divider position
-        homeSplitPane.setDividerPositions(programData.getDouble(DIVIDER_POSITION, 0.8));
-        homeSplitPane.getDividers().get(0).positionProperty().addListener((observableValue, oldValue, newValue) ->
-                programData.putDouble(DIVIDER_POSITION, newValue.doubleValue()));
+        homeSplitPane.setDividerPositions((Double) DataHandler.getAppPreferences().get("Home.dividerPosition"));
+        homeSplitPane.getDividers().get(0).positionProperty().addListener((observableValue, oldValue, newValue) -> {
+            DataHandler.getAppPreferences().replace("Home.dividerPosition", newValue.doubleValue());
+            DataHandler.writeAppPreferences();
+        });
 
         // hide split pane if it was hidden last time
-        if(programData.getBoolean(HIDE_LOG, false))
+        if( (Boolean) DataHandler.getAppPreferences().get("Home.hideLog"))
             homeSplitPane.getItems().remove(consoleListView);
 
     }
@@ -620,7 +615,8 @@ public class HomeController implements Initializable {
                 infoWindowController.getUrlLabel().setText(selectedItem.getUrl());
                 infoWindowController.getTitleLabel().setText(selectedItem.getTitle());
                 infoWindowController.getDescriptionLabel().setText(selectedItem.getDescription());
-                infoWindowController.getThumbnailImageView().setImage(new Image(selectedItem.getThumbnailUrl(), true));
+                if(selectedItem.getThumbnailUrl() != null)
+                    infoWindowController.getThumbnailImageView().setImage(new Image(selectedItem.getThumbnailUrl(), true));
                 infoWindowController.getLocationTextField().setText(selectedItem.getLocation());
                 infoWindowController.getLocationTextField().setEditable(false);
                 infoWindowController.getArtifactsSaveLocationHBox().getChildren().remove(infoWindowController.getBrowseBtn());
@@ -726,10 +722,11 @@ public class HomeController implements Initializable {
             homeSplitPane.getItems().remove(consoleListView);
         } else {
             homeSplitPane.getItems().add(1, consoleListView);
-            homeSplitPane.setDividerPosition(0, programData.getDouble(DIVIDER_POSITION, 0.8));
+            homeSplitPane.setDividerPosition(0, (Double) DataHandler.getAppPreferences().get("Home.dividerPosition"));
         }
 
-        programData.putBoolean(HIDE_LOG, isLogVisible);
+        DataHandler.getAppPreferences().replace("Home.hideLog", isLogVisible);
+        DataHandler.writeAppPreferences();
 
     }
 

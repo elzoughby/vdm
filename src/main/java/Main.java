@@ -7,18 +7,13 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.prefs.Preferences;
 
 
 public class Main extends Application {
 
     private static Stage appStage;
     private static boolean startMinimized = false;
-    public static final String VERSION = "0.9.1";
-    private static final String MAIN_WINDOW_NODE = "Main";
-    private static final String STAGE_HEIGHT = "height";
-    private static final String STAGE_WIDTH = "width";
-    private Preferences programData = Preferences.userRoot().node(MAIN_WINDOW_NODE);
+    public static final String VERSION = "0.9.3";
 
 
     public static void main(String args[]) {
@@ -36,10 +31,13 @@ public class Main extends Application {
             errorFlag = true;
 
 
-        if(errorFlag)
+        if(errorFlag) {
             System.err.println("invalid arguments");
-        else
+            System.exit(1);
+        } else {
+            DataHandler.readAppPreferences();
             launch(args);
+        }
 
     }
 
@@ -84,10 +82,16 @@ public class Main extends Application {
             primaryStage.setScene(new Scene(root));
             primaryStage.setMinWidth(600);
             primaryStage.setMinHeight(400);
-            primaryStage.setWidth(programData.getDouble(STAGE_WIDTH, 800));
-            primaryStage.setHeight(programData.getDouble(STAGE_HEIGHT, 500));
-            primaryStage.widthProperty().addListener((observableValue, oldValue, newValue) -> programData.putDouble(STAGE_WIDTH, newValue.doubleValue()));
-            primaryStage.heightProperty().addListener((observableValue, oldValue, newValue) -> programData.putDouble(STAGE_HEIGHT, newValue.doubleValue()));
+            primaryStage.setWidth( (Double) DataHandler.getAppPreferences().get("Main.width"));
+            primaryStage.setHeight( (Double) DataHandler.getAppPreferences().get("Main.height"));
+            primaryStage.widthProperty().addListener((observableValue, oldValue, newValue) -> {
+                DataHandler.getAppPreferences().replace("Main.width", newValue.doubleValue());
+                DataHandler.writeAppPreferences();
+            });
+            primaryStage.heightProperty().addListener((observableValue, oldValue, newValue) -> {
+                DataHandler.getAppPreferences().replace("Main.height", newValue.doubleValue());
+                DataHandler.writeAppPreferences();
+            });
             primaryStage.setOnCloseRequest(event -> appStage.close());
 
             TrayHandler.initSystemTray();
@@ -101,6 +105,7 @@ public class Main extends Application {
                 primaryStage.show();
 
         } catch (Exception e) {
+            e.printStackTrace();
             new MessageDialog("Error loading the LoadingPage window! \n" +
                     "Try again later or report this issue", MessageDialog.Type.ERROR,
                     MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();

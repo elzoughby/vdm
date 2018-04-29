@@ -23,17 +23,8 @@ import java.util.ResourceBundle;
 
 public class LoadingController implements Initializable {
 
-    private static String ytdlDirectory;
+    private static final String APP_DATA_DIRECTORY = DataHandler.getAppDataDirectory();
 
-    static {
-        if(System.getProperty("os.name").toLowerCase().contains("win"))
-            ytdlDirectory = System.getenv("AppData") + System.getProperty("file.separator") + "nazel";
-        else if(System.getProperty("os.name").toLowerCase().contains("mac"))
-            ytdlDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "Library" +
-                    System.getProperty("file.separator") + "Preferences" + System.getProperty("file.separator") + "nazel";
-        else
-            ytdlDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + ".nazel";
-    }
 
     @FXML private VBox loadingPane;
     @FXML private Label statusLabel;
@@ -54,7 +45,7 @@ public class LoadingController implements Initializable {
 
         // Load previous download items data
         Platform.runLater(() -> statusLabel.setText("Loading data"));
-        DataHandler.load();
+        DataHandler.loadSavedItems();
 
         try {
 
@@ -67,7 +58,7 @@ public class LoadingController implements Initializable {
             String serverVersion = latestVersionText.split("\\(")[1].split("\\)")[0].substring(1);
 
             // getting the local youtube-dl version
-            Process ytdlProcess = new ProcessBuilder("python", ytdlDirectory + System.getProperty("file.separator") + "youtube-dl", "--version").start();
+            Process ytdlProcess = new ProcessBuilder("python", APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl", "--version").start();
             InputStream inputStream = ytdlProcess.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String localVersion = bufferedReader.readLine();
@@ -77,12 +68,12 @@ public class LoadingController implements Initializable {
 
                 // downloading youtube-dl updates
                 Platform.runLater(() -> statusLabel.setText("updating youtube-dl"));
-                File tempFile = new File(ytdlDirectory + System.getProperty("file.separator") + "youtube-dl.tmp");
+                File tempFile = new File(APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl.tmp");
                 if(tempFile.exists())
                     tempFile.delete();
-                Curl.curl("-L http://yt-dl.org/downloads/latest/youtube-dl -o" + ytdlDirectory + System.getProperty("file.separator") + "youtube-dl.tmp");
+                Curl.curl("-L http://yt-dl.org/downloads/latest/youtube-dl -o" + APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl.tmp");
 
-                File file = new File(ytdlDirectory + System.getProperty("file.separator") + "youtube-dl");
+                File file = new File(APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl");
                 if(file.exists()) {
                     if(file.delete()) {
                         tempFile.renameTo(file);
