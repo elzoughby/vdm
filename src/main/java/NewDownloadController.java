@@ -37,7 +37,7 @@ import java.util.concurrent.*;
 public class NewDownloadController implements Initializable{
 
     private static final String APP_DATA_DIRECTORY = DataHandler.getAppDataDirectory();
-    private static final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + "nazel";
+    private static final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir").replaceAll("[/\\\\]$", "") + System.getProperty("file.separator") + "nazel";
     private static final String YTDL_PATH = APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl";
 
 
@@ -476,7 +476,7 @@ public class NewDownloadController implements Initializable{
                                     titleProcess.destroy();
                                     bufferedReader.close();
                                     inputStream.close();
-                                    String title = line.split(":")[1].split("\\.f\\d{1,4}")[0].replace(TEMP_DIRECTORY + System.getProperty("file.separator"), "");
+                                    String title = line.replace(TEMP_DIRECTORY + System.getProperty("file.separator"), "").split(":")[1].split("\\.f\\d{1,4}")[0];
                                     Platform.runLater(() -> titleLabel.setText(title));
                                     break;
                                 }
@@ -698,7 +698,8 @@ public class NewDownloadController implements Initializable{
 
             urlDialogStage.setResizable(false);
             urlDialogStage.initStyle(StageStyle.TRANSPARENT);
-            urlDialogStage.initModality(Modality.APPLICATION_MODAL);
+            urlDialogStage.initModality(Modality.WINDOW_MODAL);
+            urlDialogStage.initOwner(appStage);
             urlDialogStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));
             urlDialogStage.setOnCloseRequest(Event::consume);
             urlDialogStage.setOpacity(0.75);

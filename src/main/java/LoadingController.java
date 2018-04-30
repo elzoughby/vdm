@@ -1,5 +1,6 @@
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,62 +37,74 @@ public class LoadingController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        appStage.setOnCloseRequest(Event::consume);
+        appStage.setOnShown(event -> {
 
-    }
+            Task<Void> loadingTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
 
-    @Override
-    protected void finalize() {
+                    // Disable closing the app window until it finishes updating
+                    Platform.runLater(() -> appStage.setOnCloseRequest(Event::consume));
 
-        // Load previous download items data
-        Platform.runLater(() -> statusLabel.setText("Loading data"));
-        DataHandler.loadSavedItems();
+                    // Load previous download items data
+                    Platform.runLater(() -> statusLabel.setText("Loading data"));
+                    DataHandler.loadSavedItems();
 
-        try {
+                    try {
 
-            // getting the online youtube-dl version
-            Platform.runLater(() -> statusLabel.setText("checking for updates"));
-            Document document = Jsoup.connect("http://yt-dl.org/").get();
-            Elements divs = document.select("div");
-            Element latestVersionDiv = divs.get(1);
-            String latestVersionText = latestVersionDiv.text();
-            String serverVersion = latestVersionText.split("\\(")[1].split("\\)")[0].substring(1);
+                        // getting the online youtube-dl version
+                        Platform.runLater(() -> statusLabel.setText("checking for updates"));
+                        Document document = Jsoup.connect("http://yt-dl.org/").get();
+                        Elements divs = document.select("div");
+                        Element latestVersionDiv = divs.get(1);
+                        String latestVersionText = latestVersionDiv.text();
+                        String serverVersion = latestVersionText.split("\\(")[1].split("\\)")[0].substring(1);
 
-            // getting the local youtube-dl version
-            Process ytdlProcess = new ProcessBuilder("python", APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl", "--version").start();
-            InputStream inputStream = ytdlProcess.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String localVersion = bufferedReader.readLine();
+                        // getting the local youtube-dl version
+                        Process ytdlProcess = new ProcessBuilder("python", APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl", "--version").start();
+                        InputStream inputStream = ytdlProcess.getInputStream();
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                        String localVersion = bufferedReader.readLine();
 
-            // Checking for youtube-dl updates
-            if(serverVersion != null && ! serverVersion.equals(localVersion)) {
+                        // Checking for youtube-dl updates
+                        if(serverVersion != null && ! serverVersion.equals(localVersion)) {
 
-                // downloading youtube-dl updates
-                Platform.runLater(() -> statusLabel.setText("updating youtube-dl"));
-                File tempFile = new File(APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl.tmp");
-                if(tempFile.exists())
-                    tempFile.delete();
-                Curl.curl("-L http://yt-dl.org/downloads/latest/youtube-dl -o" + APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl.tmp");
+                            // downloading youtube-dl updates
+                            Platform.runLater(() -> statusLabel.setText("updating youtube-dl"));
+                            File tempFile = new File(APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl.tmp");
+                            if(tempFile.exists())
+                                tempFile.delete();
+                            Curl.curl("-L http://yt-dl.org/downloads/latest/youtube-dl -o" + APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl.tmp");
 
-                File file = new File(APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl");
-                if(file.exists()) {
-                    if(file.delete()) {
-                        tempFile.renameTo(file);
+                            File file = new File(APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl");
+                            if(file.exists()) {
+                                if(file.delete()) {
+                                    tempFile.renameTo(file);
+                                }
+                            } else {
+                                tempFile.renameTo(file);
+                            }
+
+                        }
+
+                    } catch (Exception e) {
+                        System.err.println("Error updating youtube-dl : " + e.getMessage());
                     }
-                } else {
-                    tempFile.renameTo(file);
+
+                    // Go to home page
+                    Platform.runLater(() -> {
+                        appStage.setOnCloseRequest(event -> appStage.close());
+                        appStage.setOnShown(null);
+                        close();
+                    });
+
+                    return null;
                 }
+            };
 
-            }
+            Thread loadingThread = new Thread(loadingTask);
+            loadingThread.start();
 
-        } catch (Exception e) {
-            System.err.println("Error updating youtube-dl : " + e.getMessage());
-        }
-
-        // Go to home page
-        Platform.runLater(() -> {
-            close();
-            appStage.setOnCloseRequest(event -> appStage.close());
         });
 
     }

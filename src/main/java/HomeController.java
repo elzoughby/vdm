@@ -264,7 +264,7 @@ public class HomeController implements Initializable {
         });
 
         // save and restore SplitPane divider position
-        homeSplitPane.setDividerPositions((Double) DataHandler.getAppPreferences().get("Home.dividerPosition"));
+        homeSplitPane.setDividerPosition(0, (Double) DataHandler.getAppPreferences().get("Home.dividerPosition"));
         homeSplitPane.getDividers().get(0).positionProperty().addListener((observableValue, oldValue, newValue) -> {
             DataHandler.getAppPreferences().replace("Home.dividerPosition", newValue.doubleValue());
             DataHandler.writeAppPreferences();
@@ -721,7 +721,11 @@ public class HomeController implements Initializable {
         if(isLogVisible) {
             homeSplitPane.getItems().remove(consoleListView);
         } else {
-            homeSplitPane.getItems().add(1, consoleListView);
+            homeSplitPane.getItems().add(consoleListView);
+            homeSplitPane.getDividers().get(0).positionProperty().addListener((observableValue, oldValue, newValue) -> {
+                DataHandler.getAppPreferences().replace("Home.dividerPosition", newValue.doubleValue());
+                DataHandler.writeAppPreferences();
+            });
             homeSplitPane.setDividerPosition(0, (Double) DataHandler.getAppPreferences().get("Home.dividerPosition"));
         }
 

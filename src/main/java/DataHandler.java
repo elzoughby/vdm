@@ -19,12 +19,15 @@ public class DataHandler {
 
         // set nazel AppData directory path based on the user OS
         if(System.getProperty("os.name").toLowerCase().contains("win"))
-            appDataDirectory = System.getenv("AppData") + System.getProperty("file.separator") + "nazel";
+            appDataDirectory = System.getenv("AppData").replaceAll("[/\\\\]$", "") +
+                    System.getProperty("file.separator") + "nazel";
         else if(System.getProperty("os.name").toLowerCase().contains("mac"))
-            appDataDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + "Library" +
-                    System.getProperty("file.separator") + "Preferences" + System.getProperty("file.separator") + "nazel";
+            appDataDirectory = System.getProperty("user.home").replaceAll("[/\\\\]$", "") +
+                    System.getProperty("file.separator") + "Library" + System.getProperty("file.separator") +
+                    "Preferences" + System.getProperty("file.separator") + "nazel";
         else
-            appDataDirectory = System.getProperty("user.home") + System.getProperty("file.separator") + ".nazel";
+            appDataDirectory = System.getProperty("user.home").replaceAll("[/\\\\]$", "") +
+                    System.getProperty("file.separator") + ".nazel";
 
         // Fill the appPreferences with default values
         appPreferences = new HashMap<>();
@@ -33,8 +36,8 @@ public class DataHandler {
         appPreferences.put("Home.hideLog", Boolean.FALSE);     //Boolean
         appPreferences.put("Home.dividerPosition", 0.8d);   //Double
         appPreferences.put("Data.nextID", 0L);              //Long
-        appPreferences.put("AES.date", new Date().toString());  //String
-        appPreferences.put("AES.nanoTime", System.nanoTime());   //Long
+        appPreferences.put("AES.date", new Date().toString()); //String
+        appPreferences.put("AES.nanoTime", System.nanoTime()); //Long
 
     }
     private static final String DATA_DIRECTORY = appDataDirectory + System.getProperty("file.separator") + "data";
@@ -126,9 +129,11 @@ public class DataHandler {
 
         try {
 
-            if(Files.notExists(Paths.get(DATA_DIRECTORY)) || (! Files.isDirectory(Paths.get(DATA_DIRECTORY))))
-                Files.createDirectory(Paths.get(DATA_DIRECTORY));
-            File[] dataFiles = new File(DATA_DIRECTORY).listFiles();
+            File dataDirectory = new File(DATA_DIRECTORY);
+
+            if(! dataDirectory.exists())
+                dataDirectory.mkdirs();
+            File[] dataFiles = dataDirectory.listFiles();
 
             if(dataFiles != null) {
 
@@ -175,8 +180,9 @@ public class DataHandler {
 
         try {
 
-            if(Files.notExists(Paths.get(DATA_DIRECTORY)) || (! Files.isDirectory(Paths.get(DATA_DIRECTORY))))
-                Files.createDirectory(Paths.get(DATA_DIRECTORY));
+            File dataDirectory = new File(DATA_DIRECTORY);
+            if(! dataDirectory.exists())
+                dataDirectory.mkdirs();
 
             Path path = Paths.get(DATA_DIRECTORY + System.getProperty("file.separator") + item.getId() + ".json");
             Files.write(path, gson.toJson(item).getBytes());

@@ -13,7 +13,7 @@ public class Main extends Application {
 
     private static Stage appStage;
     private static boolean startMinimized = false;
-    public static final String VERSION = "0.9.3";
+    public static final String VERSION = "0.9.4";
 
 
     public static void main(String args[]) {
@@ -57,7 +57,6 @@ public class Main extends Application {
         }
 
         Platform.exit();
-        System.exit(0);
     }
 
     public static void stopAllDownloads() {
