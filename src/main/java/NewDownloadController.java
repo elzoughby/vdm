@@ -830,7 +830,7 @@ public class NewDownloadController implements Initializable{
             }
 
             if(specificItemsRadioBtn.isSelected()) {
-                if(playlistItemsTextField.getText().replaceAll("\\s","").matches("[0-9,]+")) {
+                if(playlistItemsTextField.getText().replaceAll("\\s","").matches("[-,0-9]+")) {
                     playlistItemsTextField.getStyleClass().removeAll(Collections.singleton("text-field-error"));
                 } else {
                     playlistItemsTextField.getStyleClass().add("text-field-error");

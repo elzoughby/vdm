@@ -130,12 +130,12 @@ public class MessageDialog implements Initializable {
                 break;
         }
 
-        dragPane.setOnMousePressed(event -> {
+        messageDialogPane.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
         });
 
-        dragPane.setOnMouseDragged(event -> {
+        messageDialogPane.setOnMouseDragged(event -> {
             messageStage.setX(event.getScreenX() - xOffset);
             messageStage.setY(event.getScreenY() - yOffset);
         });

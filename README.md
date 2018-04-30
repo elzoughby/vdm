@@ -1,8 +1,8 @@
 # Nazel Video Downloader
 
-**Nazel Video Downloader** is GUI front-end client for the popular CLI
+**Nazel Video Downloader** is GUI client for the popular CLI
 application *Youtube-dl*. 
-It will be full of features you need in a
+It is full of features you need in a
 video downloader application. 
 
 NVD is cross-platform, so it can run on *Windows*, *Linux* and *MacOS*.

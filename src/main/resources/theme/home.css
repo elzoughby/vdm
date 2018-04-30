@@ -81,7 +81,13 @@
 
 /* ========== Scrollbar style ========== */
 
-.scroll-bar:vertical, .scroll-bar:horizontal {
+.scroll-bar:vertical {
+    -fx-background-color: #f0f0f0;
+    -fx-background-insets: 0;
+    -fx-padding: 0.5;
+}
+
+.scroll-bar:horizontal {
     -fx-background-color: #f0f0f0;
     -fx-background-insets: 0;
     -fx-padding: 0;
@@ -96,13 +102,13 @@
 
 .scroll-bar:vertical .thumb {
     -fx-background-color: derive(black,110%);
-    -fx-background-insets: 0, 0, 0;
+    -fx-background-insets: -0.5, 0, 0;
     -fx-background-radius: 2em;
 }
 
 .scroll-bar:horizontal .thumb {
     -fx-background-color: derive(black,110%);
-    -fx-background-insets: 1, 0, 0;
+    -fx-background-insets: 0.75, 0, 0;
     -fx-background-radius: 2em;
 }
 
@@ -115,7 +121,7 @@
 .scroll-bar:vertical .increment-button, .scroll-bar:vertical.decrement-button {
     -fx-background-color:transparent;
     -fx-background-radius: 0;
-    -fx-padding: 0 0 10 0;
+    -fx-padding: 0 0 0 0;
 }
 
 .scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {

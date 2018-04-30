@@ -315,7 +315,8 @@
                                                         <TextField fx:id="playlistItemsTextField"
                                                                    disable="${!specificItemsRadioBtn.selected}"
                                                                    prefHeight="26.0" prefWidth="224.0"
-                                                                   promptText="1,2,3,7,10" HBox.hgrow="ALWAYS">
+                                                                   promptText="1, 3-7, 10, 12-14, 17"
+                                                                   HBox.hgrow="ALWAYS">
                                                             <tooltip>
                                                                 <Tooltip text="comma separated indexes"/>
                                                             </tooltip>

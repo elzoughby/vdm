@@ -176,7 +176,7 @@
 
 .tab-pane:top *.tab-header-area {
     -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 5 2 0 87;
+    -fx-padding: 5 2 -1 87;
 }
 
 .tab-pane {
@@ -186,7 +186,7 @@
 .tab {
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
-    -fx-background-insets: 0 2 0 2,0,0;
+    -fx-background-insets: 1 1 0 1,0,0;
 }
 
 .tab-pane .tab {
