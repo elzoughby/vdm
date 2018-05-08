@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import org.apache.http.HttpResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -74,7 +75,12 @@ public class LoadingController implements Initializable {
                             File tempFile = new File(APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl.tmp");
                             if(tempFile.exists())
                                 tempFile.delete();
-                            Curl.curl("-L http://yt-dl.org/downloads/latest/youtube-dl -o" + APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl.tmp");
+                            tempFile.getParentFile().mkdirs();
+
+                            FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
+                            HttpResponse response = Curl.curl().lUpperCase().run("http://yt-dl.org/downloads/latest/youtube-dl");
+                            response.getEntity().writeTo(fileOutputStream);
+                            fileOutputStream.close();
 
                             File file = new File(APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl");
                             if(file.exists()) {
@@ -89,6 +95,12 @@ public class LoadingController implements Initializable {
 
                     } catch (Exception e) {
                         System.err.println("Error updating youtube-dl : " + e.getMessage());
+                        File file = new File(APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl");
+                        if(! file.exists()) {
+                            new MessageDialog("Couldn't download youtube-dl\n" +
+                                    "Try again later or report this issue.", MessageDialog.Type.ERROR,
+                                    MessageDialog.Buttons.CLOSE).createErrorDialog(e.getStackTrace()).showAndWait();
+                        }
                     }
 
                     // Go to home page

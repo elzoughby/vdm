@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include head.html %}
+  <body>
+    {% include lic-header.html %}
+    <section id="license">
+      {% include lic.html %}
+    </section>
+    <section id="license-3rd">
+        {% include lic-3rd.html %}
+    </section>
+      {{ content }}
+    {% include footer.html %}
+  </body>

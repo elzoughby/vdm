@@ -64,6 +64,8 @@ public class HomeController implements Initializable {
     @FXML
     private ToggleButton queueBtn;
     @FXML
+    private Button logBtn;
+    @FXML
     private ListView<String> consoleListView;
     @FXML
     private TableView<Item> itemsTableView;
@@ -237,11 +239,13 @@ public class HomeController implements Initializable {
         // Show/Hide Queue list and change context menu queue option with selecting queueBtn
         queueBtn.selectedProperty().addListener((observableValue, wasSelected, nowSelected) -> {
             if(nowSelected) {
+                queueBtn.setTooltip(new Tooltip("Hide Queue   [F6]"));
                 itemsTableView.setItems(queueItemList);
                 rowContextMenu.getItems().get(2).setDisable(false);
                 rowContextMenu.getItems().get(6).setText("Remove from Queue");
                 rowContextMenu.getItems().get(6).setOnAction(event -> removeFromQueueMenuAction());
             } else {
+                queueBtn.setTooltip(new Tooltip("Show Queue   [F6]"));
                 itemsTableView.setItems(itemList);
                 rowContextMenu.getItems().get(2).setDisable(true);
                 rowContextMenu.getItems().get(6).setText("Add to Queue");
@@ -257,8 +261,6 @@ public class HomeController implements Initializable {
                 queueBtn.fire();
             else if(new KeyCodeCombination(KeyCode.F7).match(keyEvent))
                 logBtnAction();
-            else if(new KeyCodeCombination(KeyCode.F10).match(keyEvent))
-                settingBtnAction();
             else if(new KeyCodeCombination(KeyCode.F1).match(keyEvent))
                 aboutBtnAction();
         });
@@ -271,8 +273,12 @@ public class HomeController implements Initializable {
         });
 
         // hide split pane if it was hidden last time
-        if( (Boolean) DataHandler.getAppPreferences().get("Home.hideLog"))
+        if( (Boolean) DataHandler.getAppPreferences().get("Home.hideLog")) {
             homeSplitPane.getItems().remove(consoleListView);
+            logBtn.setTooltip(new Tooltip("Show log   [F7]"));
+        } else {
+            logBtn.setTooltip(new Tooltip("Hide log   [F7]"));
+        }
 
     }
 
@@ -702,11 +708,6 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    private void settingBtnAction() {
-
-    }
-
-    @FXML
     private void aboutBtnAction() {
 
         AboutController.showAboutDialog();
@@ -720,6 +721,7 @@ public class HomeController implements Initializable {
 
         if(isLogVisible) {
             homeSplitPane.getItems().remove(consoleListView);
+            logBtn.setTooltip(new Tooltip("Show log   [F7]"));
         } else {
             homeSplitPane.getItems().add(consoleListView);
             homeSplitPane.getDividers().get(0).positionProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -727,6 +729,7 @@ public class HomeController implements Initializable {
                 DataHandler.writeAppPreferences();
             });
             homeSplitPane.setDividerPosition(0, (Double) DataHandler.getAppPreferences().get("Home.dividerPosition"));
+            logBtn.setTooltip(new Tooltip("Hide log   [F7]"));
         }
 
         DataHandler.getAppPreferences().replace("Home.hideLog", isLogVisible);

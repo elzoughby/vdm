@@ -271,7 +271,7 @@
                                                       spacing="10.0">
                                                     <children>
                                                         <RadioButton fx:id="indexRangeRadioBtn" mnemonicParsing="false"
-                                                                     text="Index range"
+                                                                     text="Indexes range"
                                                                      toggleGroup="$playlistToggleGroup"/>
                                                         <HBox alignment="CENTER_RIGHT"
                                                               disable="${!indexRangeRadioBtn.selected}"

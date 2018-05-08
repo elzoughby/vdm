@@ -1,3 +1,4 @@
+import dorkbox.util.Desktop;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -85,6 +87,26 @@ public class AboutController implements Initializable {
 
         Stage aboutStage = (Stage) aboutWindowVBox.getScene().getWindow();
         aboutStage.close();
+    }
+
+    @FXML
+    private void readLicense() {
+        try {
+            Desktop.browseURL(Main.WEBSITE + "/license");
+        } catch (IOException e) {
+            new MessageDialog("Error opening the default web browser" +
+                    "Try again later or report this issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE).show();
+        }
+    }
+
+    @FXML
+    private void becomePatreon() {
+        try {
+            Desktop.browseURL(Main.PATREON);
+        } catch (IOException e) {
+            new MessageDialog("Error opening the default web browser" +
+                    "Try again later or report this issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE).show();
+        }
     }
 
 }

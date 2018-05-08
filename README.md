@@ -1,12 +1,4 @@
 # Nazel Video Downloader
 
-**Nazel Video Downloader** is GUI client for the popular CLI
-application *Youtube-dl*. 
-It is full of features you need in a
-video downloader application. 
-
-NVD is cross-platform, so it can run on *Windows*, *Linux* and *MacOS*.
-It is free (for freedom and no cost), open source and available for development and maintenance by the community.
-
-NVD is written in *Java* and *JavaFX* toolkit.
+**Nazel Video Downloader** is GUI client for the popular CLI application *Youtube-dl*. It has the features you need in a video downloader application and supports a very long list of video and audio streaming websites. Nazel is free, cross-platform and open source application written in *Java* and the *JavaFX* toolkit. 
 

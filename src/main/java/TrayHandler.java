@@ -2,6 +2,8 @@ import dorkbox.systemTray.Menu;
 import dorkbox.systemTray.MenuItem;
 import dorkbox.systemTray.Separator;
 import dorkbox.systemTray.SystemTray;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -26,6 +28,7 @@ public class TrayHandler {
     private static Stage notificationStage;
     private static int numOfRunningDownloads = 0;
     private static boolean moveToNewDownload = false;
+
 
 
     private static void showHomeWindow() {
@@ -245,7 +248,7 @@ public class TrayHandler {
         imageView.setFitHeight(64);
         imageView.setFitWidth(64);
         notification.graphic(imageView);
-        notification.hideAfter(Duration.seconds(3));
+        notification.hideAfter(Duration.seconds(4));
         notification.owner(notificationStage);
         notification.onAction(actionEvent -> showHomeWindow());
         Platform.runLater(notification::show);
@@ -262,7 +265,7 @@ public class TrayHandler {
         imageView.setFitHeight(64);
         imageView.setFitWidth(64);
         notification.graphic(imageView);
-        notification.hideAfter(Duration.seconds(4));
+        notification.hideAfter(Duration.seconds(5));
         notification.owner(notificationStage);
         notification.onAction(actionEvent -> showNewDownloadWindow());
         Platform.runLater(notification::show);
@@ -272,19 +275,23 @@ public class TrayHandler {
     public static void startClipboardMonitor() {
 
         final Clipboard systemClipboard = Clipboard.getSystemClipboard();
+        final StringBuilder lastClipboardText = new StringBuilder(systemClipboard.hasString() && systemClipboard.getString() != null? systemClipboard.getString() : "zox");
+        String urlRegex = "(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
 
-        new com.sun.glass.ui.ClipboardAssistance(com.sun.glass.ui.Clipboard.SYSTEM) {
-            @Override
-            public void contentChanged() {
-                if(systemClipboard.hasString()) {
-                    String clipboardText = systemClipboard.getString();
-                    String urlRegex = "(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
-                    if(clipboardText.matches(urlRegex)) {
-                        showNewDownloadNotification(clipboardText);
+        Timeline repeatTask = new Timeline(new KeyFrame(Duration.millis(250), event -> {
+            if(systemClipboard.hasString()) {
+                String newClipboardString = systemClipboard.getString();
+                if(! lastClipboardText.toString().equals(newClipboardString)) {
+                    if(newClipboardString != null && newClipboardString.matches(urlRegex)) {
+                        showNewDownloadNotification(newClipboardString);
                     }
+                    lastClipboardText.delete(0, lastClipboardText.length());
+                    lastClipboardText.append(newClipboardString);
                 }
             }
-        };
+        }));
+        repeatTask.setCycleCount(Timeline.INDEFINITE);
+        repeatTask.play();
 
     }
 

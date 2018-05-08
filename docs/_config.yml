@@ -6,7 +6,7 @@ description: A free Video download manager
 
 # User settings
 username: Nazel Video Downloader
-user_description: Nazel Video Downloader is GUI client for the popular CLI application Youtube-dl. It has the features you need in a video downloader application and supports a very long list of video and audio streaming websites. Nazel is free, cross-platform, open source and written in Java and the JavaFX toolkit.
+user_description: Nazel Video Downloader is GUI client for the popular CLI application Youtube-dl. It has the features you need in a video downloader application and supports a very long list of video and audio streaming websites. Nazel is free, <br> cross-platform and open source application written in Java and the JavaFX toolkit.
 
 user_title: A free, cross-platform video download manager
 email: gs_elzoughby@yahoo.com

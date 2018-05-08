@@ -1,15 +1,19 @@
 import com.google.gson.annotations.Expose;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.util.Duration;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -755,8 +759,19 @@ public class Item {
         }, seconds * 1000);
 
         Platform.runLater(() -> {
+
             MessageDialog messageDialog = new MessageDialog("Attention, Computer will shutdown after " +
                     seconds + " seconds !\nSave your work, or click cancel to stop.", MessageDialog.Type.INFO, MessageDialog.Buttons.OK_AND_CANCEL);
+
+            CountDownLatch latch = new CountDownLatch(60);
+            Timeline repeatTask = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+                latch.countDown();
+                messageDialog.setMessageTitle("Attention, Computer will shutdown after " +
+                        latch.getCount() + " seconds !\nSave your work, or click cancel to stop.");
+            }));
+            repeatTask.setCycleCount(60);
+            repeatTask.play();
+
             messageDialog.getOkButton().setOnAction(actionEvent -> messageDialog.close());
             messageDialog.getCancelButton().setOnAction(actionEvent -> {
                 timer.cancel();
@@ -764,7 +779,6 @@ public class Item {
             });
             messageDialog.show();
         });
-
 
     }
 

@@ -13,7 +13,7 @@ public class AES {
     public static void initKey() {
 
         String date = (String) DataHandler.getAppPreferences().get("AES.date");
-        key = (date + "zox the smart fox").substring(0, 32);
+        key = (date + "zox the smart fox").substring(0, 16);
 
         String nanoTime = String.valueOf((long) DataHandler.getAppPreferences().get("AES.nanoTime"));
         initVector = (nanoTime + "zeek the foxy geek").substring(0, 16);

@@ -1,4 +1,5 @@
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,7 +43,7 @@ public class MessageDialog implements Initializable {
     private final int OPTION_DIALOG_HEIGHT = 180;
     private final int ERROR_DIALOG_HEIGHT = 300;
 
-    private String messageTitle;
+    private StringProperty messageTitle;
     private Type messageType;
     private Buttons actionButtons;
     private double xOffset = 0;
@@ -66,9 +67,63 @@ public class MessageDialog implements Initializable {
 
 
 
-    public MessageDialog(String messageTitle,Type messageType, Buttons actionButtons) {
+    public String getMessageTitle() {
+        return messageTitle.get();
+    }
 
-        this.messageTitle = messageTitle;
+    public void setMessageTitle(String messageTitle) {
+        this.messageTitle.set(messageTitle);
+    }
+
+    public StringProperty messageTitleProperty() {
+        return messageTitle;
+    }
+
+    public Type getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(Type messageType) {
+        this.messageType = messageType;
+    }
+
+    public Buttons getActionButtons() {
+        return actionButtons;
+    }
+
+    public void setActionButtons(Buttons actionButtons) {
+        this.actionButtons = actionButtons;
+    }
+
+    public void setImage(String path) {
+        if(messageType == Type.CUSTOM)
+            messageImageView.setImage(new Image(path));
+    }
+
+    public Button getOkButton() {
+        return yesButton;
+    }
+
+    public Button getCloseButton() {
+        return noButton;
+    }
+
+    public Button getYesButton() {
+        return yesButton;
+    }
+
+    public Button getNoButton() {
+        return noButton;
+    }
+
+    public Button getCancelButton() {
+        return noButton;
+    }
+
+
+    public MessageDialog(String messageTitle, Type messageType, Buttons actionButtons) {
+
+        this.messageTitle = new SimpleStringProperty(messageTitle);
         this.messageType = messageType;
         this.actionButtons = actionButtons;
 
@@ -88,7 +143,7 @@ public class MessageDialog implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        titleText.textProperty().bind(new SimpleStringProperty(messageTitle));
+        titleText.textProperty().bind(messageTitle);
 
         switch(messageType) {
             case ERROR:
@@ -175,11 +230,6 @@ public class MessageDialog implements Initializable {
         return this;
     }
 
-    public void setImage(String path) {
-        if(messageType == Type.CUSTOM)
-            messageImageView.setImage(new Image(path));
-    }
-
     public void addTitledPane(TitledPane titledPane) {
 
         if(messageOptionPane.getChildren().size() == 0) {
@@ -216,36 +266,18 @@ public class MessageDialog implements Initializable {
             messageOptionPane.getChildren().add(text);
     }
 
-    public Button getOkButton() {
-        return yesButton;
-    }
-
-    public Button getCloseButton() {
-        return noButton;
-    }
-
-    public Button getYesButton() {
-        return yesButton;
-    }
-
-    public Button getNoButton() {
-        return noButton;
-    }
-
-    public Button getCancelButton() {
-        return noButton;
-    }
-
     public void show() {
 
         initMessageStage();
         messageStage.show();
+        messageStage.toFront();
     }
 
     public void showAndWait() {
 
         initMessageStage();
         messageStage.showAndWait();
+        messageStage.toFront();
     }
 
     public void close() {

@@ -731,7 +731,7 @@ public class NewDownloadController implements Initializable{
         try {
             Desktop.browseURL(urlLabel.getText());
         } catch (IOException e) {
-            new MessageDialog("Error opening default web browser" +
+            new MessageDialog("Error opening the default web browser" +
                     "Try again later or report this issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE).show();
         }
     }
