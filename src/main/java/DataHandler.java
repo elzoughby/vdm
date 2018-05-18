@@ -17,17 +17,17 @@ public class DataHandler {
     private static HashMap<String, Object> appPreferences ;
     static {
 
-        // set nazel AppData directory path based on the user OS
+        // set VDM AppData directory path based on the user OS
         if(System.getProperty("os.name").toLowerCase().contains("win"))
             appDataDirectory = System.getenv("AppData").replaceAll("[/\\\\]$", "") +
-                    System.getProperty("file.separator") + "nazel";
+                    System.getProperty("file.separator") + "vdm";
         else if(System.getProperty("os.name").toLowerCase().contains("mac"))
             appDataDirectory = System.getProperty("user.home").replaceAll("[/\\\\]$", "") +
                     System.getProperty("file.separator") + "Library" + System.getProperty("file.separator") +
-                    "Preferences" + System.getProperty("file.separator") + "nazel";
+                    "Preferences" + System.getProperty("file.separator") + "vdm";
         else
             appDataDirectory = System.getProperty("user.home").replaceAll("[/\\\\]$", "") +
-                    System.getProperty("file.separator") + ".nazel";
+                    System.getProperty("file.separator") + ".vdm";
 
         // Fill the appPreferences with default values
         appPreferences = new HashMap<>();
@@ -63,7 +63,7 @@ public class DataHandler {
                 BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
                 ObjectInputStream objectInputStream = new ObjectInputStream(bufferedInputStream);
 
-                if(objectInputStream.readUTF().equals("_NVD")) {
+                if(objectInputStream.readUTF().equals("_VDM_")) {
 
                     appPreferences.replace("Main.width", objectInputStream.readDouble());
                     appPreferences.replace("Main.height", objectInputStream.readDouble());
@@ -102,7 +102,7 @@ public class DataHandler {
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(bufferedOutputStream);
 
-            objectOutputStream.writeUTF("_NVD");
+            objectOutputStream.writeUTF("_VDM_");
 
             objectOutputStream.writeDouble( (Double) appPreferences.get("Main.width"));
             objectOutputStream.writeDouble( (Double) appPreferences.get("Main.height"));

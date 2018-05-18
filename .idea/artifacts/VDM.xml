@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" build-on-make="true" name="NazelVideoDownloader">
-    <output-path>$PROJECT_DIR$/out/artifacts/NazelVideoDownloader</output-path>
+  <artifact type="javafx" build-on-make="true" name="VDM">
+    <output-path>$PROJECT_DIR$/out/artifacts/VDM</output-path>
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="Main" />
-        <option name="description" value="" />
+        <option name="description" value="A free, cross-platform video downloader based on youtube-dl" />
         <option name="height" value="500" />
         <option name="htmlPlaceholderId" value="" />
         <option name="icons">
@@ -14,15 +14,15 @@
             <option name="windowsIcon" value="$PROJECT_DIR$/src/main/resources/icons/icon.ico" />
           </JavaFxApplicationIcons>
         </option>
-        <option name="title" value="Nazel Video Downloader" />
-        <option name="vendor" value="Nazeloon" />
-        <option name="version" value="0.8.7" />
+        <option name="title" value="Video Download Manager" />
+        <option name="vendor" value="elzoughby" />
+        <option name="version" value="0.9.8" />
         <option name="width" value="800" />
       </options>
     </properties>
     <root id="root">
-      <element id="archive" name="NazelVideoDownloader.jar">
-        <element id="module-output" name="NazelVideoDownloader" />
+      <element id="archive" name="vdman.jar">
+        <element id="module-output" name="VDM" />
       </element>
       <element id="directory" name="lib">
         <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.1.6" />

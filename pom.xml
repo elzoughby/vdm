@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.nazeldownloader</groupId>
-    <artifactId>nazel</artifactId>
-    <version>0.9.7</version>
+    <groupId>com.videodownloadmanager</groupId>
+    <artifactId>vdm</artifactId>
+    <version>0.9.8</version>
 
     <build>
         <plugins>

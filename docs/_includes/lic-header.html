@@ -1,7 +1,9 @@
 <div id="particles-js">
         <div class="header">
             <h6>
-              <img alt="Logo" href="/index" src="{{ "/assets/img/logo.png" | prepend: site.baseurl }}" />
+              <a href="{{ "../index" }}">
+                <img alt="Logo" src="{{ "/assets/img/logo.png" | prepend: site.baseurl }}" />
+              </a>
               <span class="site-title">{{site.username}}</span>
               <span class="site-description">{{site.user_title}}</span>
             </h6>
@@ -11,7 +13,7 @@
               <a aria-label="Fork me on Github" target="_blank" href="https://github.com/{{site.github_username}}/{{site.repository_name}}"><i class="icon fa fa-github-alt" aria-hidden="true"></i></a>
             </div>
             <div class="header-links">
-              <a class="link" href="/index">Home</a>
+              <a class="link" href="{{ "../index" }}">Home</a>
               <a class="link" href="#license" data-scroll>License</a>
               <a class="link" href="#license-3rd" data-scroll>Third-Party License</a>
             </div>

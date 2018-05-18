@@ -13,8 +13,8 @@ public class Main extends Application {
 
     private static Stage appStage;
     private static boolean startMinimized = false;
-    public static final String VERSION = "0.9.7";
-    public static final String WEBSITE = "https://elzoughby.github.io/nazel";
+    public static final String VERSION = "0.9.8";
+    public static final String WEBSITE = "https://elzoughby.github.io/vdm";
     public static final String PATREON = "https://www.patreon.com/bePatron?c=1746384";
 
 
@@ -23,7 +23,7 @@ public class Main extends Application {
         boolean errorFlag = false;
 
         if(args.length == 1)
-            if(args[0].equals("-m"))
+            if(args[0].equals("-s"))
                 startMinimized = true;
             else
                 errorFlag = true;
@@ -51,7 +51,7 @@ public class Main extends Application {
         stopAllDownloads();
 
         // Delete temp files
-        File tempDirectory = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + "nazel");
+        File tempDirectory = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + "vdm");
         if(tempDirectory.exists() && tempDirectory.isDirectory()) {
             File[] tempFiles = tempDirectory.listFiles();
             for (File tempFile : tempFiles)
@@ -78,7 +78,7 @@ public class Main extends Application {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("windows/LoadingPage.fxml"));
             Parent root = loader.load();
-            primaryStage.setTitle("Nazel Video Downloader");
+            primaryStage.setTitle("Video Download Manager");
             primaryStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));
             primaryStage.setScene(new Scene(root));
             primaryStage.setMinWidth(600);

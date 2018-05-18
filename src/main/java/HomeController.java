@@ -446,7 +446,7 @@ public class HomeController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save log file");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        fileChooser.setInitialFileName("NVD-item-" + selectedItem.getId() + ".log");
+        fileChooser.setInitialFileName("vdm-item-" + selectedItem.getId() + ".log");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.log", "*.txt"));
         File file = fileChooser.showSaveDialog(homeWindowPane.getScene().getWindow());
         if(file != null) {

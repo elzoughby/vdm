@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/NazelVideoDownloader.iml" filepath="$PROJECT_DIR$/NazelVideoDownloader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VDM.iml" filepath="$PROJECT_DIR$/VDM.iml" />
     </modules>
   </component>
 </project>

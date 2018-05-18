@@ -299,7 +299,7 @@ public class MessageDialog implements Initializable {
         if(messageType == Type.ERROR)
             messageStage.setTitle("Error");
         else
-            messageStage.setTitle("Nazel Video Downloader");
+            messageStage.setTitle("Video Download Manager");
 
         if(messageOptionPane.getChildren().size() == 0) {
             messageDialogPane.getChildren().remove(messageOptionPane);

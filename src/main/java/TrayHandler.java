@@ -120,7 +120,7 @@ public class TrayHandler {
         systemTray = SystemTray.get();
         if(systemTray == null)
             return;
-        systemTray.setTooltip("Nazel Video Downloader");
+        systemTray.setTooltip("Video Download Manager");
         systemTray.setImage(TrayHandler.class.getResource("icon/icon.png"));
         systemTray.setStatus("No Running Downloads");
 

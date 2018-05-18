@@ -28,7 +28,7 @@
                 <Insets bottom="5.0" top="10.0"/>
             </VBox.margin>
         </ImageView>
-        <Label text="Nazel Video Downloader">
+        <Label text="Video Download Manager">
             <font>
                 <Font name="System Bold" size="14.0"/>
             </font>
@@ -156,7 +156,7 @@
                                     <children>
                                         <Text fill="#515050" fontSmoothingType="LCD" strokeType="OUTSIDE"
                                               strokeWidth="0.0"
-                                              text="Nazel can have more and more awesome features&#10;and it is still needs a lot of refinements;"
+                                              text="VDM can have more and more awesome features&#10;and it is still needs a lot of refinements;"
                                               textAlignment="CENTER" wrappingWidth="345.0">
                                             <font>
                                                 <Font size="12.0"/>

@@ -37,7 +37,7 @@ import java.util.concurrent.*;
 public class NewDownloadController implements Initializable{
 
     private static final String APP_DATA_DIRECTORY = DataHandler.getAppDataDirectory();
-    private static final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir").replaceAll("[/\\\\]$", "") + System.getProperty("file.separator") + "nazel";
+    private static final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir").replaceAll("[/\\\\]$", "") + System.getProperty("file.separator") + "vdm";
     private static final String YTDL_PATH = APP_DATA_DIRECTORY + System.getProperty("file.separator") + "youtube-dl";
 
 
