@@ -6,7 +6,7 @@
 
     <groupId>com.videodownloadmanager</groupId>
     <artifactId>vdm</artifactId>
-    <version>0.9.8</version>
+    <version>0.9.9</version>
 
     <build>
         <plugins>

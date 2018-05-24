@@ -2,17 +2,24 @@
   <div class="header">
       <h6>
         <a href="#">
-          <img alt="Logo" src="{{ "/assets/img/logo.png" | prepend: site.baseurl }}" />
+          <img alt="Logo" src="{{ "assets/img/logo.png" | prepend: site.baseurl }}" />
         </a>
+        <br> <br>
         <span class="site-title">{{site.username}}</span>
         <span class="site-description">{{site.user_title}}</span>
       </h6>
+
+      <br>
+      
       <div class="header-icons">
         <a aria-label="News letter" href="#"><i class="icon fa fa-newspaper-o" aria-hidden="true"></i></a>
         <a aria-label="Send email" href="mailto:{{site.email}}"><i class="icon fa fa-envelope"></i></a>
         <a aria-label="Bug report" target="_blank" href="https://github.com/{{site.github_username}}/{{site.repository_name}}/issues/new"><i class="icon fa fa-bug" aria-hidden="true"></i></a>
         <a aria-label="Fork me on Github" target="_blank" href="https://github.com/{{site.github_username}}/{{site.repository_name}}"><i class="icon fa fa-github-alt" aria-hidden="true"></i></a>
       </div>
+
+      <br>
+
       <div class="header-links">
         <a class="link" href="#about" data-scroll>About</a>
         <a class="link" href="#features" data-scroll>Features</a>

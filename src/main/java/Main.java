@@ -13,7 +13,7 @@ public class Main extends Application {
 
     private static Stage appStage;
     private static boolean startMinimized = false;
-    public static final String VERSION = "0.9.8";
+    public static final String VERSION = "0.9.9";
     public static final String WEBSITE = "https://elzoughby.github.io/vdm";
     public static final String PATREON = "https://www.patreon.com/bePatron?c=1746384";
 
