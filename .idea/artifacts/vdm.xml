@@ -1,19 +1,23 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" build-on-make="true" name="VDM">
-    <output-path>$PROJECT_DIR$/out/artifacts/VDM</output-path>
+  <artifact type="javafx" build-on-make="true" name="vdm">
+    <output-path>$PROJECT_DIR$/out/artifacts/vdm</output-path>
     <properties id="javafx-properties">
       <options>
+        <option name="alias" value="" />
         <option name="appClass" value="Main" />
+        <option name="convertCss2Bin" value="true" />
         <option name="description" value="A free, cross-platform video downloader based on youtube-dl" />
         <option name="height" value="500" />
         <option name="htmlPlaceholderId" value="" />
         <option name="icons">
           <JavaFxApplicationIcons>
-            <option name="linuxIcon" value="$PROJECT_DIR$/src/main/resources/icons/icon.png" />
-            <option name="macIcon" value="$PROJECT_DIR$/src/main/resources/icons/icon.icns" />
-            <option name="windowsIcon" value="$PROJECT_DIR$/src/main/resources/icons/icon.ico" />
+            <option name="linuxIcon" value="$PROJECT_DIR$/src/main/resources/icon/icon.png" />
+            <option name="macIcon" value="$PROJECT_DIR$/src/main/resources/icon/icon.icns" />
+            <option name="windowsIcon" value="$PROJECT_DIR$/src/main/resources/icon/icon.ico" />
           </JavaFxApplicationIcons>
         </option>
+        <option name="keystore" value="" />
+        <option name="nativeBundle" value="all" />
         <option name="title" value="Video Download Manager" />
         <option name="vendor" value="elzoughby" />
         <option name="version" value="0.9.9" />
@@ -21,8 +25,11 @@
       </options>
     </properties>
     <root id="root">
-      <element id="archive" name="vdman.jar">
+      <element id="archive" name="vdm.jar">
         <element id="module-output" name="VDM" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+        </element>
       </element>
       <element id="directory" name="lib">
         <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.1.6" />
