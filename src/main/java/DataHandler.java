@@ -31,13 +31,15 @@ public class DataHandler {
 
         // Fill the appPreferences with default values
         appPreferences = new HashMap<>();
-        appPreferences.put("Main.width", 800d);             //Double
-        appPreferences.put("Main.height", 500d);            //Double
-        appPreferences.put("Home.hideLog", Boolean.FALSE);     //Boolean
-        appPreferences.put("Home.dividerPosition", 0.8d);   //Double
-        appPreferences.put("Data.nextID", 0L);              //Long
-        appPreferences.put("AES.date", new Date().toString()); //String
-        appPreferences.put("AES.nanoTime", System.nanoTime()); //Long
+        appPreferences.put("Main.width", 800d);                         //Double
+        appPreferences.put("Main.height", 500d);                        //Double
+        appPreferences.put("Home.hideLog", Boolean.FALSE);                 //Boolean
+        appPreferences.put("Home.dividerPosition", 0.8d);               //Double
+        appPreferences.put("Data.nextID", 0L);                          //Long
+        appPreferences.put("AES.date", new Date().toString());             //String
+        appPreferences.put("AES.nanoTime", System.nanoTime());             //Long
+        appPreferences.put("TrayHandled.clipboardMonitor", Boolean.TRUE);  //Boolean
+        appPreferences.put("TrayHandled.runAtStartup", Boolean.FALSE);     //Boolean
 
     }
     private static final String DATA_DIRECTORY = appDataDirectory + System.getProperty("file.separator") + "data";
@@ -72,6 +74,8 @@ public class DataHandler {
                     appPreferences.replace("Data.nextID", objectInputStream.readLong());
                     appPreferences.replace("AES.date", objectInputStream.readUTF());
                     appPreferences.replace("AES.nanoTime", objectInputStream.readLong());
+                    appPreferences.replace("TrayHandled.clipboardMonitor", objectInputStream.readBoolean());
+                    appPreferences.replace("TrayHandled.runAtStartup", objectInputStream.readBoolean());
 
                 } else {
                     throw new Exception("configuration file is corrupted");
@@ -111,6 +115,8 @@ public class DataHandler {
             objectOutputStream.writeLong( (Long) appPreferences.get("Data.nextID"));
             objectOutputStream.writeUTF( (String) appPreferences.get("AES.date"));
             objectOutputStream.writeLong( (Long) appPreferences.get("AES.nanoTime"));
+            objectOutputStream.writeBoolean( (Boolean) appPreferences.get("TrayHandled.clipboardMonitor"));
+            objectOutputStream.writeBoolean( (Boolean) appPreferences.get("TrayHandled.runAtStartup"));
 
             objectOutputStream.close();
             bufferedOutputStream.flush();

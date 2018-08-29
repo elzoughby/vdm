@@ -27,3 +27,33 @@ You can start new downloads immediately or you can add them to the Queue for lat
 For more Info:
 
 ​	https://elzoughby.github.io/vdm
+
+
+
+#### Dependences:
+
+- JRE 8
+- Python 2.7 or Python 3.x
+- FFMPEG or LibAV
+
+
+
+
+
+#### How to run:
+
+- ###### Normal Mode
+
+  ```bash
+  java -jar vdm.jar        # start the program maximized
+  ```
+
+
+- ###### Silent Mode
+
+  ```bash
+  java -jar vdm.jar -s     # start the program minimized to tray
+  ```
+
+
+

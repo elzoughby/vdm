@@ -20,6 +20,10 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
 
 public class TrayHandler {
 
@@ -28,6 +32,22 @@ public class TrayHandler {
     private static Stage notificationStage;
     private static int numOfRunningDownloads = 0;
     private static boolean moveToNewDownload = false;
+    private static Timeline checkClipboardTask;
+    private static String startupDirectoryPath;
+    static {
+        final String OS_NAME = System.getProperty("os.name").toLowerCase();
+        final String SEPARATOR = System.getProperty("file.separator");
+        final String USER_HOME = System.getProperty("user.home").replaceAll("[/\\\\]$", "");
+
+        // set user startup directory path based on the user OS
+        if (OS_NAME.contains("win"))
+            startupDirectoryPath = USER_HOME + SEPARATOR + "AppData" + SEPARATOR + "Roaming" + SEPARATOR + "Microsoft" +
+                    SEPARATOR + "Windows" + SEPARATOR + "Start Menu" + SEPARATOR + "Programs" + SEPARATOR + "Startup";
+        else if (OS_NAME.contains("mac"))
+            startupDirectoryPath = USER_HOME + SEPARATOR + "Library" + SEPARATOR + "LaunchAgents";
+        else
+            startupDirectoryPath = USER_HOME + SEPARATOR + ".config" + SEPARATOR + "autostart";
+    }
 
 
 
@@ -115,6 +135,98 @@ public class TrayHandler {
         return moveToNewDownload;
     }
 
+    public static void addToStartup() {
+
+        final String OS_NAME = System.getProperty("os.name").toLowerCase();
+        final String SEPARATOR = System.getProperty("file.separator");
+
+        String jarPath = TrayHandler.class.getProtectionDomain().getCodeSource().getLocation().getPath().replaceAll("[/\\\\]$", "").replace("/", SEPARATOR);
+        String executablePath = jarPath.replace(SEPARATOR + "app" + SEPARATOR + "vdm.jar", "");
+
+        // check the running os
+        if (OS_NAME.contains("win")) {
+
+            executablePath = executablePath.replaceAll("^[/\\\\]", "");
+            final String REG_ADD_CMD = "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"vdm\" /d \"" + executablePath + SEPARATOR + "vdm.exe -s\" /t REG_EXPAND_SZ";
+            try {
+                Runtime.getRuntime().exec(REG_ADD_CMD);
+            } catch (Exception ex) {
+                System.err.println("Couldn't create a startup config entry! Try again later.");
+            }
+
+        } else if (OS_NAME.contains("mac")) {
+
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(startupDirectoryPath + SEPARATOR + "VDM.plist"));
+                writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                        "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n" +
+                        "<plist version=\"1.0\">\n" +
+                        "<dict>\n" +
+                        "<key>Label</key>\n" +
+                        "<string>elzoughby.vdm</string>\n" +
+                        //"<key>Program</key>\n" +
+                        //"<string>" + executablePath + SEPARATOR + "vdm" + "</string>\n" +
+                        "<key>ProgramArguments</key>\n" +
+                        "<array>\n" +
+                        "<string>" + executablePath + SEPARATOR + "vdm" + "</string>\n" +
+                        "<string>-s</string>\n" +
+                        "</array>\n" +
+                        "<key>RunAtLoad</key>\n" +
+                        "<true/>\n" +
+                        "</dict>\n" +
+                        "</plist>"
+                );
+                writer.close();
+            } catch (Exception ex) {
+                System.err.println("Couldn't create a startup configuration file! Try again later.");
+            }
+
+        } else {
+
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(startupDirectoryPath + SEPARATOR + "VDM.desktop"));
+                writer.write("[Desktop Entry]\n" +
+                        "Name=Video Download Manager\n" +
+                        "Version=1.0.0\n" +
+                        "Exec=" + executablePath + SEPARATOR + "vdm" + " -s\n" +
+                        "Comment=Free, Open Source, Cross-platform video downloader.\n" +
+                        "Icon=" + executablePath + SEPARATOR + "icon.png\n" +
+                        "Type=Application\n" +
+                        "Terminal=false\n" +
+                        "StartupNotify=true\n" +
+                        "Encoding=UTF-8\n" +
+                        "Categories=Video;Network;\n"
+                );
+                writer.close();
+            } catch (Exception ex) {
+                System.err.println("Couldn't create a shortcut in the startup folder! Try again later.");
+            }
+
+        }
+
+    }
+
+    public static void removeFromStartup() {
+
+        // check the running os
+        final String OS_NAME = System.getProperty("os.name").toLowerCase();
+        if (OS_NAME.contains("win")) {
+            final String REG_DELETE_CMD = "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"vdm\" /f";
+            try {
+                Runtime.getRuntime().exec(REG_DELETE_CMD);
+            } catch (Exception ex) {
+                System.err.println("Couldn't delete the startup config entry! Try again later.");
+            }
+        } else {
+            final String SHORTCUT_NAME = OS_NAME.contains("mac")? "VDM.plist" : "VDM.desktop";
+            // delete shortcut from the startup folder
+            File startupShortcut = new File(startupDirectoryPath, SHORTCUT_NAME);
+            if(startupShortcut.exists())
+                startupShortcut.delete();
+        }
+
+    }
+
     public static void initSystemTray() {
 
         systemTray = SystemTray.get();
@@ -163,6 +275,46 @@ public class TrayHandler {
         pauseAllMenuItem.setImage(TrayHandler.class.getResource("theme/imgs/pause.png"));
         pauseAllMenuItem.setShortcut('p');
 
+        MenuItem clipboardMenuItem = new MenuItem("Clipboard Monitor");
+        clipboardMenuItem.setCallback(e -> {
+            if( (Boolean) DataHandler.getAppPreferences().get("TrayHandled.clipboardMonitor")) {
+                DataHandler.getAppPreferences().replace("TrayHandled.clipboardMonitor", false);
+                DataHandler.writeAppPreferences();
+                clipboardMenuItem.setImage(Main.class.getResource("menu/unchecked.png"));
+                checkClipboardTask.pause();
+            } else {
+                DataHandler.getAppPreferences().replace("TrayHandled.clipboardMonitor", true);
+                DataHandler.writeAppPreferences();
+                clipboardMenuItem.setImage(Main.class.getResource("menu/checked.png"));
+                checkClipboardTask.play();
+            }
+        });
+        if( (Boolean) DataHandler.getAppPreferences().get("TrayHandled.clipboardMonitor"))
+            clipboardMenuItem.setImage(Main.class.getResource("menu/checked.png"));
+        else
+            clipboardMenuItem.setImage(Main.class.getResource("menu/unchecked.png"));
+        clipboardMenuItem.setShortcut('c');
+
+        MenuItem startupMenuItem = new MenuItem("Run At Startup");
+        startupMenuItem.setCallback(e -> {
+            if( (Boolean) DataHandler.getAppPreferences().get("TrayHandled.runAtStartup")) {
+                DataHandler.getAppPreferences().replace("TrayHandled.runAtStartup", false);
+                DataHandler.writeAppPreferences();
+                startupMenuItem.setImage(Main.class.getResource("menu/unchecked.png"));
+                removeFromStartup();
+            } else {
+                DataHandler.getAppPreferences().replace("TrayHandled.runAtStartup", true);
+                DataHandler.writeAppPreferences();
+                startupMenuItem.setImage(Main.class.getResource("menu/checked.png"));
+                addToStartup();
+            }
+        });
+        if( (Boolean) DataHandler.getAppPreferences().get("TrayHandled.runAtStartup"))
+            startupMenuItem.setImage(Main.class.getResource("menu/checked.png"));
+        else
+            startupMenuItem.setImage(Main.class.getResource("menu/unchecked.png"));
+        startupMenuItem.setShortcut('r');
+
         MenuItem aboutMenuItem = new MenuItem("About");
         aboutMenuItem.setCallback(e -> Platform.runLater(AboutController::showAboutDialog));
         aboutMenuItem.setImage(Main.class.getResource("theme/imgs/about.png"));
@@ -191,6 +343,9 @@ public class TrayHandler {
         trayMenu.add(startQueueMenuItem);
         trayMenu.add(pauseQueueMenuItem);
         trayMenu.add(pauseAllMenuItem);
+        trayMenu.add(new Separator());
+        trayMenu.add(clipboardMenuItem);
+        trayMenu.add(startupMenuItem);
         trayMenu.add(new Separator());
         trayMenu.add(aboutMenuItem);
         trayMenu.add(quitMenuItem);
@@ -278,7 +433,7 @@ public class TrayHandler {
         final StringBuilder lastClipboardText = new StringBuilder(systemClipboard.hasString() && systemClipboard.getString() != null? systemClipboard.getString() : "zox");
         String urlRegex = "(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
 
-        Timeline repeatTask = new Timeline(new KeyFrame(Duration.millis(250), event -> {
+        checkClipboardTask = new Timeline(new KeyFrame(Duration.millis(250), event -> {
             if(systemClipboard.hasString()) {
                 String newClipboardString = systemClipboard.getString();
                 if(! lastClipboardText.toString().equals(newClipboardString)) {
@@ -290,8 +445,9 @@ public class TrayHandler {
                 }
             }
         }));
-        repeatTask.setCycleCount(Timeline.INDEFINITE);
-        repeatTask.play();
+        checkClipboardTask.setCycleCount(Timeline.INDEFINITE);
+        if( (Boolean) DataHandler.getAppPreferences().get("TrayHandled.clipboardMonitor"))
+            checkClipboardTask.play();
 
     }
 

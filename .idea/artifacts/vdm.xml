@@ -5,7 +5,6 @@
       <options>
         <option name="alias" value="" />
         <option name="appClass" value="Main" />
-        <option name="convertCss2Bin" value="true" />
         <option name="description" value="A free, cross-platform video downloader based on youtube-dl" />
         <option name="height" value="500" />
         <option name="htmlPlaceholderId" value="" />
