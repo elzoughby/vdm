@@ -27,6 +27,12 @@ import java.io.FileWriter;
 
 public class TrayHandler {
 
+    private static final String OS_NAME = Main.OS_NAME;
+    private static final String SEPARATOR = Main.SEPARATOR;
+    private static final String USER_HOME = Main.USER_HOME;
+    private static final String EXECUTABLE_PATH = Main.EXECUTABLE_PATH;
+    private static final String INSTALL_PATH = Main.INSTALL_PATH;
+
     private static SystemTray systemTray;
     private static Stage appStage = Main.getAppStage();
     private static Stage notificationStage;
@@ -35,10 +41,6 @@ public class TrayHandler {
     private static Timeline checkClipboardTask;
     private static String startupDirectoryPath;
     static {
-        final String OS_NAME = System.getProperty("os.name").toLowerCase();
-        final String SEPARATOR = System.getProperty("file.separator");
-        final String USER_HOME = System.getProperty("user.home").replaceAll("[/\\\\]$", "");
-
         // set user startup directory path based on the user OS
         if (OS_NAME.contains("win"))
             startupDirectoryPath = USER_HOME + SEPARATOR + "AppData" + SEPARATOR + "Roaming" + SEPARATOR + "Microsoft" +
@@ -137,17 +139,10 @@ public class TrayHandler {
 
     public static void addToStartup() {
 
-        final String OS_NAME = System.getProperty("os.name").toLowerCase();
-        final String SEPARATOR = System.getProperty("file.separator");
-
-        String jarPath = TrayHandler.class.getProtectionDomain().getCodeSource().getLocation().getPath().replaceAll("[/\\\\]$", "").replace("/", SEPARATOR);
-        String executablePath = jarPath.replace(SEPARATOR + "app" + SEPARATOR + "vdm.jar", "");
-
         // check the running os
         if (OS_NAME.contains("win")) {
 
-            executablePath = executablePath.replaceAll("^[/\\\\]", "");
-            final String REG_ADD_CMD = "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"vdm\" /d \"" + executablePath + SEPARATOR + "vdm.exe -s\" /t REG_EXPAND_SZ";
+            final String REG_ADD_CMD = "reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"vdm\" /d \"" + EXECUTABLE_PATH + " -s\" /t REG_EXPAND_SZ";
             try {
                 Runtime.getRuntime().exec(REG_ADD_CMD);
             } catch (Exception ex) {
@@ -168,7 +163,7 @@ public class TrayHandler {
                         //"<string>" + executablePath + SEPARATOR + "vdm" + "</string>\n" +
                         "<key>ProgramArguments</key>\n" +
                         "<array>\n" +
-                        "<string>" + executablePath + SEPARATOR + "vdm" + "</string>\n" +
+                        "<string>" + EXECUTABLE_PATH + "</string>\n" +
                         "<string>-s</string>\n" +
                         "</array>\n" +
                         "<key>RunAtLoad</key>\n" +
@@ -188,9 +183,9 @@ public class TrayHandler {
                 writer.write("[Desktop Entry]\n" +
                         "Name=Video Download Manager\n" +
                         "Version=1.0.0\n" +
-                        "Exec=" + executablePath + SEPARATOR + "vdm" + " -s\n" +
+                        "Exec=" + EXECUTABLE_PATH + " -s\n" +
                         "Comment=Free, Open Source, Cross-platform video downloader.\n" +
-                        "Icon=" + executablePath + SEPARATOR + "icon.png\n" +
+                        "Icon=" + INSTALL_PATH + SEPARATOR + "icon.png\n" +
                         "Type=Application\n" +
                         "Terminal=false\n" +
                         "StartupNotify=true\n" +
@@ -209,7 +204,6 @@ public class TrayHandler {
     public static void removeFromStartup() {
 
         // check the running os
-        final String OS_NAME = System.getProperty("os.name").toLowerCase();
         if (OS_NAME.contains("win")) {
             final String REG_DELETE_CMD = "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"vdm\" /f";
             try {
@@ -427,7 +421,7 @@ public class TrayHandler {
 
     }
 
-    public static void startClipboardMonitor() {
+    public static void initClipboardMonitor() {
 
         final Clipboard systemClipboard = Clipboard.getSystemClipboard();
         final StringBuilder lastClipboardText = new StringBuilder(systemClipboard.hasString() && systemClipboard.getString() != null? systemClipboard.getString() : "zox");

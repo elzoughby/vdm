@@ -12,22 +12,22 @@ import java.util.HashMap;
 
 public class DataHandler {
 
+    private static final String OS_NAME = Main.OS_NAME;
+    private static final String SEPARATOR = Main.SEPARATOR;
+    private static final String USER_HOME = Main.USER_HOME;
+
     private static Gson gson = FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().create();
     private static String appDataDirectory;
     private static HashMap<String, Object> appPreferences ;
     static {
 
         // set VDM AppData directory path based on the user OS
-        if(System.getProperty("os.name").toLowerCase().contains("win"))
-            appDataDirectory = System.getenv("AppData").replaceAll("[/\\\\]$", "") +
-                    System.getProperty("file.separator") + "vdm";
-        else if(System.getProperty("os.name").toLowerCase().contains("mac"))
-            appDataDirectory = System.getProperty("user.home").replaceAll("[/\\\\]$", "") +
-                    System.getProperty("file.separator") + "Library" + System.getProperty("file.separator") +
-                    "Preferences" + System.getProperty("file.separator") + "vdm";
+        if(OS_NAME.contains("win"))
+            appDataDirectory = System.getenv("AppData").replaceAll("[/\\\\]$", "") + SEPARATOR + "vdm";
+        else if(OS_NAME.contains("mac"))
+            appDataDirectory = USER_HOME + SEPARATOR + "Library" + SEPARATOR + "Preferences" + SEPARATOR + "vdm";
         else
-            appDataDirectory = System.getProperty("user.home").replaceAll("[/\\\\]$", "") +
-                    System.getProperty("file.separator") + ".vdm";
+            appDataDirectory = USER_HOME + SEPARATOR + ".vdm";
 
         // Fill the appPreferences with default values
         appPreferences = new HashMap<>();
@@ -42,8 +42,8 @@ public class DataHandler {
         appPreferences.put("TrayHandled.runAtStartup", Boolean.FALSE);     //Boolean
 
     }
-    private static final String DATA_DIRECTORY = appDataDirectory + System.getProperty("file.separator") + "data";
-    private static final String CONFIG_FILE = appDataDirectory + System.getProperty("file.separator") + "config.dat";
+    private static final String DATA_DIRECTORY = appDataDirectory + SEPARATOR + "data";
+    private static final String CONFIG_FILE = appDataDirectory + SEPARATOR + "config.dat";
 
 
     public static String getAppDataDirectory() {
@@ -190,7 +190,7 @@ public class DataHandler {
             if(! dataDirectory.exists())
                 dataDirectory.mkdirs();
 
-            Path path = Paths.get(DATA_DIRECTORY + System.getProperty("file.separator") + item.getId() + ".json");
+            Path path = Paths.get(DATA_DIRECTORY + SEPARATOR + item.getId() + ".json");
             Files.write(path, gson.toJson(item).getBytes());
 
         } catch (IOException e) {
@@ -206,7 +206,7 @@ public class DataHandler {
 
         try {
 
-            String path = DATA_DIRECTORY + System.getProperty("file.separator") + item.getId() + ".json";
+            String path = DATA_DIRECTORY + SEPARATOR + item.getId() + ".json";
             File file = new File(path);
             if(! file.delete())
                 throw new Exception("file" + item.getId() + ".json could not be deleted");

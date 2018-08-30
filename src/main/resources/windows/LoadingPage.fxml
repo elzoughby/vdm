@@ -7,7 +7,7 @@
 
 <VBox fx:id="loadingPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
       minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" spacing="30.0" style="-fx-background-color: white;"
-      stylesheets="@../theme/newDownload.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoadingController">
+      stylesheets="@../theme/newDownload.css" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <ProgressIndicator prefHeight="40.0" prefWidth="40.0"/>
         <Label fx:id="statusLabel" text="Loading" textAlignment="CENTER" textFill="#616161">
