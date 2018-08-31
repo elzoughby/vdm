@@ -18,6 +18,7 @@ import org.jsoup.select.Elements;
 import org.toilelibre.libe.curl.Curl;
 
 import java.io.*;
+import java.net.URISyntaxException;
 
 
 public class Main extends Application {
@@ -35,8 +36,15 @@ public class Main extends Application {
     public static final String USER_HOME = System.getProperty("user.home").replaceAll("[/\\\\]$", "");
     public static final String APP_DATA_DIRECTORY = DataHandler.getAppDataDirectory();
 
-    private static final String RAW_JAR_PATH = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().replaceAll("[/\\\\]$", "").replace("/", SEPARATOR);
-    public static final String JAR_PATH = OS_NAME.contains("win")? RAW_JAR_PATH.replaceAll("^[/\\\\]", "") : RAW_JAR_PATH;
+    private static String rawJarPath;
+    static {
+        try {
+            rawJarPath = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getAbsolutePath();
+        } catch (URISyntaxException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    public static final String JAR_PATH = rawJarPath.replaceAll("[/\\\\]$", "");
     public static final String INSTALL_PATH = JAR_PATH.replace(SEPARATOR + "app" + SEPARATOR + "vdm.jar", "");
     public static final String EXECUTABLE_NAME = OS_NAME.contains("win")? "vdm.exe" : "vdm";
     public static final String EXECUTABLE_PATH = INSTALL_PATH + SEPARATOR + EXECUTABLE_NAME;
@@ -119,6 +127,7 @@ public class Main extends Application {
                 DataHandler.getAppPreferences().replace("Main.height", newValue.doubleValue());
                 DataHandler.writeAppPreferences();
             });
+            appStage.setOnCloseRequest(event -> appStage.close());
 
             TrayHandler.initSystemTray();
             TrayHandler.initNotifications();
@@ -136,9 +145,6 @@ public class Main extends Application {
                 protected Void call() {
 
                     Label statusLabel = (Label) loader.getNamespace().get("statusLabel");
-
-                    // Disable closing the app window until it finishes updating
-                    Platform.runLater(() -> appStage.setOnCloseRequest(Event::consume));
 
                     // Load previous download items data
                     Platform.runLater(() -> statusLabel.setText("Loading data"));
@@ -197,11 +203,7 @@ public class Main extends Application {
                     }
 
                     // Go to home page
-                    Platform.runLater(() -> {
-                        appStage.setOnCloseRequest(event -> appStage.close());
-                        appStage.setOnShown(null);
-                        goForward();
-                    });
+                    Platform.runLater(Main::goForward);
 
                     return null;
                 }
