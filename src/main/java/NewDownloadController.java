@@ -380,13 +380,13 @@ public class NewDownloadController implements Initializable{
 
                 vBox.getChildren().clear();
                 vBox.setAlignment(Pos.CENTER);
-                vBox.setStyle(vBox.getStyle().replace("darkturquoise", "transparent"));
+                vBox.setStyle("-fx-effect: none; -fx-background-color: transparent;");
                 ProgressIndicator progressIndicator = new ProgressIndicator();
                 progressIndicator.setPrefHeight(48);
                 progressIndicator.setPrefWidth(48);
                 vBox.getChildren().add(progressIndicator);
-                urlDialogStage.setWidth(200);
-                urlDialogStage.setHeight(200);
+                urlDialogStage.setWidth(50);
+                urlDialogStage.setHeight(50);
                 urlDialogStage.setX(appStage.getX() + appStage.getWidth()/2d - urlDialogStage.getWidth()/2d);
                 urlDialogStage.setY(appStage.getY() + appStage.getHeight()/2d - urlDialogStage.getHeight()/2d);
 

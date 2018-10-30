@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Implementation-Title: Video Download Manager
+Implementation-Version: 1.0.0
+Implementation-Vendor: elzoughby
+JavaFX-Version: 8.0
+Created-By: elzoughby
+Class-Path: lib/ShellExecutor-1.1.jar lib/SystemTray-3.16.jar lib/gson
+ -2.8.5.jar lib/jna-platform-4.5.2.jar lib/jna-4.5.2.jar lib/controlsf
+ x-8.40.14.jar lib/fx-gson-3.1.0.jar lib/javassist-3.23.0-GA.jar lib/a
+ nnotations-15.0.jar lib/jsoup-1.11.3.jar lib/slf4j-api-1.7.25.jar lib
+ /slf4j-nop-1.7.25.jar
+Main-Class: Main
+

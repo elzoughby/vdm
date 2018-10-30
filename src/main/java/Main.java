@@ -2,7 +2,6 @@ import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,12 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.apache.http.HttpResponse;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.toilelibre.libe.curl.Curl;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -174,12 +172,14 @@ public class Main extends Application {
                             File tempFile = new File(APP_DATA_DIRECTORY + SEPARATOR + "youtube-dl.tmp");
                             if(tempFile.exists())
                                 tempFile.delete();
-                            tempFile.getParentFile().mkdirs();
 
-                            FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
-                            HttpResponse response = Curl.curl().lUpperCase().run("http://yt-dl.org/downloads/latest/youtube-dl");
-                            response.getEntity().writeTo(fileOutputStream);
-                            fileOutputStream.close();
+                            HttpDownloader httpDownloader = new HttpDownloader("http://yt-dl.org/downloads/latest/youtube-dl", APP_DATA_DIRECTORY);
+                            httpDownloader.setCustomName("youtube-dl.tmp");
+                            httpDownloader.readDownloadInfo();
+                            httpDownloader.start();
+
+                            if(httpDownloader.getDownloaded() != httpDownloader.getFileSize())
+                                throw new Exception("couldn't complete downloading youtube-dl successfully");
 
                             File file = new File(APP_DATA_DIRECTORY + SEPARATOR + "youtube-dl");
                             if(file.exists()) {
