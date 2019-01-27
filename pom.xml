@@ -36,22 +36,20 @@
         <dependency>
             <groupId>org.hildan.fxgson</groupId>
             <artifactId>fx-gson</artifactId>
-            <version>3.1.0</version>
+            <version>3.1.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.dorkbox</groupId>
             <artifactId>SystemTray</artifactId>
-            <version>3.16</version>
+            <version>3.17</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
             <version>1.7.25</version>
-            <scope>test</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.controlsfx</groupId>

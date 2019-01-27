@@ -824,14 +824,9 @@ public class HomeController implements Initializable {
 
             return result;
 
-        } else {
-
-            new MessageDialog("File delete failed, file does not exist! \n" +
-                    "Try again later or report this issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE)
-                    .createErrorDialog("file is not exist").showAndWait();
-            return false;
-
         }
+
+        return true;
 
     }
 

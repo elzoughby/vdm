@@ -4,9 +4,9 @@
     <properties id="javafx-properties">
       <options>
         <option name="alias" value="" />
-        <option name="appClass" value="Main" />
+        <option name="appClass" value="VDM" />
         <option name="description" value="A free, cross-platform video downloader based on youtube-dl" />
-        <option name="height" value="500" />
+        <option name="enabledSigning" value="true" />
         <option name="htmlPlaceholderId" value="" />
         <option name="icons">
           <JavaFxApplicationIcons>
@@ -20,29 +20,28 @@
         <option name="title" value="Video Download Manager" />
         <option name="vendor" value="elzoughby" />
         <option name="version" value="1.0.0" />
-        <option name="width" value="800" />
       </options>
     </properties>
     <root id="root">
-      <element id="directory" name="lib">
-        <element id="library" level="project" name="Maven: com.dorkbox:SystemTray:3.16" />
-        <element id="library" level="project" name="Maven: com.dorkbox:ShellExecutor:1.1" />
-        <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.5" />
-        <element id="library" level="project" name="Maven: net.java.dev.jna:jna-platform:4.5.2" />
-        <element id="library" level="project" name="Maven: net.java.dev.jna:jna:4.5.2" />
-        <element id="library" level="project" name="Maven: org.controlsfx:controlsfx:8.40.14" />
-        <element id="library" level="project" name="Maven: org.hildan.fxgson:fx-gson:3.1.0" />
-        <element id="library" level="project" name="Maven: org.javassist:javassist:3.23.0-GA" />
-        <element id="library" level="project" name="Maven: org.jetbrains:annotations:15.0" />
-        <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.11.3" />
-        <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
-        <element id="library" level="project" name="Maven: org.slf4j:slf4j-nop:1.7.25" />
-      </element>
       <element id="archive" name="vdm.jar">
         <element id="module-output" name="VDM" />
         <element id="directory" name="META-INF">
           <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
         </element>
+      </element>
+      <element id="directory" name="lib">
+        <element id="library" level="project" name="Maven: com.dorkbox:ShellExecutor:1.1" />
+        <element id="library" level="project" name="Maven: com.dorkbox:SystemTray:3.17" />
+        <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.5" />
+        <element id="library" level="project" name="Maven: net.java.dev.jna:jna-platform:4.5.2" />
+        <element id="library" level="project" name="Maven: net.java.dev.jna:jna:4.5.2" />
+        <element id="library" level="project" name="Maven: org.controlsfx:controlsfx:8.40.14" />
+        <element id="library" level="project" name="Maven: org.hildan.fxgson:fx-gson:3.1.2" />
+        <element id="library" level="project" name="Maven: org.javassist:javassist:3.23.0-GA" />
+        <element id="library" level="project" name="Maven: org.jetbrains:annotations:15.0" />
+        <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.11.3" />
+        <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
+        <element id="library" level="project" name="Maven: org.slf4j:slf4j-nop:1.7.25" />
       </element>
     </root>
   </artifact>

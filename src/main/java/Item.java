@@ -736,7 +736,7 @@ public class Item {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Main.saveAndExit();
+                VDM.saveAndExit();
 
                 try {
 

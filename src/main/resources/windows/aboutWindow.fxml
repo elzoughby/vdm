@@ -58,7 +58,7 @@
                                 <VBox alignment="TOP_CENTER" prefHeight="441.0" prefWidth="372.0"
                                       style="-fx-background-color: white;">
                                     <children>
-                                        <Text fill="#1e1e1e" strokeType="OUTSIDE" strokeWidth="0.0" text="Author :">
+                                        <Text fill="#1e1e1e" strokeType="OUTSIDE" text="Author :">
                                             <font>
                                                 <Font name="System Bold" size="12.0"/>
                                             </font>
@@ -66,13 +66,13 @@
                                                 <Insets bottom="5.0" top="5.0"/>
                                             </VBox.margin>
                                         </Text>
-                                        <Text fill="#515050" strokeType="OUTSIDE" strokeWidth="0.0"
+                                        <Text fill="#515050" strokeType="OUTSIDE"
                                               text="Ahmed Elzoughby&#10;gs_elzoughby@yahoo.com" textAlignment="CENTER">
                                             <font>
                                                 <Font size="12.0"/>
                                             </font>
                                         </Text>
-                                        <Text fill="#1e1e1e" strokeType="OUTSIDE" strokeWidth="0.0"
+                                        <Text fill="#1e1e1e" strokeType="OUTSIDE"
                                               text="Contributors :">
                                             <font>
                                                 <Font name="System Bold" size="12.0"/>
@@ -81,14 +81,14 @@
                                                 <Insets bottom="5.0" top="15.0"/>
                                             </VBox.margin>
                                         </Text>
-                                        <Text fill="#515050" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                        <Text fill="#515050" lineSpacing="2.0" strokeType="OUTSIDE"
                                               text="Ismail Elmogy&#10;Mohamed Bazazo&#10;Mahmoud Mabrouk"
                                               textAlignment="CENTER">
                                             <font>
                                                 <Font size="12.0"/>
                                             </font>
                                         </Text>
-                                        <Text fill="#1e1e1e" strokeType="OUTSIDE" strokeWidth="0.0" text="Artworks :">
+                                        <Text fill="#1e1e1e" strokeType="OUTSIDE" text="Artworks :">
                                             <font>
                                                 <Font name="System Bold" size="12.0"/>
                                             </font>
@@ -96,7 +96,7 @@
                                                 <Insets bottom="5.0" top="15.0"/>
                                             </VBox.margin>
                                         </Text>
-                                        <Text fill="#515050" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                        <Text fill="#515050" lineSpacing="2.0" strokeType="OUTSIDE"
                                               text="menu/clear.png Icon by Freepik from flaticon.com&#10;menu/delete.png Icon made by icons8.com&#10;menu/folder.png Icon by Freepik from flaticon.com&#10;status/wait.png Icon by pixel perfect from flaticon.com&#10;imgs/about.png Icon made by Gregor Cresnar&#10;imgs/add.png Icon made by icons8.com&#10;imgs/cancel.png Icon made by Anastasya Bolshakova&#10;imgs/delete.png Icon made by icons8.com&#10;imgs/queue.png Icon by Freepik from flaticon.com&#10;"
                                               textAlignment="CENTER">
                                             <font>
@@ -125,9 +125,8 @@
                                       style="-fx-background-color: white;">
                                     <children>
                                         <Text fill="#515050" fontSmoothingType="LCD" strokeType="OUTSIDE"
-                                              strokeWidth="0.0"
                                               text="This program is free software; &#10;you can redistribute it and/or modify it under the terms of &#10;The MIT License"
-                                              textAlignment="CENTER" wrappingWidth="345.0">
+                                              textAlignment="CENTER">
                                             <font>
                                                 <Font size="12.0"/>
                                             </font>
@@ -155,9 +154,8 @@
                                       style="-fx-background-color: white;">
                                     <children>
                                         <Text fill="#515050" fontSmoothingType="LCD" strokeType="OUTSIDE"
-                                              strokeWidth="0.0"
                                               text="VDM can have more and more awesome features&#10;and it is still needs a lot of refinements;"
-                                              textAlignment="CENTER" wrappingWidth="345.0">
+                                              textAlignment="CENTER">
                                             <font>
                                                 <Font size="12.0"/>
                                             </font>
@@ -165,7 +163,7 @@
                                         <Hyperlink onAction="#becomePatreon" text="Become a Patreon"/>
                                         <Text fill="#515050" fontSmoothingType="LCD" strokeType="OUTSIDE"
                                               strokeWidth="0.0" text="to help us keep developing it."
-                                              textAlignment="CENTER" wrappingWidth="345.0">
+                                              textAlignment="CENTER">
                                             <font>
                                                 <Font size="12.0"/>
                                             </font>

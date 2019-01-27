@@ -255,7 +255,7 @@ public class NewDownloadController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         // stores a reference to the stage
-        appStage = Main.getAppStage();
+        appStage = VDM.getAppStage();
 
         // specify if the download item is a playlist or not
         descriptionLabel.textProperty().addListener((obs, oldText, newText) -> {

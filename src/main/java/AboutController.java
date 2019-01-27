@@ -63,7 +63,7 @@ public class AboutController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        versionLabel.setText(Main.VERSION);
+        versionLabel.setText(VDM.VERSION);
 
         aboutWindowVBox.setOnKeyPressed((KeyEvent keyEvent) -> {
             if(new KeyCodeCombination(KeyCode.ESCAPE).match(keyEvent))
@@ -92,7 +92,7 @@ public class AboutController implements Initializable {
     @FXML
     private void readLicense() {
         try {
-            Desktop.browseURL(Main.WEBSITE + "/license");
+            Desktop.browseURL(VDM.WEBSITE + "/license");
         } catch (IOException e) {
             new MessageDialog("Error opening the default web browser" +
                     "Try again later or report this issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE).show();
@@ -102,7 +102,7 @@ public class AboutController implements Initializable {
     @FXML
     private void becomePatreon() {
         try {
-            Desktop.browseURL(Main.PATREON);
+            Desktop.browseURL(VDM.PATREON);
         } catch (IOException e) {
             new MessageDialog("Error opening the default web browser" +
                     "Try again later or report this issue", MessageDialog.Type.ERROR, MessageDialog.Buttons.CLOSE).show();

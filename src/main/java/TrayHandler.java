@@ -27,14 +27,14 @@ import java.io.FileWriter;
 
 public class TrayHandler {
 
-    private static final String OS_NAME = Main.OS_NAME;
-    private static final String SEPARATOR = Main.SEPARATOR;
-    private static final String USER_HOME = Main.USER_HOME;
-    private static final String EXECUTABLE_PATH = Main.EXECUTABLE_PATH;
-    private static final String INSTALL_PATH = Main.INSTALL_PATH;
+    private static final String OS_NAME = VDM.OS_NAME;
+    private static final String SEPARATOR = VDM.SEPARATOR;
+    private static final String USER_HOME = VDM.USER_HOME;
+    private static final String EXECUTABLE_PATH = VDM.EXECUTABLE_PATH;
+    private static final String INSTALL_PATH = VDM.INSTALL_PATH;
 
     private static SystemTray systemTray;
-    private static Stage appStage = Main.getAppStage();
+    private static Stage appStage = VDM.getAppStage();
     private static Stage notificationStage;
     private static int numOfRunningDownloads = 0;
     private static boolean moveToNewDownload = false;
@@ -232,7 +232,7 @@ public class TrayHandler {
 
         MenuItem showWindowMenuItem = new MenuItem("Show Window");
         showWindowMenuItem.setCallback(e -> showHomeWindow());
-        showWindowMenuItem.setImage(Main.class.getResource("icon/icon.png"));
+        showWindowMenuItem.setImage(VDM.class.getResource("icon/icon.png"));
         showWindowMenuItem.setShortcut('w');
 
         MenuItem newDownloadMenuItem = new MenuItem("New Download");
@@ -265,7 +265,7 @@ public class TrayHandler {
         pauseQueueMenuItem.setShortcut('u');
 
         MenuItem pauseAllMenuItem = new MenuItem("Pause All");
-        pauseAllMenuItem.setCallback(e -> Main.stopAllDownloads());
+        pauseAllMenuItem.setCallback(e -> VDM.stopAllDownloads());
         pauseAllMenuItem.setImage(TrayHandler.class.getResource("theme/imgs/pause.png"));
         pauseAllMenuItem.setShortcut('p');
 
@@ -274,19 +274,19 @@ public class TrayHandler {
             if( (Boolean) DataHandler.getAppPreferences().get("TrayHandled.clipboardMonitor")) {
                 DataHandler.getAppPreferences().replace("TrayHandled.clipboardMonitor", false);
                 DataHandler.writeAppPreferences();
-                clipboardMenuItem.setImage(Main.class.getResource("menu/unchecked.png"));
+                clipboardMenuItem.setImage(VDM.class.getResource("menu/unchecked.png"));
                 checkClipboardTask.pause();
             } else {
                 DataHandler.getAppPreferences().replace("TrayHandled.clipboardMonitor", true);
                 DataHandler.writeAppPreferences();
-                clipboardMenuItem.setImage(Main.class.getResource("menu/checked.png"));
+                clipboardMenuItem.setImage(VDM.class.getResource("menu/checked.png"));
                 checkClipboardTask.play();
             }
         });
         if( (Boolean) DataHandler.getAppPreferences().get("TrayHandled.clipboardMonitor"))
-            clipboardMenuItem.setImage(Main.class.getResource("menu/checked.png"));
+            clipboardMenuItem.setImage(VDM.class.getResource("menu/checked.png"));
         else
-            clipboardMenuItem.setImage(Main.class.getResource("menu/unchecked.png"));
+            clipboardMenuItem.setImage(VDM.class.getResource("menu/unchecked.png"));
         clipboardMenuItem.setShortcut('c');
 
         MenuItem startupMenuItem = new MenuItem("Run At Startup");
@@ -294,24 +294,24 @@ public class TrayHandler {
             if( (Boolean) DataHandler.getAppPreferences().get("TrayHandled.runAtStartup")) {
                 DataHandler.getAppPreferences().replace("TrayHandled.runAtStartup", false);
                 DataHandler.writeAppPreferences();
-                startupMenuItem.setImage(Main.class.getResource("menu/unchecked.png"));
+                startupMenuItem.setImage(VDM.class.getResource("menu/unchecked.png"));
                 removeFromStartup();
             } else {
                 DataHandler.getAppPreferences().replace("TrayHandled.runAtStartup", true);
                 DataHandler.writeAppPreferences();
-                startupMenuItem.setImage(Main.class.getResource("menu/checked.png"));
+                startupMenuItem.setImage(VDM.class.getResource("menu/checked.png"));
                 addToStartup();
             }
         });
         if( (Boolean) DataHandler.getAppPreferences().get("TrayHandled.runAtStartup"))
-            startupMenuItem.setImage(Main.class.getResource("menu/checked.png"));
+            startupMenuItem.setImage(VDM.class.getResource("menu/checked.png"));
         else
-            startupMenuItem.setImage(Main.class.getResource("menu/unchecked.png"));
+            startupMenuItem.setImage(VDM.class.getResource("menu/unchecked.png"));
         startupMenuItem.setShortcut('r');
 
         MenuItem aboutMenuItem = new MenuItem("About");
         aboutMenuItem.setCallback(e -> Platform.runLater(AboutController::showAboutDialog));
-        aboutMenuItem.setImage(Main.class.getResource("theme/imgs/about.png"));
+        aboutMenuItem.setImage(VDM.class.getResource("theme/imgs/about.png"));
         aboutMenuItem.setShortcut('a');
 
         MenuItem quitMenuItem = new MenuItem("Quit");
@@ -320,13 +320,13 @@ public class TrayHandler {
                     "Are you sure you want to exit?", MessageDialog.Type.INFO, MessageDialog.Buttons.YES_AND_NO);
             exitDialog.getYesButton().setOnAction(e -> {
                 exitDialog.close();
-                Main.saveAndExit();
+                VDM.saveAndExit();
                 systemTray.shutdown();
             });
             exitDialog.getNoButton().setOnAction(e -> exitDialog.close());
             exitDialog.showAndWait();
         }));
-        quitMenuItem.setImage(Main.class.getResource("theme/imgs/cancel.png"));
+        quitMenuItem.setImage(VDM.class.getResource("theme/imgs/cancel.png"));
         quitMenuItem.setShortcut('q');
 
 

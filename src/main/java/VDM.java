@@ -19,7 +19,7 @@ import java.io.*;
 import java.net.URISyntaxException;
 
 
-public class Main extends Application {
+public class VDM extends Application {
 
     private static Stage appStage;
     private static boolean startMinimized = false;
@@ -37,15 +37,17 @@ public class Main extends Application {
     private static String rawJarPath;
     static {
         try {
-            rawJarPath = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getAbsolutePath();
+            rawJarPath = new File(VDM.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getAbsolutePath();
         } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
     }
     public static final String JAR_PATH = rawJarPath.replaceAll("[/\\\\]$", "");
-    public static final String INSTALL_PATH = JAR_PATH.replace(SEPARATOR + "app" + SEPARATOR + "vdm.jar", "");
+    public static final String JAR_PARENT_DIR_NAME =  OS_NAME.contains("mac")? "Java" : "app";
+    public static final String INSTALL_PATH = JAR_PATH.replace(SEPARATOR + JAR_PARENT_DIR_NAME + SEPARATOR + "vdm.jar", "");
     public static final String EXECUTABLE_NAME = OS_NAME.contains("win")? "vdm.exe" : "vdm";
-    public static final String EXECUTABLE_PATH = INSTALL_PATH + SEPARATOR + EXECUTABLE_NAME;
+    public static final String EXECUTABLE_PARENT_DIR_PATH = OS_NAME.contains("mac")? INSTALL_PATH + SEPARATOR + "MacOS" : INSTALL_PATH;
+    public static final String EXECUTABLE_PATH = EXECUTABLE_PARENT_DIR_PATH + SEPARATOR + EXECUTABLE_NAME;
 
 
     public static void main(String args[]) {
@@ -115,14 +117,14 @@ public class Main extends Application {
             primaryStage.getIcons().add(0, new Image(getClass().getResource("icon/icon.png").toString()));
             primaryStage.setMinWidth(600);
             primaryStage.setMinHeight(400);
-            primaryStage.setWidth( (Double) DataHandler.getAppPreferences().get("Main.width"));
-            primaryStage.setHeight( (Double) DataHandler.getAppPreferences().get("Main.height"));
+            primaryStage.setWidth( (Double) DataHandler.getAppPreferences().get("VDM.width"));
+            primaryStage.setHeight( (Double) DataHandler.getAppPreferences().get("VDM.height"));
             primaryStage.widthProperty().addListener((observableValue, oldValue, newValue) -> {
-                DataHandler.getAppPreferences().replace("Main.width", newValue.doubleValue());
+                DataHandler.getAppPreferences().replace("VDM.width", newValue.doubleValue());
                 DataHandler.writeAppPreferences();
             });
             primaryStage.heightProperty().addListener((observableValue, oldValue, newValue) -> {
-                DataHandler.getAppPreferences().replace("Main.height", newValue.doubleValue());
+                DataHandler.getAppPreferences().replace("VDM.height", newValue.doubleValue());
                 DataHandler.writeAppPreferences();
             });
             appStage.setOnCloseRequest(event -> appStage.close());
@@ -203,7 +205,7 @@ public class Main extends Application {
                     }
 
                     // Go to home page
-                    Platform.runLater(Main::goForward);
+                    Platform.runLater(VDM::goForward);
 
                     return null;
                 }
@@ -229,10 +231,10 @@ public class Main extends Application {
             FXMLLoader loader = null;
 
             if(TrayHandler.isMoveToNewDownload()) {
-                loader = new FXMLLoader(Main.class.getResource("windows/NewDownloadWindow.fxml"));
+                loader = new FXMLLoader(VDM.class.getResource("windows/NewDownloadWindow.fxml"));
                 newRoot = loader.load();
             } else {
-                loader = new FXMLLoader(Main.class.getResource("windows/HomeWindow.fxml"));
+                loader = new FXMLLoader(VDM.class.getResource("windows/HomeWindow.fxml"));
                 newRoot = loader.load();
             }
 

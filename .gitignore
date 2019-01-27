@@ -4,5 +4,4 @@
 .settings
 out/
 target/
-data/
-temp/
+bundles/

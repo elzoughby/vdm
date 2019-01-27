@@ -12,9 +12,9 @@ import java.util.HashMap;
 
 public class DataHandler {
 
-    private static final String OS_NAME = Main.OS_NAME;
-    private static final String SEPARATOR = Main.SEPARATOR;
-    private static final String USER_HOME = Main.USER_HOME;
+    private static final String OS_NAME = VDM.OS_NAME;
+    private static final String SEPARATOR = VDM.SEPARATOR;
+    private static final String USER_HOME = VDM.USER_HOME;
 
     private static Gson gson = FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().create();
     private static String appDataDirectory;
@@ -31,8 +31,8 @@ public class DataHandler {
 
         // Fill the appPreferences with default values
         appPreferences = new HashMap<>();
-        appPreferences.put("Main.width", 800d);                         //Double
-        appPreferences.put("Main.height", 500d);                        //Double
+        appPreferences.put("VDM.width", 800d);                         //Double
+        appPreferences.put("VDM.height", 500d);                        //Double
         appPreferences.put("Home.hideLog", Boolean.FALSE);                 //Boolean
         appPreferences.put("Home.dividerPosition", 0.8d);               //Double
         appPreferences.put("Data.nextID", 0L);                          //Long
@@ -67,8 +67,8 @@ public class DataHandler {
 
                 if(objectInputStream.readUTF().equals("_VDM_")) {
 
-                    appPreferences.replace("Main.width", objectInputStream.readDouble());
-                    appPreferences.replace("Main.height", objectInputStream.readDouble());
+                    appPreferences.replace("VDM.width", objectInputStream.readDouble());
+                    appPreferences.replace("VDM.height", objectInputStream.readDouble());
                     appPreferences.replace("Home.hideLog", objectInputStream.readBoolean());
                     appPreferences.replace("Home.dividerPosition", objectInputStream.readDouble());
                     appPreferences.replace("Data.nextID", objectInputStream.readLong());
@@ -108,8 +108,8 @@ public class DataHandler {
 
             objectOutputStream.writeUTF("_VDM_");
 
-            objectOutputStream.writeDouble( (Double) appPreferences.get("Main.width"));
-            objectOutputStream.writeDouble( (Double) appPreferences.get("Main.height"));
+            objectOutputStream.writeDouble( (Double) appPreferences.get("VDM.width"));
+            objectOutputStream.writeDouble( (Double) appPreferences.get("VDM.height"));
             objectOutputStream.writeBoolean( (Boolean) appPreferences.get("Home.hideLog"));
             objectOutputStream.writeDouble( (Double) appPreferences.get("Home.dividerPosition"));
             objectOutputStream.writeLong( (Long) appPreferences.get("Data.nextID"));
