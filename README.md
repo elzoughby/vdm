@@ -19,7 +19,7 @@ You can start new downloads immediately or you can add them to the Queue for lat
 
 For more Info:
 
-​	[https://elzoughby.github.io/vdm](https://elzoughby.github.io/vdm)
+​	[https://videodownloadmanager.github.io](https://videodownloadmanager.github.io)
 
 
 
